@@ -81,7 +81,7 @@ public abstract class AReactor extends SlimefunItem {
 						BlockStorage.addBlockInfo(b, "reactor-mode", "generator");
 					}
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "reactor-mode").equals("generator")) {
-						menu.replaceExistingItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&7Focus: &eElectricity", "", "&6Your Reactor will focus on Power Generation", "&6If your Energy Network doesn't need Power", "&6it will not produce any either", "", "&7> Click to change the Focus to &eProduction"));
+						menu.replaceExistingItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&7Focus: &eElectricidad", "", "&6Tu reactor se centrará en la generación de energía.", "&6Si tu red de energía no necesita energía", "&6dejará de producir energía", "", "&7> Haga clic para cambiar el enfoque a &eProducción"));
 						menu.addMenuClickHandler(4, (p, slot, item, action) -> {
 							BlockStorage.addBlockInfo(b, "reactor-mode", "production");
 							newInstance(menu, b);
@@ -89,7 +89,7 @@ public abstract class AReactor extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(4, new CustomItem(SlimefunItems.PLUTONIUM, "&7Focus: &eProduction", "", "&6Your Reactor will focus on producing goods", "&6If your Energy Network doesn't need Power", "&6it will continue to run and simply will", "&6not generate any Power in the mean time", "", "&7> Click to change the Focus to &ePower Generation"));
+						menu.replaceExistingItem(4, new CustomItem(SlimefunItems.PLUTONIUM, "&7Focus: &eProducción", "", "&6Su reactor se centrará en la producción de bienes", "&6Si tu red de energía no necesita energía", "&6seguirá funcionando y simplemente no", "&6generará energía mientras tanto", "", "&7> Haga clic para cambiar el enfoque a &eElectricidad"));
 						menu.addMenuClickHandler(4, (p, slot, item, action) -> {
 							BlockStorage.addBlockInfo(b, "reactor-mode", "generator");
 							newInstance(menu, b);
@@ -173,7 +173,7 @@ public abstract class AReactor extends SlimefunItem {
 			(p, slot, item, action) -> false
 		);
 
-		preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "&7Fuel Slot", "", "&rThis Slot accepts radioactive Fuel such as:", "&2Uranium &ror &aNeptunium"),
+		preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "&7Ranura de combustible", "", "&rEsta ranura acepta combustible radiactivo como:", "&2Uranium &ro &aNeptunium"),
 			(p, slot, item, action) -> false
 		);
 
@@ -184,13 +184,13 @@ public abstract class AReactor extends SlimefunItem {
 		}
 
 		if (needsCooling()) {
-			preset.addItem(7, new CustomItem(this.getCoolant(), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells", "&4Without any Coolant Cells, your Reactor", "&4will explode"));
+			preset.addItem(7, new CustomItem(this.getCoolant(), "&bRanura de refrigerante", "", "&rEsta ranura acepta celdas refrigerante", "&4Sin ningún refrigerante, su reactor", "&4podría explotar"));
 		}
 		else {
-			preset.addItem(7, new CustomItem(new ItemStack(Material.BARRIER), "&bCoolant Slot", "", "&rThis Slot accepts Coolant Cells"));
+			preset.addItem(7, new CustomItem(new ItemStack(Material.BARRIER), "&bRanura refrigerante", "", "&rEsta ranura acepta celdas refrigerante"));
 
 			for (int i : border_4) {
-				preset.addItem(i, new CustomItem(new ItemStack(Material.BARRIER), "&cNo Coolant Required"),
+				preset.addItem(i, new CustomItem(new ItemStack(Material.BARRIER), "&cNo se requiere refrigerante"),
 					(p, slot, item, action) -> false
 				);
 			}

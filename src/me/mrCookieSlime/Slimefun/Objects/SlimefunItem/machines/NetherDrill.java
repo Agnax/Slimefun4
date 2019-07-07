@@ -33,7 +33,7 @@ public abstract class NetherDrill extends ADrill {
 
 	@Override
 	public String getInventoryTitle() {
-		return "&4Nether Drill";
+		return "&4Taladro del nether";
 	}
 
 	@Override

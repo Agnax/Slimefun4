@@ -50,7 +50,7 @@ public class WitherAssembler extends SlimefunItem {
 			public void newInstance(final BlockMenu menu, final Block b) {
 				try {
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "enabled") == null || BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) {
-						menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.GUNPOWDER), "&7Enabled: &4\u2718", "", "&e> Click to enable this Machine"));
+						menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.GUNPOWDER), "&7Activado: &4\u2718", "", "&e> Click para activar esta maquina"));
 						menu.addMenuClickHandler(22, (p, slot, item, action) -> {
 							BlockStorage.addBlockInfo(b, "enabled", "true");
 							newInstance(menu, b);
@@ -58,7 +58,7 @@ public class WitherAssembler extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.REDSTONE), "&7Enabled: &2\u2714", "", "&e> Click to disable this Machine"));
+						menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.REDSTONE), "&7Activado: &2\u2714", "", "&e> Click para desactivar esta maquina"));
 						menu.addMenuClickHandler(22, (p, slot, item, action) -> {
 							BlockStorage.addBlockInfo(b, "enabled", "false");
 							newInstance(menu, b);
@@ -68,7 +68,7 @@ public class WitherAssembler extends SlimefunItem {
 					
 					double offset = (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "offset") == null) ? 3.0F: Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
 					
-					menu.replaceExistingItem(31, new CustomItem(new ItemStack(Material.PISTON), "&7Offset: &3" + offset + " Block(s)", "", "&rLeft Click: &7+0.1", "&rRight Click: &7-0.1"));
+					menu.replaceExistingItem(31, new CustomItem(new ItemStack(Material.PISTON), "&7Altura: &3" + offset + " Bloque(s)", "", "&rClick izquierdo: &7+0.1", "&rClick Derecho: &7-0.1"));
 					menu.addMenuClickHandler(31, (p, slot, item, action) -> {
 						double offsetv = DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset")) + (action.isRightClicked() ? -0.1F : 0.1F));
 						BlockStorage.addBlockInfo(b, "offset", String.valueOf(offsetv));
@@ -151,21 +151,21 @@ public class WitherAssembler extends SlimefunItem {
 			);
 		}
 		
-		preset.addItem(1, new CustomItem(new ItemStack(Material.WITHER_SKELETON_SKULL, (byte) 1), "&7Wither Skull Slot", "", "&rThis Slot accepts Wither Skeleton Skulls"),
+		preset.addItem(1, new CustomItem(new ItemStack(Material.WITHER_SKELETON_SKULL, (byte) 1), "&7Ranura para cabeza de Wither", "", "&rEsta ranura acepta Wither Skeleton Skulls"),
 			(p, slot, item, action) -> false
 		);
 		
-		preset.addItem(7, new CustomItem(new ItemStack(Material.SOUL_SAND), "&7Soul Sand Slot", "", "&rThis Slot accepts Soul Sand"),
+		preset.addItem(7, new CustomItem(new ItemStack(Material.SOUL_SAND), "&7Ranura de arena de alma", "", "&rEsta ranura acepta arena de alma"),
 			(p, slot, item, action) -> false
 		);
 		
-		preset.addItem(13, new CustomItem(new ItemStack(Material.CLOCK), "&7Cooldown: &b30 Seconds", "", "&rThis Machine takes up to half a Minute to operate", "&rso give it some Time!"),
+		preset.addItem(13, new CustomItem(new ItemStack(Material.CLOCK), "&7Tiempo de espera: &b30 segundos", "", "&rEsta máquina tarda hasta medio minuto para operar", "&rasí que dale algo de tiempo!"),
 			(p, slot, item, action) -> false
 		);
 	}
 	
 	public String getInventoryTitle() {
-		return "&5Wither Assembler";
+		return "&5Ensamblador de Wither";
 	}
 
 	public int[] getInputSlots() {

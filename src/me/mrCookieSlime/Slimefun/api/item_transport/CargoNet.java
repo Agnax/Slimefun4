@@ -46,7 +46,7 @@ public class CargoNet extends Network {
 	private static final ChestTerminalSorter sorter = new ChestTerminalSorter();
 	public static final int[] terminal_slots = new int[] {0, 1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 18, 19, 20, 21, 22, 23, 24, 27, 28, 29, 30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42};
 	private static final int TERMINAL_OUT_SLOT = 17;
-	private static final ItemStack terminal_noitem_item = new CustomItem(new ItemStack(Material.BARRIER), "&4No Item cached");
+        private static final ItemStack terminal_noitem_item = new CustomItem(new ItemStack(Material.BARRIER), "&4No Item cached");
 	private static final MenuClickHandler terminal_noitem_handler = (p, slot, item, action) -> false;
 
 	public static CargoNet getNetworkFromLocation(Location l) {
@@ -140,16 +140,16 @@ public class CargoNet extends Network {
 
 	public void tick(final Block b) {
 		if (!regulator.equals(b.getLocation())) {
-			CargoHologram.update(b, "&4Multiple Cargo Regulators connected");
+			CargoHologram.update(b, "&4Multiples reguladores de carga conectados");
 			return;
 		}
 		super.tick();
 		if (connectorNodes.isEmpty() && terminusNodes.isEmpty()) {
-			CargoHologram.update(b, "&7Status: &4&lOFFLINE");
+			CargoHologram.update(b, "&7Estado: &4&lDesconectado");
 			return;
 		}
 		else {
-			CargoHologram.update(b, "&7Status: &a&lONLINE");
+			CargoHologram.update(b, "&7Estado: &a&lConectado");
 
 
 			final Map<Integer, List<Location>> output = new HashMap<Integer, List<Location>>();
@@ -238,8 +238,8 @@ public class CargoNet extends Network {
 							}
 						}
 					}
-					
-											for (final Location terminal : terminals) {
+
+					for (final Location terminal : terminals) {
 							BlockMenu menu = BlockStorage.getInventory(terminal);
 
 							ItemStack sending_item = menu.getItemInSlot(TERMINAL_OUT_SLOT);
@@ -247,7 +247,7 @@ public class CargoNet extends Network {
 								requests.add(new ItemRequest(terminal, TERMINAL_OUT_SLOT, sending_item, ItemTransportFlow.INSERT));
 							}
 						}
-
+                                        
 					Iterator<ItemRequest> iterator = requests.iterator();
 					while (iterator.hasNext()) {
 						ItemRequest request = iterator.next();
@@ -493,9 +493,9 @@ public class CargoNet extends Network {
 								ItemMeta im = stack.getItemMeta();
 								List<String> lore = new ArrayList<String>();
 								lore.add("");
-								lore.add(ChatColor.translateAlternateColorCodes('&', "&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getAmount())));
-								if (stack.getMaxStackSize() > 1) lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">"));
-								else lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1>"));
+								lore.add(ChatColor.translateAlternateColorCodes('&', "&7Items Almacenados: &r" + DoubleHandler.getFancyDouble(item.getAmount())));
+								if (stack.getMaxStackSize() > 1) lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Click Izquierdo: Solicitar 1 | Click Derecho: Solicitar " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">"));
+								else lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Click Izquierdo: Solicitar 1>"));
 								lore.add("");
 								if (im.hasLore()) {
 									for (String line: im.getLore()) {

@@ -25,7 +25,7 @@ public class EnderTalisman extends SlimefunItem {
 		this.suffix = parent.getSuffix();
 		this.effects = parent.getEffects();
 		this.chance = parent.getChance();
-		Slimefun.addHint("ENDER_" + parent.getID(), "&eEnder Talismans have the advantage", "&eof still working while they", "&eare in your Ender Chest");
+		Slimefun.addHint("ENDER_" + parent.getID(), "&eLos talismanes de ender tiene la ventaja de", "&eseguir funcionando cuando están", "&edentro de tu Ender Chest");
 	}
 
 	public String getSuffix() 			{		return this.suffix;		}

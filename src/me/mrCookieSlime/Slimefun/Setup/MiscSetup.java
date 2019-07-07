@@ -44,7 +44,7 @@ public class MiscSetup {
 		SlimefunItem.setRadioactive(SlimefunItems.ENRICHED_NETHER_ICE);
 	}
 	
-	public static void loadItems() {
+	public static void loadItems() {	
 		Iterator<SlimefunItem> iterator = SlimefunItem.items.iterator();
 		while (iterator.hasNext()) {
 			SlimefunItem item = iterator.next();
@@ -101,9 +101,9 @@ public class MiscSetup {
 //				}
 //			}
 			
-			SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("ENHANCED_CRAFTING_TABLE");
-			
-			for (ItemStack[] inputs: RecipeType.getRecipeInputList(machine)) {
+    SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("ENHANCED_CRAFTING_TABLE");
+
+                            for (ItemStack[] inputs: RecipeType.getRecipeInputList(machine)) {
 				StringBuilder builder = new StringBuilder();
 				int i = 0;
 				for (ItemStack item: inputs) {

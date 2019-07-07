@@ -91,7 +91,7 @@ public class SlimefunCommand implements CommandExecutor, Listener {
 		
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
-	
+
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (args.length == 0) {

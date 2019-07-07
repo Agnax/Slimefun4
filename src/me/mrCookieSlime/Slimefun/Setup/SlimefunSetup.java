@@ -1268,9 +1268,9 @@ public class SlimefunSetup {
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.STAFF_WIND, true)) {
-					if (p.getFoodLevel() >= 2) {
+					if (p.getFoodLevel() >= 6) {
 						if (p.getInventory().getItemInMainHand().getType() != Material.SHEARS && p.getGameMode() != GameMode.CREATIVE) {
-							FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 2);
+							FoodLevelChangeEvent event = new FoodLevelChangeEvent(p, p.getFoodLevel() - 6);
 							Bukkit.getPluginManager().callEvent(event);
 							p.setFoodLevel(event.getFoodLevel());
 						}
@@ -1800,7 +1800,7 @@ public class SlimefunSetup {
 					ItemMeta im = spawner.getItemMeta();
 					List<String> lore = im.getLore();
 					for (int i = 0; i < lore.size(); i++) {
-						if (lore.get(i).contains("<Type>")) lore.set(i, lore.get(i).replace("<Type>", StringUtils.format(((CreatureSpawner) e.getBlock().getState()).getSpawnedType().toString())));
+						if (lore.get(i).contains("<Tipo>")) lore.set(i, lore.get(i).replace("<Tipo>", StringUtils.format(((CreatureSpawner) e.getBlock().getState()).getSpawnedType().toString())));
 					}
 					im.setLore(lore);
 					spawner.setItemMeta(im);
@@ -2588,7 +2588,7 @@ public class SlimefunSetup {
 		.register(true);
 
 		new SlimefunItem(Categories.MAGIC, SlimefunItems.REPAIRED_SPAWNER, "REINFORCED_SPAWNER", RecipeType.ANCIENT_ALTAR,
-		new ItemStack[] {SlimefunItems.RUNE_ENDER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), SlimefunItems.BROKEN_SPAWNER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"), SlimefunItems.RUNE_ENDER})
+		new ItemStack[] {SlimefunItems.RUNE_ENDER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco de conocimiento"), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco de conocimiento"), SlimefunItems.BROKEN_SPAWNER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco de conocimiento"), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco de conocimiento"), SlimefunItems.RUNE_ENDER})
 		.register(true, new BlockPlaceHandler() {
 
 			@Override
@@ -2596,7 +2596,7 @@ public class SlimefunSetup {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
 					EntityType type = null;
 					for (String line: item.getItemMeta().getLore()) {
-						if (ChatColor.stripColor(line).startsWith("Type: ")) type = EntityType.valueOf(ChatColor.stripColor(line).replace("Type: ", "").replace(" ", "_").toUpperCase());
+						if (ChatColor.stripColor(line).startsWith("Tipo: ")) type = EntityType.valueOf(ChatColor.stripColor(line).replace("Tipo: ", "").replace(" ", "_").toUpperCase());
 					}
 					if (type != null) {
 						CreatureSpawner spawner = (CreatureSpawner) e.getBlock().getState();
@@ -2828,7 +2828,7 @@ public class SlimefunSetup {
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.FLASK_OF_KNOWLEDGE, true) && p.getLevel() >= 1) {
 					p.setLevel(p.getLevel() - 1);
-					p.getInventory().addItem(new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFlask of Knowledge"));
+					p.getInventory().addItem(new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco de conocimiento"));
 					PlayerInventory.consumeItemInHand(p);
 					PlayerInventory.update(p);
 					return true;
@@ -3127,7 +3127,7 @@ public class SlimefunSetup {
 
 			@Override
 			public String getInventoryTitle() {
-				return "&bElectric Furnace";
+				return "&bHorno Eléctrico";
 			}
 
 			@Override
@@ -3152,7 +3152,7 @@ public class SlimefunSetup {
 
 			@Override
 			public String getInventoryTitle() {
-				return "&bElectric Furnace";
+				return "&bHorno Eléctrico";
 			}
 
 			@Override
@@ -3177,7 +3177,7 @@ public class SlimefunSetup {
 
 			@Override
 			public String getInventoryTitle() {
-				return "&bElectric Furnace";
+				return "&bHorno Eléctrico";
 			}
 
 			@Override
@@ -3286,7 +3286,7 @@ public class SlimefunSetup {
 
 			@Override
 			public String getInventoryTitle() {
-				return "&cElectric Ingot Factory";
+				return "&cFundidora de lingotes eléctrica";
 			}
 
 			@Override
@@ -3311,7 +3311,7 @@ public class SlimefunSetup {
 
 			@Override
 			public String getInventoryTitle() {
-				return "&cElectric Ingot Factory";
+				return "&cFundidora de lingotes eléctrica";
 			}
 
 			@Override
@@ -3336,7 +3336,7 @@ public class SlimefunSetup {
 
 			@Override
 			public String getInventoryTitle() {
-				return "&cElectric Ingot Factory";
+				return "&cFundidora de lingotes eléctrica";
 			}
 
 			@Override
@@ -3410,7 +3410,7 @@ public class SlimefunSetup {
 
 			@Override
 			public String getInventoryTitle() {
-				return "&bElectric Ore Grinder";
+				return "&bAmoladora de mineral eléctrica";
 			}
 
 			@Override
@@ -3444,7 +3444,7 @@ public class SlimefunSetup {
 
 			@Override
 			public String getInventoryTitle() {
-				return "&bElectric Ore Grinder";
+				return "&bAmoladora de mineral eléctrica";
 			}
 
 			@Override
@@ -3508,7 +3508,7 @@ public class SlimefunSetup {
 		new ItemStack[] {null, SlimefunItems.ELECTRIC_ORE_GRINDER, null, SlimefunItems.LEAD_INGOT, SlimefunItems.MEDIUM_CAPACITOR, SlimefunItems.LEAD_INGOT, SlimefunItems.LEAD_INGOT, SlimefunItems.HEATING_COIL, SlimefunItems.LEAD_INGOT}){
 			@Override
 			public String getInventoryTitle() {
-				return "&bElectric Ingot Pulverizer";
+				return "&bPulverizador de lingotes eléctrico";
 			}
 
 			@Override
@@ -3581,7 +3581,7 @@ public class SlimefunSetup {
 
 			@Override
 			public String getInventoryTitle() {
-				return "&cCoal Generator";
+				return "&cGenerador de carbón";
 			}
 
 			@Override
@@ -4403,7 +4403,7 @@ public class SlimefunSetup {
 
 			@Override
 			public String getInventoryTitle() {
-				return "&4Lava Generator";
+				return "&4Generator de Lava";
 			}
 
 			@Override
@@ -4429,7 +4429,7 @@ public class SlimefunSetup {
 
 			@Override
 			public String getInventoryTitle() {
-				return "&cCombustion Reactor";
+				return "&cReactor de combustión";
 			}
 
 			@Override
@@ -4499,7 +4499,7 @@ public class SlimefunSetup {
 
 			@Override
 			public void onPlace(Player p, Block b, SlimefunItem item) {
-				BlockStorage.addBlockInfo(b, "text", "&bHi, I am a Hologram, &3configure me using the Projector");
+				BlockStorage.addBlockInfo(b, "text", "&bHola, soy un holograma, &3configurame usando el Proyector.");
 				BlockStorage.addBlockInfo(b, "offset", "-0.5");
 				BlockStorage.addBlockInfo(b, "owner", p.getUniqueId().toString());
 
@@ -4619,7 +4619,7 @@ public class SlimefunSetup {
 
 			@Override
 			public String getInventoryTitle() {
-				return "&cFood Fabricator";
+				return "&cFabricador de alimentos";
 			}
 
 			@Override
@@ -4644,7 +4644,7 @@ public class SlimefunSetup {
 
 			@Override
 			public String getInventoryTitle() {
-				return "&cFood Fabricator";
+				return "&cFabricador de alimentos";
 			}
 
 			@Override
@@ -4709,7 +4709,7 @@ public class SlimefunSetup {
 
 			@Override
 			public String getInventoryTitle() {
-				return "&cFood Composter";
+				return "&cCompostador de alimentos";
 			}
 
 			@Override
@@ -4734,7 +4734,7 @@ public class SlimefunSetup {
 
 			@Override
 			public String getInventoryTitle() {
-				return "&cFood Composter";
+				return "&cCompostador de alimentos";
 			}
 
 			@Override
@@ -4829,7 +4829,7 @@ public class SlimefunSetup {
 
 			@Override
 			public String getInventoryTitle() {
-				return "&bFreezer";
+				return "&bCongelador";
 			}
 
 			@Override
@@ -4854,7 +4854,7 @@ public class SlimefunSetup {
 
 			@Override
 			public String getInventoryTitle() {
-				return "&bFreezer";
+				return "&bCongelador";
 			}
 
 			@Override
@@ -4900,7 +4900,7 @@ public class SlimefunSetup {
 
             @Override
 			public String getInventoryTitle() {
-				return "&2Nuclear Reactor";
+				return "&2Reactor nuclear";
 			}
 
 			@Override
@@ -4941,7 +4941,7 @@ public class SlimefunSetup {
 
 			@Override
 			public String getInventoryTitle() {
-				return "&fNether Star Reactor";
+				return "&fReactor de estrellas del nether";
 			}
 
 			@Override
@@ -5009,11 +5009,11 @@ public class SlimefunSetup {
 
 				if (BlockStorage.getLocationInfo(e.getClickedBlock().getLocation(), "visualizer") == null) {
 					BlockStorage.addBlockInfo(e.getClickedBlock(), "visualizer", "disabled");
-					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&4\u2718"));
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cVisualizar la red de carga: " + "&4\u2718"));
 				}
 				else {
 					BlockStorage.addBlockInfo(e.getClickedBlock(), "visualizer", null);
-					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cCargo Net Visualizer: " + "&2\u2714"));
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&cVisualizar la red de carga: " + "&2\u2714"));
 				}
 				return true;
 			}
@@ -5044,10 +5044,10 @@ public class SlimefunSetup {
 				if (!item.getID().equals("CARGO_NODE")) return false;
 
 				if (CargoNet.getNetworkFromLocation(e.getClickedBlock().getLocation()) != null) {
-					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Connected: " + "&2\u2714"));
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Conectado: " + "&2\u2714"));
 				}
 				else {
-					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Connected: " + "&4\u2718"));
+					p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Conectado: " + "&4\u2718"));
 				}
 				return true;
 			}

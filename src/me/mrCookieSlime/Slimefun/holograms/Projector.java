@@ -21,7 +21,7 @@ public class Projector {
 	
 	public static ArmorStand getArmorStand(Block projector) {
 		String nametag = BlockStorage.getLocationInfo(projector.getLocation(), "text");
-		double offset = Double.valueOf(BlockStorage.getLocationInfo(projector.getLocation(), "offset"));
+		double offset = Double.valueOf(BlockStorage.getLocationInfo(projector.getLocation(), "offset")) + 0.5;
 		Location l = new Location(projector.getWorld(), projector.getX() + 0.5, projector.getY() + offset, projector.getZ() + 0.5);
 		
 		for (Entity n : l.getChunk().getEntities()) {
@@ -36,9 +36,9 @@ public class Projector {
 	}
 
 	public static void openEditor(Player p, final Block projector) {
-		ChestMenu menu = new ChestMenu("Hologram Settings");
+		ChestMenu menu = new ChestMenu("Configuración del Proyector");
 		
-		menu.addItem(0, new CustomItem(new ItemStack(Material.NAME_TAG), "&7Text &e(Click to edit)", "", "&r" + ChatColor.translateAlternateColorCodes('&', BlockStorage.getLocationInfo(projector.getLocation(), "text"))));
+		menu.addItem(0, new CustomItem(new ItemStack(Material.NAME_TAG), "&7Texto &e(Click para editar)", "", "&r" + ChatColor.translateAlternateColorCodes('&', BlockStorage.getLocationInfo(projector.getLocation(), "text"))));
 		menu.addMenuClickHandler(0, (pl, slot, item, action) -> {
 			pl.closeInventory();
 			Messages.local.sendTranslation(pl, "machines.HOLOGRAM_PROJECTOR.enter-text", true);
@@ -52,7 +52,7 @@ public class Projector {
 			return false;
 		});
 		
-		menu.addItem(1, new CustomItem(new ItemStack(Material.CLOCK), "&7Offset: &e" + DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getLocationInfo(projector.getLocation(), "offset")) + 1.0D), "", "&rLeft Click: &7+0.1", "&rRight Click: &7-0.1"));
+		menu.addItem(1, new CustomItem(new ItemStack(Material.CLOCK), "&7Altura: &e" + DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getLocationInfo(projector.getLocation(), "offset")) + 1.0D), "", "&rClick Izquierdo: &7+0.1", "&rClick Derecho: &7-0.1"));
 		menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
 			double offset = DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getLocationInfo(projector.getLocation(), "offset")) + (action.isRightClicked() ? -0.1F : 0.1F));
 			ArmorStand hologram = getArmorStand(projector);

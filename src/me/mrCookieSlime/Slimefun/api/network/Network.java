@@ -13,9 +13,9 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Particles.MC_1_13.ParticleEffect
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
 
 public abstract class Network {
-	
+    
 	private static List<Network> NETWORK_LIST = new ArrayList<>();
-	
+        
 	public static<T extends Network> T getNetworkFromLocation(Location l, Class<T> type) {
 		for(Network n: NETWORK_LIST) {
 			if(type.isInstance(n) && n.connectsTo(l)) {
@@ -61,7 +61,7 @@ public abstract class Network {
 	public abstract void locationClassificationChange(Location l, Component from, Component to);
 
 	protected Location regulator;
-	private Queue<Location> nodeQueue = new ArrayDeque<>();
+	private Queue<Location> nodeQueue = new ArrayDeque<Location>();
 
 	protected Set<Location> connectedLocations = new HashSet<>();
 	protected Set<Location> regulatorNodes = new HashSet<>();

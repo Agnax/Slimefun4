@@ -65,7 +65,7 @@ public class CSCoreLibLoader {
             final BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             final JsonArray array = new JsonParser().parse(reader).getAsJsonArray();
             final JsonObject json = array.get(array.size() - 1).getAsJsonObject();
-            
+
             download = traceURL(json.get("downloadUrl").getAsString().replace("https:", "http:"));
             file = new File("plugins/" + json.get("name").getAsString() + ".jar");
             

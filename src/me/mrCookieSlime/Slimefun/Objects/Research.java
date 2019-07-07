@@ -364,11 +364,11 @@ public class Research {
 		else progress = "&a" + progress + " &r% ";
 
 		sender.sendMessage("");
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Statistics for Player: &b" + p.getName()));
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Estadísticas del jugador: &b" + p.getName()));
 		sender.sendMessage("");
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Title: &b" + getTitle(p, researched)));
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Research Progress: " + progress + "&e(" + researched.size() + " / " + list().size() + ")"));
-		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Total XP Levels spent: &b" + levels));
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Titulo: &b" + getTitle(p, researched)));
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Progreso de investigaciones: " + progress + "&e(" + researched.size() + " / " + list().size() + ")"));
+		sender.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7Total de XP gastada: &b" + levels));
 	}
 
 	/**

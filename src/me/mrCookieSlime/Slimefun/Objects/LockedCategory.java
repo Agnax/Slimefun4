@@ -85,7 +85,7 @@ public class LockedCategory extends Category {
 	 * @see #removeParent(Category)
 	 */
 	public void addParent(Category category) {
-		if (category == this) throw new IllegalArgumentException("Category '" + this.getItem().getItemMeta().getDisplayName() + "' cannot be a parent of itself.");
+		if (category == this) throw new IllegalArgumentException("La gategoría '" + this.getItem().getItemMeta().getDisplayName() + "' no se puede heredar así mismo.");
 		this.parents.add(category);
 	}
 
