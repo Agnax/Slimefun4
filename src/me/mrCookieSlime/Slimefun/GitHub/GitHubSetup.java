@@ -36,7 +36,7 @@ public class GitHubSetup {
 			    		SlimefunGuide.contributors.add(contributor);
 			    	}
 			    }
-				SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
+				SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6Jefe artista", 0));
 				
 				SlimefunStartup.instance.getServer().getScheduler().runTaskAsynchronously(SlimefunStartup.instance, () -> {
 					for (JsonElement e: array) {
@@ -86,9 +86,9 @@ public class GitHubSetup {
 			@Override
 			public void onFailure() {
 				SlimefunGuide.contributors.clear();
-				SlimefunGuide.contributors.add(new Contributor("TheBusyBiscuit", "&cAuthor", 3));
-				SlimefunGuide.contributors.add(new Contributor("John000708", "&cAuthor", 2));
-				SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6Lead Head Artist", 0));
+				SlimefunGuide.contributors.add(new Contributor("TheBusyBiscuit", "&cAutor", 3));
+				SlimefunGuide.contributors.add(new Contributor("John000708", "&cAutor", 2));
+				SlimefunGuide.contributors.add(new Contributor("AquaLazuryt", "&6Jefe artista", 0));
 			}
 			
 			@Override
