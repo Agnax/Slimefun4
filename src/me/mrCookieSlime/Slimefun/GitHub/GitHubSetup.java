@@ -93,7 +93,7 @@ public class GitHubSetup {
 			
 			@Override
 			public String getRepository() {
-				return "TheBusyBiscuit/Slimefun4";
+				return "Agnax/Slimefun4";
 			}
 			
 			@Override
@@ -124,7 +124,7 @@ public class GitHubSetup {
 			
 			@Override
 			public String getRepository() {
-				return "TheBusyBiscuit/Slimefun4";
+				return "Agnax/Slimefun4";
 			}
 			
 			@Override
@@ -152,7 +152,7 @@ public class GitHubSetup {
 			
 			@Override
 			public String getRepository() {
-				return "TheBusyBiscuit/Slimefun4";
+				return "Agnax/Slimefun4";
 			}
 			
 			@Override
