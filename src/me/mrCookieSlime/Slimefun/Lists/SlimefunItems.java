@@ -234,7 +234,7 @@ public class SlimefunItems {
 	public static ItemStack WITHER_PROOF_GLASS = new CustomItem(Material.PURPLE_STAINED_GLASS, "&5Cristal contra withers", "", "&rResistente a explosiones", "&rResistente a explosiones de wither");
 	public static ItemStack REINFORCED_PLATE = new CustomItem(Material.PAPER, "&7Placa reforzada");
 	public static ItemStack ANCIENT_PEDESTAL = new CustomItem(Material.DISPENSER, "&dPedestal ancestral", "", "&5Parte del altar antiguo");
-	public static ItemStack ANCIENT_ALTAR = new CustomItem(Material.ENCHANTING_TABLE, "&dAltar antiguo", "", "&5Blocque para el", "&5proceso de crafteos magicos");
+	public static ItemStack ANCIENT_ALTAR = new CustomItem(Material.ENCHANTING_TABLE, "&dAltar antiguo", "", "&5Bloque para el", "&5proceso de crafteos magicos");
 	public static ItemStack DUCT_TAPE = null;
 	
 	public static ItemStack RAINBOW_WOOL = new CustomItem(Material.WHITE_WOOL, "&5Rainbow Wool", "", "&dCycles through all Colors of the Rainbow!");
