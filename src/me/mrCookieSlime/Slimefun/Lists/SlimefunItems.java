@@ -631,7 +631,7 @@ public class SlimefunItems {
 	public static ItemStack ELECTRIC_INGOT_FACTORY_2 = new CustomItem(Material.BLAST_FURNACE, "&cFundidora de lingotes eléctrica &7(&eII&7)", "", "&eMáquina básica", "&8\u21E8 &7Velocidad: 2x", "&8\u21E8 &e\u26A1 &714 J/s");
 	public static ItemStack ELECTRIC_INGOT_FACTORY_3 = new CustomItem(Material.BLAST_FURNACE, "&cFundidora de lingotes eléctrica &7(&eIII&7)", "", "&4Maquina End-Game", "&8\u21E8 &7Velocidad: 8x", "&8\u21E8 &e\u26A1 &740 J/s");
 
-	public static ItemStack AUTOMATED_CRAFTING_CHAMBER = new CustomItem(Material.CRAFTING_TABLE, "&6Cámara de elaboración automática", "", "&6Maquina avanzada", "&8\u21E8 &e\u26A1 &710 J/Item");
+	public static ItemStack AUTOMATED_CRAFTING_CHAMBER = null;
 	public static ItemStack FLUID_PUMP = null;
 	public static ItemStack CHARGING_BENCH = new CustomItem(Material.BLAST_FURNACE, "&6Centro de carga", "", "&rCargas items tales como los Jetpacks", "", "&eMáquina básica", "&8\u21E8 &e\u26A1 &7128 J Buffer", "&8\u21E8 &e\u26A1 &7Energy Loss: &c50%");
 
@@ -652,6 +652,7 @@ public class SlimefunItems {
 	
 	static {
 		try {
+                        AUTOMATED_CRAFTING_CHAMBER = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWJiODRlMzQ4YWI1OGJlMDQzNWY2MWUwMjdmYTZkZmU1NTdiZWU4ODkzZjFjMTBjM2MyYmViZDIwMjVkYSJ9fX0"), "&6Cámara de elaboración automática", "", "&6Maquina avanzada", "&8\u21E8 &e\u26A1 &710 J/Item");
                         WITHER_ASSEMBLER = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmI4YWIwZjY1YTU0YTlhNmVlOGFjZDkwM2I3OGRkZTM0ZThjZWVkNzZhZTViOTI4YTU1NGQ3NWQyYjQ1NDUifX19"), "&5Ensamblador de Wither", "", "&4Maquina End-Game", "&8\u21E8 &7Cooldown: &b30 Seconds", "&8\u21E8 &e\u26A1 &74096 J Buffer", "&8\u21E8 &e\u26A1 &74096 J/Wither");
                         FLUID_PUMP = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTQyM2FmOWY3NTNkMjQ0NGUwODdkZDE3YzYzMjUzMWRkMmRlNzE3NzQzZmFhMzUzZmZmNjI5ZGEyNTJiZSJ9fX0="), "&9Bomba de fluidos", "", "&6Maquina avanzada", "&8\u21E8 &e\u26A1 &732 J/Block");
                         BIO_REACTOR = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjNhNThiZWM2NTY2OGI2ODJhYmFiMzYxMzAwYTljNDEzM2JiNmMwNmRiODg0NzIxMGE2MmI4ODRlZTZmYmM3ZCJ9fX0="), "&2Bio Reactor", "", "&6Generador promedio", "&8\u21E8 &e\u26A1 &7128 J Buffer", "&8\u21E8 &e\u26A1 &78 J/s");
