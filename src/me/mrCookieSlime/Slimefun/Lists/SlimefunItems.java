@@ -236,6 +236,8 @@ public class SlimefunItems {
 	public static ItemStack ANCIENT_PEDESTAL = new CustomItem(Material.DISPENSER, "&dPedestal ancestral", "", "&5Parte del altar antiguo");
 	public static ItemStack ANCIENT_ALTAR = new CustomItem(Material.ENCHANTING_TABLE, "&dAltar antiguo", "", "&5Bloque para el", "&5proceso de crafteos magicos");
 	public static ItemStack DUCT_TAPE = null;
+	public static ItemStack COPPER_WIRE = new CustomItem(Material.STRING, "&6Copper Wire", "", "&6Crucial component in electric modules");
+
 	
 	public static ItemStack RAINBOW_WOOL = new CustomItem(Material.WHITE_WOOL, "&5Rainbow Wool", "", "&dCycles through all Colors of the Rainbow!");
 	public static ItemStack RAINBOW_GLASS = new CustomItem(Material.WHITE_STAINED_GLASS, "&5Rainbow Glass", "", "&dCycles through all Colors of the Rainbow!");
@@ -378,7 +380,7 @@ public class SlimefunItems {
 	public static ItemStack DIGITAL_MINER = new CustomItem(Material.IRON_PICKAXE, "&bQuarry digital", "", "&a&o¡Lo mina todo!");
 	public static ItemStack ADVANCED_DIGITAL_MINER = new CustomItem(Material.DIAMOND_PICKAXE, "&6Quarry digital avanzado", "", "&a&o¡Lo mina todo!", "&a&oDuplica automáticamente tus minerales");
 	public static ItemStack AUTOMATED_PANNING_MACHINE = new CustomItem(Material.BOWL, "&aPaneo automatizada", "", "&a&oUna versión MultiBlock de la charola de oro");
-
+	public static ItemStack OUTPUT_CHEST = new CustomItem(Material.CHEST, "&4Cofre de salida", "", "&c&oUna máquina básica tratará de ingresar", "&c&olos items si el cofre está de forma", "&c&oadyacente al dispenser.");
 	public static ItemStack HOLOGRAM_PROJECTOR = new CustomItem(Material.QUARTZ_SLAB, "&bProyector holografico", "", "&rProyecta un holograma editable");
 	
 	/*		 Enhanced Furnaces 		*/
