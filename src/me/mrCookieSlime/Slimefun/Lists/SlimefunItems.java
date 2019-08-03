@@ -369,7 +369,8 @@ public class SlimefunItems {
 	public static ItemStack PRESSURE_CHAMBER = new CustomItem(Material.GLASS, "&bCámara de presión", "", "&a&oComprime los artículos aún más");
 	public static ItemStack MAGIC_WORKBENCH = new CustomItem(Material.CRAFTING_TABLE, "&6Mesa de trabajo mágica", "Infunde artículos con energía mágica.");
 	public static ItemStack ORE_WASHER = new CustomItem(Material.CAULDRON, "&6Lavadora de minerales", "", "&a&oLava el mineral tamizado para filtrar los minerales", "&a&oy te da pequeños trozos de piedra");
-	public static ItemStack SAW_MILL = new CustomItem(Material.IRON_BARS, "&6Aserradero", "", "&a&oLe permite obtener 8 tablones de 1 tronco de madera.");
+	public static ItemStack TABLE_SAW = new CustomItem(Material.STONECUTTER, "&6Tabla de Aserradero", "", "&a&oLe permite obtener 8 tablones de 1 tronco de madera.", "&a&o(Works with all log types)");
+	public static ItemStack SAW_MILL = new CustomItem(Material.IRON_BARS, "&6Aserradero", "", "&a&oObsoleto! ¡Mejor usa la tabla de aserradero!");
 	public static ItemStack COMPOSTER = new CustomItem(Material.CAULDRON, "&aCompostador", "", "&a&oPuede convertir varios materiales a lo largo del tiempo ...");
 	public static ItemStack ENHANCED_CRAFTING_TABLE = new CustomItem(Material.CRAFTING_TABLE, "&eMesa de crafteo mejorada", "", "&a&oUna mesa de crafteo regular no puede", "&a&omantener esta cantidad de poder...");
 	public static ItemStack CRUCIBLE = new CustomItem(Material.CAULDRON, "&cCrisol", "", "&a&oSe utiliza para fundir artículos en líquidos.");
@@ -382,7 +383,7 @@ public class SlimefunItems {
 	public static ItemStack AUTOMATED_PANNING_MACHINE = new CustomItem(Material.BOWL, "&aPaneo automatizada", "", "&a&oUna versión MultiBlock de la charola de oro");
 	public static ItemStack OUTPUT_CHEST = new CustomItem(Material.CHEST, "&4Cofre de salida", "", "&c&oUna máquina básica tratará de ingresar", "&c&olos items si el cofre está de forma", "&c&oadyacente al dispenser.");
 	public static ItemStack HOLOGRAM_PROJECTOR = new CustomItem(Material.QUARTZ_SLAB, "&bProyector holografico", "", "&rProyecta un holograma editable");
-	
+
 	/*		 Enhanced Furnaces 		*/
 	public static ItemStack ENHANCED_FURNACE = new CustomItem(Material.FURNACE, "&7Horno mejorado - &eI", "", "&7Velocidad de proceso: &e1x", "&7Eficiencia del combustible: &e1x", "&7Multiplicador: &e1x");
 	public static ItemStack ENHANCED_FURNACE_2 = new CustomItem(Material.FURNACE, "&7Horno mejorado - &eII", "", "&7Velocidad de proceso: &e2x", "&7Eficiencia del combustible: &e1x", "&7Multiplicador: &e1x");
