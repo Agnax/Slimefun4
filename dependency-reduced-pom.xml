@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>me.mrCookieSlime</groupId>
   <artifactId>Slimefun</artifactId>
-  <version>DEV - 100 (git null)</version>
+  <version>DEV - 135 (git Agnax)</version>
   <build>
     <sourceDirectory>${project.basedir}/src</sourceDirectory>
     <resources>
