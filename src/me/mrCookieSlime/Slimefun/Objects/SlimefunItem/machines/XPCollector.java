@@ -162,9 +162,9 @@ public class XPCollector extends SlimefunItem {
 					
 					int withdrawn = 0;
 					for (int level = 0; level < getEXP(b); level = level + 10) {
-						if (fits(b, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco del conocimiento"))) {
+						if (fits(b, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco de conocimiento"))) {
 							withdrawn = withdrawn + 10;
-							pushItems(b, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco del conocimiento"));
+							pushItems(b, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco de conocimiento"));
 						}
 					}
 					BlockStorage.addBlockInfo(b, "stored-exp", String.valueOf(xp - withdrawn));
