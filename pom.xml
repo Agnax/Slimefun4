@@ -112,7 +112,7 @@
         <dependency>
             <groupId>com.sk89q.worldedit</groupId>
             <artifactId>worldedit-bukkit</artifactId>
-    		<version>7.0.0</version>
+    		<version>7.0.1</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -124,7 +124,7 @@
         <dependency>
   			<groupId>com.github.thebusybiscuit</groupId>
   			<artifactId>CS-CoreLib2</artifactId>
-  			<version>0.3.6</version>
+  			<version>0.3.7</version>
   			<scope>compile</scope>
 		</dependency>
 		<dependency>

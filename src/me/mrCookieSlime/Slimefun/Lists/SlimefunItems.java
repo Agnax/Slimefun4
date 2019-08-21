@@ -52,6 +52,7 @@ public class SlimefunItems {
 	public static ItemStack BACKPACK_LARGE = null;
 	public static ItemStack WOVEN_BACKPACK = null;
 	public static ItemStack GILDED_BACKPACK = null;
+	public static ItemStack RADIANT_BACKPACK = null;
 	public static ItemStack BOUND_BACKPACK = null;
 	public static ItemStack COOLER = null;
 	
@@ -677,6 +678,7 @@ public class SlimefunItems {
 			BACKPACK_LARGE = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDBjYjFlNjdiNTEyYWIyZDRiZjNkN2FjZTBlYWFmNjFjMzJjZDQ2ODFkZGMzOTg3Y2ViMzI2NzA2YTMzZmEifX19"), "&eMochila grande", new String[] {"", "&7Tamaño: &e27", "&7ID: <ID>", "", "&7&eClick Derecho&7 para abrir"});
 			WOVEN_BACKPACK = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDBjYjFlNjdiNTEyYWIyZDRiZjNkN2FjZTBlYWFmNjFjMzJjZDQ2ODFkZGMzOTg3Y2ViMzI2NzA2YTMzZmEifX19"), "&eMochila tejida", new String[] {"", "&7Tamaño: &e36", "&7ID: <ID>", "", "&7&eClick Derecho&7 para abrir"});
 			GILDED_BACKPACK = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDBjYjFlNjdiNTEyYWIyZDRiZjNkN2FjZTBlYWFmNjFjMzJjZDQ2ODFkZGMzOTg3Y2ViMzI2NzA2YTMzZmEifX19"), "&eMochila dorada", new String[] {"", "&7Tamaño: &e45", "&7ID: <ID>", "", "&7&eClick Derecho&7 para abrir"});
+			RADIANT_BACKPACK = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNDBjYjFlNjdiNTEyYWIyZDRiZjNkN2FjZTBlYWFmNjFjMzJjZDQ2ODFkZGMzOTg3Y2ViMzI2NzA2YTMzZmEifX19"), "&eMochila radiante", new String[] {"", "&7Tamaño: &e54 (Cofre doble)", "&7ID: <ID>", "", "&7&eClick Derecho&7 para abrir"});
 			BOUND_BACKPACK = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmEzYjM0ODYyYjlhZmI2M2NmOGQ1Nzc5OTY2ZDNmYmE3MGFmODJiMDRlODNmM2VhZjY0NDlhZWJhIn19fQ=="), "&cSoulbound Backpack", new String[] {"", "&7Tamaño: &e36", "&7ID: <ID>", "", "&7&eClick Derecho&7 para abrir"});
 			COOLER = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDRjMTU3MjU4NGViNWRlMjI5ZGU5ZjVhNGY3NzlkMGFhY2JhZmZkMzNiY2IzM2ViNDUzNmE2YTJiYzZhMSJ9fX0="), "&bEnfriadora", new String[] {"&rLe permite almacenar jugos / batidos", "&rY los consume automáticamente cuando tienes hambre.", "", "&7Tamaño: &e27", "&7ID: <ID>", "", "&7&eClick Derecho&7 para abrir"});
 			ENDER_BACKPACK = new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMmEzYjM0ODYyYjlhZmI2M2NmOGQ1Nzc5OTY2ZDNmYmE3MGFmODJiMDRlODNmM2VhZjY0NDlhZWJhIn19fQ=="), "&6Mochila Ender", new String[] {"&a&oUn cofre del ender portátil", "", "&eClick Derecho&7 para abrir"});

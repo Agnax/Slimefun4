@@ -83,7 +83,7 @@ public class BackpackListener implements Listener {
 	@EventHandler
 	public void onInteract(PlayerInteractEvent e) {
 		if (e.getAction() == Action.RIGHT_CLICK_AIR || e.getAction() == Action.RIGHT_CLICK_BLOCK) {
-			ItemStack item = e.getPlayer().getInventory().getItemInMainHand();
+			ItemStack item = e.getItem();
 			Player p = e.getPlayer();
 			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BACKPACK_SMALL, false)) {
 				e.setCancelled(true);
@@ -194,6 +194,31 @@ public class BackpackListener implements Listener {
 								ItemMeta im = item.getItemMeta();
 								List<String> lore = im.getLore();
 								lore.set(line, lore.get(line).replace("<ID>", Backpacks.createBackpack(p, 45)));
+								im.setLore(lore);
+								item.setItemMeta(im);
+								break;
+							}
+						}
+						if(!Variables.backpack.containsValue(item))
+						{
+							Backpacks.openBackpack(p, item);
+							p.playSound(p.getLocation(), Sound.ENTITY_HORSE_ARMOR, 1F, 1F);
+							Variables.backpack.put(p.getUniqueId(), item);
+						}
+						else Messages.local.sendTranslation(p, "backpack.already-open", true);
+					}
+					else Messages.local.sendTranslation(p, "backpack.no-stack", true);
+				}
+			}
+			else if (SlimefunManager.isItemSimiliar(item, SlimefunItems.RADIANT_BACKPACK, false)) {
+				e.setCancelled(true);
+				if (Slimefun.hasUnlocked(p, SlimefunItems.RADIANT_BACKPACK, true)) {
+					if (item.getAmount() == 1) {
+						for (int line = 0; line < item.getItemMeta().getLore().size(); line++) {
+							if (item.getItemMeta().getLore().get(line).equals(ChatColor.translateAlternateColorCodes('&', "&7ID: <ID>"))) {
+								ItemMeta im = item.getItemMeta();
+								List<String> lore = im.getLore();
+								lore.set(line, lore.get(line).replace("<ID>", Backpacks.createBackpack(p, 54)));
 								im.setLore(lore);
 								item.setItemMeta(im);
 								break;
