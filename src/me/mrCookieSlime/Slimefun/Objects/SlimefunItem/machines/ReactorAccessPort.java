@@ -17,8 +17,8 @@ import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
@@ -49,33 +49,33 @@ public class ReactorAccessPort extends SlimefunItem {
 			@Override
 			public boolean canOpen(Block b, Player p) {
 				if(p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(),b,true)) {
-					return false;
-				}
-				
-				
-				AReactor reactor = getReactor(b.getLocation());
-				if(reactor != null) {
-					boolean empty = true;
-					BlockMenu bm = getReactorMenu(b.getLocation());
-					if(bm != null) {
-						for(int slot:reactor.getCoolantSlots())
-							if(bm.getItemInSlot(slot) != null)
-								empty = false;
-						for(int slot:reactor.getFuelSlots())
-							if(bm.getItemInSlot(slot) != null)
-								empty = false;
-					
-						if(!empty || !p.isSneaking()) {
-							//reactor is not empty, lets view it's inventory instead.
-							bm.open(p);
-							return false;
+
+					AReactor reactor = getReactor(b.getLocation());
+					if(reactor != null) {
+						boolean empty = true;
+						BlockMenu bm = getReactorMenu(b.getLocation());
+						if(bm != null) {
+							for(int slot:reactor.getCoolantSlots())
+								if(bm.getItemInSlot(slot) != null)
+									empty = false;
+							for(int slot:reactor.getFuelSlots())
+								if(bm.getItemInSlot(slot) != null)
+									empty = false;
+
+							if(!empty || !p.isSneaking()) {
+								//reactor is not empty, lets view it's inventory instead.
+								bm.open(p);
+								return false;
+							}
+							
 						}
-					}
-					
-					
 						
+						return true;
+
+					} 
 				}
-				return p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true);
+
+				return false;
 			}
 
 			@Override
