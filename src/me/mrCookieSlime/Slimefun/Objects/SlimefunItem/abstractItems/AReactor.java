@@ -46,14 +46,14 @@ public abstract class AReactor extends SlimefunItem {
 
 	private static final BlockFace[] cooling =
 		{
-			BlockFace.NORTH,
-			BlockFace.NORTH_EAST,
-			BlockFace.EAST,
-			BlockFace.SOUTH_EAST,
-			BlockFace.SOUTH,
-			BlockFace.SOUTH_WEST,
-			BlockFace.WEST,
-			BlockFace.NORTH_WEST
+				BlockFace.NORTH,
+				BlockFace.NORTH_EAST,
+				BlockFace.EAST,
+				BlockFace.SOUTH_EAST,
+				BlockFace.SOUTH,
+				BlockFace.SOUTH_WEST,
+				BlockFace.WEST,
+				BlockFace.NORTH_WEST
 		};
 
 	private Set<MachineFuel> recipes = new HashSet<MachineFuel>();
@@ -82,7 +82,7 @@ public abstract class AReactor extends SlimefunItem {
 						BlockStorage.addBlockInfo(b, "reactor-mode", "generator");
 					}
 					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "reactor-mode").equals("generator")) {
-						menu.replaceExistingItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&7Focus: &eElectricidad", "", "&6Tu reactor se centrará en la generación de energía.", "&6Si tu red de energía no necesita energía", "&6dejará de producir energía", "", "&7> Haga clic para cambiar el enfoque a &eProducción"));
+						menu.replaceExistingItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTM0M2NlNThkYTU0Yzc5OTI0YTJjOTMzMWNmYzQxN2ZlOGNjYmJlYTliZTQ1YTdhYzg1ODYwYTZjNzMwIn19fQ=="), "&7Focus: &eElectricidad", "", "&6Su reactor se centrará en la generación de energía.", "&6Si su red de energía no necesita energía", "&6tampoco producirá más.", "", "&7> Haga clic para cambiar el foco a &eProducción"));
 						menu.addMenuClickHandler(4, (p, slot, item, action) -> {
 							BlockStorage.addBlockInfo(b, "reactor-mode", "production");
 							newInstance(menu, b);
@@ -90,35 +90,36 @@ public abstract class AReactor extends SlimefunItem {
 						});
 					}
 					else {
-						menu.replaceExistingItem(4, new CustomItem(SlimefunItems.PLUTONIUM, "&7Focus: &eProducción", "", "&6Su reactor se centrará en la producción de bienes", "&6Si tu red de energía no necesita energía", "&6seguirá funcionando y simplemente no", "&6generará energía mientras tanto", "", "&7> Haga clic para cambiar el enfoque a &eElectricidad"));
+						menu.replaceExistingItem(4, new CustomItem(SlimefunItems.PLUTONIUM, "&7Focus: &eProducción", "", "&6Su reactor se centrará en la producción de bienes.", "&6Si su red de energía no necesita energía", "&6continuará funcionando y simplemente lo hará", "&6no generar ningún poder mientras tanto", "", "&7> Haga clic para cambiar el foco a &eGeneración de energía"));
 						menu.addMenuClickHandler(4, (p, slot, item, action) -> {
 							BlockStorage.addBlockInfo(b, "reactor-mode", "generator");
 							newInstance(menu, b);
 							return false;
 						});
-						BlockMenu ap = getAccessPort(b.getLocation());
-						if(ap != null) {
-							menu.replaceExistingItem(infoSlot, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7Puerto de acceso", "", "&6Detectado", "", "&7> Click para ver Puerto de acceso"));
-							menu.addMenuClickHandler(infoSlot, (p, slot, item, action) -> {
-								ap.open(p);
-								newInstance(menu, b);
-	
-								return false;
-							});
-						} else {
-							menu.replaceExistingItem(infoSlot, new CustomItem(new ItemStack(Material.RED_WOOL), "&7Puerto de acceso", "", "&cNo detectado", "", "&7El Puerto de acceso debería estar", "&73 bloques encima del", "&7reactor!"));
-							menu.addMenuClickHandler(infoSlot, (p, slot, item, action) -> {
-								newInstance(menu, b);
-								menu.open(p);
-								return false;
-							});
-						}
-	
-					} catch(Exception x) {
 					}
+					BlockMenu ap = getAccessPort(b.getLocation());
+					if(ap != null) {
+						menu.replaceExistingItem(infoSlot, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7Puerto de acceso", "", "&6Detectado", "", "&7> Haga clic para ver el puerto de acceso"));
+						menu.addMenuClickHandler(infoSlot, (p, slot, item, action) -> {
+							ap.open(p);
+							newInstance(menu, b);
+
+							return false;
+						});
+					} else {
+						menu.replaceExistingItem(infoSlot, new CustomItem(new ItemStack(Material.RED_WOOL), "&7Puerto de acceso", "", "&cNo detectado", "", "&7El puerto de acceso debe estar", "&7colocado 3 bloques arriba", "&7del reactor!"));
+						menu.addMenuClickHandler(infoSlot, (p, slot, item, action) -> {
+							newInstance(menu, b);
+							menu.open(p);
+							return false;
+						});
+					}
+
+				} catch(Exception x) {
 				}
-	
-	
+			}
+
+
 			@Override
 			public boolean canOpen(Block b, Player p) {
 				return p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true);
@@ -172,46 +173,46 @@ public abstract class AReactor extends SlimefunItem {
 	private void constructMenu(BlockMenuPreset preset) {
 		for (int i : border) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-			);
+					(p, slot, item, action) -> false
+					);
 		}
 
 		for (int i : border_1) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-			);
+					(p, slot, item, action) -> false
+					);
 		}
 
 		for (int i : border_3) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.GREEN_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-			);
+					(p, slot, item, action) -> false
+					);
 		}
 
 		preset.addItem(22, new CustomItem(new ItemStack(Material.BLACK_STAINED_GLASS_PANE), " "),
-			(p, slot, item, action) -> false
-		);
+				(p, slot, item, action) -> false
+				);
 
 		preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "&7Ranura de combustible", "", "&rEsta ranura acepta combustible radiactivo como:", "&2Uranium &ro &aNeptunium"),
-			(p, slot, item, action) -> false
-		);
+				(p, slot, item, action) -> false
+				);
 
 		for (int i : border_2) {
 			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-			);
+					(p, slot, item, action) -> false
+					);
 		}
 
 		if (needsCooling()) {
-			preset.addItem(7, new CustomItem(this.getCoolant(), "&bRanura de refrigerante", "", "&rEsta ranura acepta celdas refrigerante", "&4Sin ningún refrigerante, su reactor", "&4podría explotar"));
+			preset.addItem(7, new CustomItem(this.getCoolant(), "&bRanura de refrigerante", "", "&rEsta ranura acepta celdas de refrigerante", "&4Sin ninguna celda de refrigerante, su reactor", "&4EXPLOTARÁ"));
 		}
 		else {
-			preset.addItem(7, new CustomItem(new ItemStack(Material.BARRIER), "&bRanura refrigerante", "", "&rEsta ranura acepta celdas refrigerante"));
+			preset.addItem(7, new CustomItem(new ItemStack(Material.BARRIER), "&bRanura de refrigerante", "", "&rEsta ranura acepta celdas de refrigerante"));
 
 			for (int i : border_4) {
 				preset.addItem(i, new CustomItem(new ItemStack(Material.BARRIER), "&cNo se requiere refrigerante"),
-					(p, slot, item, action) -> false
-				);
+						(p, slot, item, action) -> false
+						);
 			}
 		}
 	}
@@ -368,15 +369,15 @@ public abstract class AReactor extends SlimefunItem {
 					}
 
 					outer:
-					for (MachineFuel recipe: recipes) {
-						for (int slot: getFuelSlots()) {
-							if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(l).getItemInSlot(slot), recipe.getInput(), true)) {
-								found.put(slot, recipe.getInput().getAmount());
-								r = recipe;
-								break outer;
+						for (MachineFuel recipe: recipes) {
+							for (int slot: getFuelSlots()) {
+								if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(l).getItemInSlot(slot), recipe.getInput(), true)) {
+									found.put(slot, recipe.getInput().getAmount());
+									r = recipe;
+									break outer;
+								}
 							}
 						}
-					}
 
 					if (r != null) {
 						for (Map.Entry<Integer, Integer> entry: found.entrySet()) {
@@ -394,11 +395,11 @@ public abstract class AReactor extends SlimefunItem {
 				final boolean explosion = explode.contains(l);
 				if (explosion) {
 					BlockStorage.getInventory(l).close();
-					
+
 					Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
 						ReactorHologram.remove(l);
 					}, 0);
-					
+
 					explode.remove(l);
 					processing.remove(l);
 					progress.remove(l);
@@ -466,7 +467,7 @@ public abstract class AReactor extends SlimefunItem {
 
 	public BlockMenu getAccessPort(Location l) {
 		Location portL = new Location(l.getWorld(), l.getX(), l.getY() + 3, l.getZ());
-		
+
 		if (BlockStorage.check(portL, "REACTOR_ACCESS_PORT")) return BlockStorage.getInventory(portL);
 		return null;
 	}
