@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -32,8 +33,6 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
-import me.mrCookieSlime.Slimefun.GitHub.Contributor;
-import me.mrCookieSlime.Slimefun.GitHub.IntegerFormat;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Misc.BookDesign;
 import me.mrCookieSlime.Slimefun.Objects.Category;
@@ -51,13 +50,15 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
+import me.mrCookieSlime.Slimefun.hooks.github.Contributor;
+import me.mrCookieSlime.Slimefun.hooks.github.IntegerFormat;
 
 public class SlimefunGuide {
 	
 	public static Map<UUID, List<Object>> history = new HashMap<>();
 	public static int month = 0;
 	
-	public static List<Contributor> contributors = new ArrayList<Contributor>();
+	public static List<Contributor> contributors = new ArrayList<>();
 	public static int issues = 0;
 	public static int forks = 0;
 	/**
@@ -68,7 +69,7 @@ public class SlimefunGuide {
 	public static int code_bytes = 0;
 	public static Date last_update = new Date();
 
-	static boolean all_recipes = true;
+	protected static boolean all_recipes = true;
 	private static final int category_size = 36;
 
 	@Deprecated
@@ -78,15 +79,12 @@ public class SlimefunGuide {
 
 	public static ItemStack getItem(BookDesign design) {
 		switch (design) {
-		case BOOK: {
+		case BOOK:
 			return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aGuía de InsanityItems &7(Book GUI)", "", "&eClick derecho &8\u21E8 &7Buscar items", "&eShift + Click derecho &8\u21E8 &7Abre la config / Créditos");
-		}
-		case CHEAT_SHEET: {
-			return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&cGuía de InsanityItems &4(Cheat Sheet)", "", "&4&lOnly openable by Admins", "", "&eClick derecho &8\u21E8 &7Buscar items", "&eShift + Click derecho &8\u21E8 &7Abre la config / Créditos");
-		}
-		case CHEST: {
+		case CHEAT_SHEET:
+			return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&cGuía de InsanityItems &4(Cheat Sheet)", "", "&4&lSólo para admins", "", "&eClick derecho &8\u21E8 &7Buscar items", "&eShift + Click derecho &8\u21E8 &7Abre la config / Créditos");
+		case CHEST:
 			return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aGuía de InsanityItems &7(Chest GUI)", "", "&eClick derecho &8\u21E8 &7Buscar items", "&eShift + Click derecho &8\u21E8 &7Abre la config / Créditos");
-		}
 		default:
 			return null;
 		}
@@ -424,7 +422,7 @@ public class SlimefunGuide {
 			);
 			
 			List<Category> categories = Slimefun.current_categories;
-			List<GuideHandler> handlers = Slimefun.guide_handlers2;
+			List<GuideHandler> handlers = Slimefun.guide_handlers.values().stream().flatMap(list -> list.stream()).collect(Collectors.toList());
 			
 			int index = 9;
 			int pages = 1;
