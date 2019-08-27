@@ -88,6 +88,10 @@
       <id>CodeMC</id>
       <url>https://repo.codemc.org/repository/maven-public</url>
     </repository>
+    <repository>
+      <id>placeholderapi-repo</id>
+      <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
+    </repository>
   </repositories>
   <dependencies>
     <dependency>
@@ -115,6 +119,12 @@
       </exclusions>
     </dependency>
     <dependency>
+      <groupId>com.github.TheBusyBiscuit</groupId>
+      <artifactId>CS-CoreLib</artifactId>
+      <version>v1.6.1</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>com.sk89q.worldedit</groupId>
       <artifactId>worldedit-bukkit</artifactId>
       <version>7.0.1</version>
@@ -139,9 +149,9 @@
       </exclusions>
     </dependency>
     <dependency>
-      <groupId>com.github.TheBusyBiscuit</groupId>
-      <artifactId>CS-CoreLib</artifactId>
-      <version>v1.6.1</version>
+      <groupId>me.clip</groupId>
+      <artifactId>placeholderapi</artifactId>
+      <version>2.10.3</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
