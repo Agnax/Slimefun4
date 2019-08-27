@@ -65,9 +65,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Recipe.RecipeCalculator;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Variables;
-import me.mrCookieSlime.Slimefun.Android.AndroidType;
-import me.mrCookieSlime.Slimefun.Android.ProgrammableAndroid;
+import me.mrCookieSlime.Slimefun.Utilities;
 import me.mrCookieSlime.Slimefun.GPS.Elevator;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.GPS.NetworkStatus;
@@ -144,6 +142,8 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.TrashCan;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.WitherAssembler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.XPCollector;
 import me.mrCookieSlime.Slimefun.Objects.tasks.RainbowTicker;
+import me.mrCookieSlime.Slimefun.androids.AndroidType;
+import me.mrCookieSlime.Slimefun.androids.ProgrammableAndroid;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -759,20 +759,8 @@ public class SlimefunSetup {
 													outputInv.addItem(adding);
 													p.getWorld().playSound(p.getLocation(), Sound.BLOCK_LAVA_POP, 1, 1);
 													p.getWorld().playEffect(b.getLocation(), Effect.MOBSPAWNER_FLAMES, 1);
-													// Block raw_disp = b.getRelative(BlockFace.DOWN);					
-													// raw_disp has been removed since the outputInv functionality already uses such an object which is declared above as dispBlock. 
-													// The chamber methods have been updated to reflect this change.
-													// Maybe this code snippet should be turned into a loop?
-													Hopper chamber = null;
-													if (BlockStorage.check(dispBlock.getRelative(BlockFace.EAST).getState().getBlock(), "IGNITION_CHAMBER")) {
-														chamber = (Hopper) dispBlock.getRelative(BlockFace.EAST).getState();
-													} else if (BlockStorage.check(dispBlock.getRelative(BlockFace.WEST).getState().getBlock(), "IGNITION_CHAMBER")) {
-														chamber = (Hopper) dispBlock.getRelative(BlockFace.WEST).getState();
-													} else if (BlockStorage.check(dispBlock.getRelative(BlockFace.NORTH).getState().getBlock(), "IGNITION_CHAMBER")) {
-														chamber = (Hopper) dispBlock.getRelative(BlockFace.NORTH).getState();
-													} else if (BlockStorage.check(dispBlock.getRelative(BlockFace.SOUTH).getState().getBlock(), "IGNITION_CHAMBER")){
-														chamber = (Hopper) dispBlock.getRelative(BlockFace.SOUTH).getState();
-													}
+
+													Hopper chamber = findHopper(dispBlock, BlockFace.NORTH, BlockFace.EAST, BlockFace.SOUTH, BlockFace.WEST);
 													
 													if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak"))) {
 														if (chamber != null) {
@@ -781,10 +769,12 @@ public class SlimefunSetup {
 																ItemMeta meta = item.getItemMeta();
 																((Damageable) meta).setDamage(((Damageable) meta).getDamage() + 1);
 																item.setItemMeta(meta);
+
 																if (((Damageable) item.getItemMeta()).getDamage() >= item.getType().getMaxDurability()) {
 																	item.setAmount(0); 
 																	p.getWorld().playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
 																}
+
 																p.getWorld().playSound(p.getLocation(), Sound.ITEM_FLINTANDSTEEL_USE, 1, 1);
 															} 
 															else {
@@ -813,6 +803,16 @@ public class SlimefunSetup {
 							return true;
 						}
 						else return false;
+					}
+
+					private Hopper findHopper(Block b, BlockFace... faces) {
+						for (BlockFace face: faces) {
+							if (b.getRelative(face).getType() == Material.HOPPER && BlockStorage.check(b.getRelative(face), "IGNITION_CHAMBER")) {
+								return (Hopper) b.getRelative(face).getState();
+							}
+						}
+						
+						return null;
 					}
 				});
 		
@@ -1113,16 +1113,18 @@ public class SlimefunSetup {
 		new ItemStack[] {null, SlimefunItems.HOOK, SlimefunItems.HOOK, null, SlimefunItems.CHAIN, SlimefunItems.HOOK, SlimefunItems.CHAIN, null, null})
 		.register(true, new ItemInteractionHandler() {
 
+			private Utilities variables = SlimefunStartup.instance.getUtilities();
+
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.GRAPPLING_HOOK, true)) {
-					if (e.getClickedBlock() == null && !Variables.jump_state.containsKey(p.getUniqueId())) {
+					if (e.getClickedBlock() == null && !variables.jumpState.containsKey(p.getUniqueId())) {
 						e.setCancelled(true);
 						if (p.getInventory().getItemInOffHand().getType().equals(Material.BOW)) {
 							// Cancel, to fix dupe #740
 							return false;
 						}
-						Variables.jump_state.put(p.getUniqueId(), p.getInventory().getItemInMainHand().getType() != Material.SHEARS);
+						variables.jumpState.put(p.getUniqueId(), p.getInventory().getItemInMainHand().getType() != Material.SHEARS);
 						if (p.getInventory().getItemInMainHand().getType() == Material.LEAD) PlayerInventory.consumeItemInHand(p);
 
 						Vector direction = p.getEyeLocation().getDirection().multiply(2.0);
@@ -1135,8 +1137,8 @@ public class SlimefunSetup {
 				    	b.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100000, 100000));
 				    	b.setLeashHolder(arrow);
 
-				    	Variables.damage.add(p.getUniqueId());
-						Variables.remove.put(p.getUniqueId(), new Entity[] {b, arrow});
+				    	variables.damage.add(p.getUniqueId());
+				    	variables.remove.put(p.getUniqueId(), new Entity[] {b, arrow});
 					}
 					return true;
 				}
@@ -1838,17 +1840,23 @@ public class SlimefunSetup {
 			@Override
 			public boolean onBlockBreak(BlockBreakEvent e, ItemStack item, int fortune, List<ItemStack> drops) {
 				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.PICKAXE_OF_CONTAINMENT, true)) {
-					Block b = e.getBlock(); // Refactored it into this so we don't need to call e.getBlock() all the time.
+					// Refactored it into this so we don't need to call e.getBlock() all the time.
+					Block b = e.getBlock(); 
 					if (b.getType() != Material.SPAWNER) return true; 
+					
 					// If the spawner's BlockStorage has BlockInfo, then it's not a vanilla spawner and shouldn't give a broken spawner.
 					ItemStack spawner = SlimefunItems.BROKEN_SPAWNER.clone();
-					if(BlockStorage.hasBlockInfo(b))
+					if (BlockStorage.hasBlockInfo(b)) {
 						spawner = SlimefunItems.REPAIRED_SPAWNER.clone();
+					}
+					
 					ItemMeta im = spawner.getItemMeta();
 					List<String> lore = im.getLore();
+					
 					for (int i = 0; i < lore.size(); i++) {
-						if (lore.get(i).contains("<Tipo>")) lore.set(i, lore.get(i).replace("<Tipo>", StringUtils.format(((CreatureSpawner) b.getState()).getSpawnedType().toString())));
+						if (lore.get(i).contains("<Type>")) lore.set(i, lore.get(i).replace("<Type>", StringUtils.format(((CreatureSpawner) b.getState()).getSpawnedType().toString())));
 					}
+					
 					im.setLore(lore);
 					spawner.setItemMeta(im);
 					b.getLocation().getWorld().dropItemNaturally(b.getLocation(), spawner);
@@ -2517,7 +2525,7 @@ public class SlimefunSetup {
 							FallingBlock block = ground.getWorld().spawnFallingBlock(ground.getBlock().getRelative(BlockFace.UP).getLocation(), ground.getBlock().getBlockData());
 							block.setDropItem(false);
 							block.setVelocity(new Vector(0, 0.4 + i * 0.01, 0));
-							Variables.blocks.add(block.getUniqueId());
+							SlimefunStartup.instance.getUtilities().blocks.add(block.getUniqueId());
 						}
 						for (Entity n: ground.getChunk().getEntities()) {
 							if (n instanceof LivingEntity) {
@@ -2854,7 +2862,7 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onHit(EntityDamageByEntityEvent e, LivingEntity n) {
-				if (SlimefunManager.isItemSimiliar(Variables.arrows.get(e.getDamager().getUniqueId()), SlimefunItems.EXPLOSIVE_BOW, true)) {
+				if (SlimefunManager.isItemSimiliar(SlimefunStartup.instance.getUtilities().arrows.get(e.getDamager().getUniqueId()), SlimefunItems.EXPLOSIVE_BOW, true)) {
 					Vector vector = n.getVelocity();
 					vector.setY(0.6);
 					n.setVelocity(vector);
@@ -2872,7 +2880,7 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onHit(EntityDamageByEntityEvent e, LivingEntity n) {
-				if (SlimefunManager.isItemSimiliar(Variables.arrows.get(e.getDamager().getUniqueId()), SlimefunItems.ICY_BOW, true)) {
+				if (SlimefunManager.isItemSimiliar(SlimefunStartup.instance.getUtilities().arrows.get(e.getDamager().getUniqueId()), SlimefunItems.ICY_BOW, true)) {
 					n.getWorld().playEffect(n.getLocation(), Effect.STEP_SOUND, Material.ICE);
 					n.getWorld().playEffect(n.getEyeLocation(), Effect.STEP_SOUND, Material.ICE);
 					n.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 2, 10));
@@ -3820,10 +3828,10 @@ public class SlimefunSetup {
 			public void tick(Block b, SlimefunItem item, Config data) {
 				int charge = ChargableBlock.getCharge(b);
 				if (charge > 0) {
-					Slimefun.getGPSNetwork().updateTransmitter(b, UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.ONLINE);
-					ChargableBlock.setCharge(b, charge - 1);
+					Slimefun.getGPSNetwork().updateTransmitter(b.getLocation(), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.ONLINE);
+					ChargableBlock.setCharge(b.getLocation(), charge - 1);
 				}
-				else Slimefun.getGPSNetwork().updateTransmitter(b, UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
+				else Slimefun.getGPSNetwork().updateTransmitter(b.getLocation(), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
 			}
 
 			@Override
@@ -3845,7 +3853,7 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				Slimefun.getGPSNetwork().updateTransmitter(b, UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
+				Slimefun.getGPSNetwork().updateTransmitter(b.getLocation(), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
 				return true;
 			}
 		});
@@ -3856,13 +3864,13 @@ public class SlimefunSetup {
 
 			@Override
 			public void tick(Block b, SlimefunItem item, Config data) {
-				int charge = ChargableBlock.getCharge(b);
+				int charge = ChargableBlock.getCharge(b.getLocation());
 				if (charge > 2) {
-					Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 4 + 100, b.getZ()).getBlock(), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.ONLINE);
-					ChargableBlock.setCharge(b, charge - 3);
+					Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 4.0 + 100, b.getZ()), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.ONLINE);
+					ChargableBlock.setCharge(b.getLocation(), charge - 3);
 				}
 				else {
-					Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 4 + 100, b.getZ()).getBlock(), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
+					Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 4.0 + 100, b.getZ()), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
 				}
 			}
 
@@ -3885,7 +3893,7 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 4 + 100, b.getZ()).getBlock(), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
+				Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 4.0 + 100, b.getZ()), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
 				return true;
 			}
 		});
@@ -3896,13 +3904,13 @@ public class SlimefunSetup {
 
 			@Override
 			public void tick(Block b, SlimefunItem item, Config data) {
-				int charge = ChargableBlock.getCharge(b);
+				int charge = ChargableBlock.getCharge(b.getLocation());
 				if (charge > 10) {
-					Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 16 + 500, b.getZ()).getBlock(), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.ONLINE);
-					ChargableBlock.setCharge(b, charge - 11);
+					Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 16.0 + 500, b.getZ()), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.ONLINE);
+					ChargableBlock.setCharge(b.getLocation(), charge - 11);
 				}
 				else {
-					Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 16 + 500, b.getZ()).getBlock(), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
+					Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 16.0 + 500, b.getZ()), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
 				}
 			}
 
@@ -3925,7 +3933,7 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 16 + 500, b.getZ()).getBlock(), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
+				Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 16.0 + 500, b.getZ()), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
 				return true;
 			}
 		});
@@ -3936,13 +3944,13 @@ public class SlimefunSetup {
 
 			@Override
 			public void tick(Block b, SlimefunItem item, Config data) {
-				int charge = ChargableBlock.getCharge(b);
+				int charge = ChargableBlock.getCharge(b.getLocation());
 				if (charge > 45) {
-					Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 64 + 800, b.getZ()).getBlock(), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.ONLINE);
-					ChargableBlock.setCharge(b, charge - 46);
+					Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 64.0 + 800, b.getZ()), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.ONLINE);
+					ChargableBlock.setCharge(b.getLocation(), charge - 46);
 				}
 				else {
-					Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 64 + 800, b.getZ()).getBlock(), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
+					Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 64.0 + 800, b.getZ()), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
 				}
 			}
 
@@ -3965,7 +3973,7 @@ public class SlimefunSetup {
 
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 64 + 800, b.getZ()).getBlock(), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
+				Slimefun.getGPSNetwork().updateTransmitter(new Location(b.getWorld(), b.getX(), b.getY() * 64.0 + 800, b.getZ()), UUID.fromString(BlockStorage.getLocationInfo(b.getLocation(), "owner")), NetworkStatus.OFFLINE);
 				return true;
 			}
 		});

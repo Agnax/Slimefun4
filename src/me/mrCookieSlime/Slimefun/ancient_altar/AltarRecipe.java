@@ -1,15 +1,17 @@
-package me.mrCookieSlime.Slimefun.AncientAltar;
+package me.mrCookieSlime.Slimefun.ancient_altar;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.inventory.ItemStack;
 
+import me.mrCookieSlime.Slimefun.SlimefunStartup;
+
 public class AltarRecipe {
 	
-	ItemStack catalyst;
-	List<ItemStack> input;
-	ItemStack output;
+	private ItemStack catalyst;
+	private List<ItemStack> input;
+	private ItemStack output;
 	
 	public AltarRecipe(List<ItemStack> input, ItemStack output) {
 		this.catalyst = input.get(4);
@@ -27,7 +29,7 @@ public class AltarRecipe {
 		
 		this.output = output;
 		
-		Pedestals.recipes.add(this);
+		SlimefunStartup.instance.getUtilities().altarRecipes.add(this);
 	}
 	
 	public ItemStack getCatalyst() {

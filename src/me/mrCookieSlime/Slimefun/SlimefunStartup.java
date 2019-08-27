@@ -18,12 +18,9 @@ import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.PluginUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Reflection.ReflectionUtils;
-import me.mrCookieSlime.Slimefun.AncientAltar.Pedestals;
-import me.mrCookieSlime.Slimefun.CSCoreLibSetup.CSCoreLibLoader;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.GEO.Resources.NetherIceResource;
 import me.mrCookieSlime.Slimefun.GEO.Resources.OilResource;
-import me.mrCookieSlime.Slimefun.GPS.Elevator;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.Research;
@@ -32,6 +29,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoEnchanter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricDustWasher;
+import me.mrCookieSlime.Slimefun.Setup.CSCoreLibLoader;
 import me.mrCookieSlime.Slimefun.Setup.Files;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
@@ -56,7 +54,6 @@ import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
 import me.mrCookieSlime.Slimefun.commands.SlimefunTabCompleter;
 import me.mrCookieSlime.Slimefun.hooks.PlaceholderAPIHook;
 import me.mrCookieSlime.Slimefun.hooks.WorldEditHook;
-import me.mrCookieSlime.Slimefun.hooks.github.Contributor;
 import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
 import me.mrCookieSlime.Slimefun.hooks.github.GitHubSetup;
 import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
@@ -96,11 +93,12 @@ public class SlimefunStartup extends JavaPlugin {
 	public static TickerTask ticker;
 
 	private CoreProtectAPI coreProtectAPI;
+	private Utilities utilities = new Utilities();
 
 	private boolean clearlag = false;
 	private boolean exoticGarden = false;
 	private boolean coreProtect = false;
-
+	
 	// Supported Versions of Minecraft
 	final String[] supported = {"v1_14_"};
 
@@ -260,22 +258,6 @@ public class SlimefunStartup extends JavaPlugin {
 				if (SlimefunItem.getByID("ANCIENT_ALTAR") != null) new AncientAltarListener((SlimefunStartup) instance);
 			}, 0);
 
-			// WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
-			if (getServer().getPluginManager().isPluginEnabled("WorldEdit")) {
-				try {
-					Class.forName("com.sk89q.worldedit.extent.Extent");
-					new WorldEditHook();
-					System.out.println("[Slimefun] Successfully hooked into WorldEdit!");
-				} catch (Exception x) {
-					System.err.println("[Slimefun] Failed to hook into WorldEdit!");
-					System.err.println("[Slimefun] Maybe consider updating WorldEdit or Slimefun?");
-				}
-			}
-			
-			if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-				new PlaceholderAPIHook().register();
-			}
-
 			getCommand("slimefun").setExecutor(new SlimefunCommand(this));
 			getCommand("slimefun").setTabCompleter(new SlimefunTabCompleter());
 
@@ -339,11 +321,7 @@ public class SlimefunStartup extends JavaPlugin {
 			getServer().getScheduler().runTaskTimerAsynchronously(this, new BlockAutoSaver(), 2000L, config.getInt("options.auto-save-delay-in-minutes") * 60L * 20L);
 			getServer().getScheduler().runTaskTimerAsynchronously(this, ticker, 100L, config.getInt("URID.custom-ticker-delay"));
 
-			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
-				for (GitHubConnector connector : GitHubConnector.connectors) {
-					connector.pullFile();
-				}
-			}, 80L, 60 * 60 * 20L);
+			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> utilities.connectors.forEach(GitHubConnector::pullFile), 80L, 60 * 60 * 20L);
 
 			// Hooray!
 			System.out.println("[Slimefun] Finished!");
@@ -356,9 +334,25 @@ public class SlimefunStartup extends JavaPlugin {
 			}, 0);
 
 			if (clearlag) new ClearLaggIntegration(this);
-
 			if (coreProtect) coreProtectAPI = ((CoreProtect) getServer().getPluginManager().getPlugin("CoreProtect")).getAPI();
 
+
+			// WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
+			if (getServer().getPluginManager().isPluginEnabled("WorldEdit")) {
+				try {
+					Class.forName("com.sk89q.worldedit.extent.Extent");
+					new WorldEditHook();
+					System.out.println("[Slimefun] Successfully hooked into WorldEdit!");
+				} catch (Exception x) {
+					System.err.println("[Slimefun] Failed to hook into WorldEdit!");
+					System.err.println("[Slimefun] Maybe consider updating WorldEdit or Slimefun?");
+				}
+			}
+			
+			if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
+				new PlaceholderAPIHook().register();
+			}
+			
 			Research.creative_research = config.getBoolean("options.allow-free-creative-research");
 			Research.titles = config.getStringList("research-ranks");
 			
@@ -421,23 +415,12 @@ public class SlimefunStartup extends JavaPlugin {
 		Files.WHITELIST = null;
 		MultiBlock.list = null;
 		Research.list = null;
-		Research.researching = null;
 		SlimefunItem.all = null;
 		SlimefunItem.items = null;
 		SlimefunItem.map_id = null;
 		SlimefunItem.handlers = null;
 		SlimefunItem.radioactive = null;
-		Variables.damage = null;
-		Variables.jump_state = null;
-		Variables.mode = null;
 		SlimefunGuide.history = null;
-		Variables.altarinuse = null;
-		Variables.enchanting = null;
-		Variables.backpack = null;
-		Variables.soulbound = null;
-		Variables.blocks = null;
-		Variables.cancelPlace = null;
-		Variables.arrows = null;
 		SlimefunCommand.arguments = null;
 		SlimefunCommand.descriptions = null;
 		SlimefunCommand.tabs = null;
@@ -451,8 +434,6 @@ public class SlimefunStartup extends JavaPlugin {
 		AContainer.processing = null;
 		AContainer.progress = null;
 		Slimefun.guide_handlers = null;
-		Pedestals.recipes = null;
-		Elevator.ignored = null;
 		EnergyNet.listeners = null;
 		EnergyNet.machines_input = null;
 		EnergyNet.machines_output = null;
@@ -462,8 +443,6 @@ public class SlimefunStartup extends JavaPlugin {
 		TickerTask.block_timings = null;
 		OreGenSystem.map = null;
 		SlimefunGuide.contributors = null;
-		GitHubConnector.connectors = null;
-		Contributor.textures = null;
 		ChestManipulator.listeners = null;
 		PlayerProfile.profiles = null;
 
@@ -518,6 +497,10 @@ public class SlimefunStartup extends JavaPlugin {
 
 	public CoreProtectAPI getCoreProtectAPI() {
 		return coreProtectAPI;
+	}
+	
+	public Utilities getUtilities() {
+		return utilities;
 	}
 
 }
