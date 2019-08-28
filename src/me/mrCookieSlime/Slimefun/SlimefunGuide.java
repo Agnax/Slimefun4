@@ -289,10 +289,10 @@ public final class SlimefunGuide {
 			clearHistory(p.getUniqueId());
 		
 		if (book) {
-			List<TellRawMessage> pages = new ArrayList<TellRawMessage>();
-			List<String> texts = new ArrayList<String>();
-			List<String> tooltips = new ArrayList<String>();
-			List<PlayerRunnable> actions = new ArrayList<PlayerRunnable>();
+			List<TellRawMessage> pages = new ArrayList<>();
+			List<String> texts = new ArrayList<>();
+			List<String> tooltips = new ArrayList<>();
+			List<PlayerRunnable> actions = new ArrayList<>();
 			
 			int tier = 0;
 			
@@ -501,7 +501,7 @@ public final class SlimefunGuide {
 						index++;
 					}
 					else {
-						List<String> parents = new ArrayList<String>();
+						List<String> parents = new ArrayList<>();
 						parents.add("");
 						parents.add(ChatColor.translateAlternateColorCodes('&', "&rNecesitas desbloquear todos los items"));
 						parents.add(ChatColor.translateAlternateColorCodes('&', "&rde las siguientes categorias:"));
@@ -549,10 +549,10 @@ public final class SlimefunGuide {
 		if (category == null) return;
 
 		if (book && category.getItems().size() < 250) {
-			List<TellRawMessage> pages = new ArrayList<TellRawMessage>();
-			List<String> texts = new ArrayList<String>();
-			List<String> tooltips = new ArrayList<String>();
-			List<PlayerRunnable> actions = new ArrayList<PlayerRunnable>();
+			List<TellRawMessage> pages = new ArrayList<>();
+			List<String> texts = new ArrayList<>();
+			List<String> tooltips = new ArrayList<>();
+			List<PlayerRunnable> actions = new ArrayList<>();
 			
 			for (final SlimefunItem item: category.getItems()) {
 				if (Slimefun.hasPermission(p, item, false)) {
