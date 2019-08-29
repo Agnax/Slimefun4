@@ -43,7 +43,7 @@ public final class Categories {
 	public static final SeasonCategory CHRISTMAS = new SeasonCategory(12, 1, new CustomItem(Material.NETHER_STAR, "&aN&ca&av&ci&ad&ca&ad", "", "&c> Click para ayudar a &aSanta"));
 	public static final SeasonCategory VALENTINES_DAY = new SeasonCategory(2, 2, new CustomItem(Material.POPPY, "&dDía de san valentín", "", "&d> Click para celebrar el amor"));
 	public static final SeasonCategory EASTER = new SeasonCategory(4, 2, new CustomItem(Material.EGG, "&6Pascua", "", "&a> Click para pintar unos huevos"));
-	public static final SeasonCategory BIRTHDAY = new SeasonCategory(10, 1, new CustomItem(Material.FIREWORK_ROCKET, "&a&lTheBusyBiscuit's Birthday &7(26th October)", "", "&a> Click para celebrarlo con  el"));
+	public static final SeasonCategory BIRTHDAY = new SeasonCategory(10, 1, new CustomItem(Material.FIREWORK_ROCKET, "&a&lCumpleaños de TheBusyBiscuit &7(26 de Octubre)", "", "&a> Click para celebrarlo con el"));
 	
 	private static ItemStack getSkull(String texture) {
 		try {
