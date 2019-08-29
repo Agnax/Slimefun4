@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -27,7 +28,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 import me.mrCookieSlime.EmeraldEnchants.EmeraldEnchants;
 import me.mrCookieSlime.EmeraldEnchants.ItemEnchantment;
 import me.mrCookieSlime.Slimefun.SlimefunStartup;
-import me.mrCookieSlime.Slimefun.Utilities;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SoulboundItem;
@@ -35,11 +35,13 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Talisman;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.Soul;
+import me.mrCookieSlime.Slimefun.utils.Utilities;
 
 public class DamageListener implements Listener {
 
     private SimpleDateFormat format = new SimpleDateFormat("(MMM d, yyyy @ hh:mm)");
 	private Utilities utilities;
+	private Random random = new Random();
 
     public DamageListener(SlimefunStartup plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -53,6 +55,7 @@ public class DamageListener implements Listener {
             if (p.getInventory().containsAtLeast(SlimefunItems.GPS_EMERGENCY_TRANSMITTER, 1)) {
                 Slimefun.getGPSNetwork().addWaypoint(p, "&4Punto de muerte &7" + format.format(new Date()), p.getLocation().getBlock().getLocation());
             }
+            
             Iterator<ItemStack> drops = e.getDrops().iterator();
             while (drops.hasNext()) {
                 ItemStack item = drops.next();
@@ -60,7 +63,8 @@ public class DamageListener implements Listener {
                     if (SlimefunManager.isItemSimiliar(item, SlimefunItems.BOUND_BACKPACK, false)) {
                         Soul.storeItem(e.getEntity().getUniqueId(), item);
                         drops.remove();
-                    } else if (SlimefunItem.getByItem(removeEnchantments(item)) != null) {
+                    } 
+                    else if (SlimefunItem.getByItem(removeEnchantments(item)) != null) {
                         if (SlimefunItem.getByItem(removeEnchantments(item)) instanceof SoulboundItem) {
                             Soul.storeItem(e.getEntity().getUniqueId(), item);
                             drops.remove();
@@ -86,25 +90,25 @@ public class DamageListener implements Listener {
                 if (Slimefun.hasUnlocked(p, item, true)) {
                     if (SlimefunManager.isItemSimiliar(item, SlimefunItem.getItem("SWORD_OF_BEHEADING"), true)) {
                         if (e.getEntity() instanceof Zombie) {
-                            if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.ZOMBIE"))) {
+                            if (random.nextInt(100) < (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.ZOMBIE")) {
                                 e.getDrops().add(new ItemStack(Material.ZOMBIE_HEAD));
                             }
                         }
                         else if (e.getEntity() instanceof WitherSkeleton) {
-                             if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.WITHER_SKELETON")))
+                             if (random.nextInt(100) < (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.WITHER_SKELETON"))
                                  e.getDrops().add(new ItemStack(Material.WITHER_SKELETON_SKULL));
                         } 
                         else if (e.getEntity() instanceof Skeleton) {
-                            if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.SKELETON")))
+                            if (random.nextInt(100) < (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.SKELETON"))
                                 e.getDrops().add(new ItemStack(Material.SKELETON_SKULL));
                         } 
                         else if (e.getEntity() instanceof Creeper) {
-                            if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.CREEPER"))) {
+                            if (random.nextInt(100) < (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.CREEPER")) {
                                 e.getDrops().add(new ItemStack(Material.CREEPER_HEAD));
                             }
                         } 
                         else if (e.getEntity() instanceof Player) {
-                            if (SlimefunStartup.chance(100, (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.PLAYER"))) {
+                            if (random.nextInt(100) < (Integer) Slimefun.getItemValue("SWORD_OF_BEHEADING", "chance.PLAYER")) {
                                 ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
                                 ItemMeta meta = skull.getItemMeta();
                                 ((SkullMeta) meta).setOwningPlayer((Player) e.getEntity());

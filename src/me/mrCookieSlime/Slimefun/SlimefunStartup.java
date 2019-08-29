@@ -27,8 +27,6 @@ import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoEnchanter;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricDustWasher;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.OreWasher;
 import me.mrCookieSlime.Slimefun.Setup.CSCoreLibLoader;
 import me.mrCookieSlime.Slimefun.Setup.Files;
@@ -52,8 +50,7 @@ import me.mrCookieSlime.Slimefun.autosave.BlockAutoSaver;
 import me.mrCookieSlime.Slimefun.autosave.PlayerAutoSaver;
 import me.mrCookieSlime.Slimefun.commands.SlimefunCommand;
 import me.mrCookieSlime.Slimefun.commands.SlimefunTabCompleter;
-import me.mrCookieSlime.Slimefun.hooks.PlaceholderAPIHook;
-import me.mrCookieSlime.Slimefun.hooks.WorldEditHook;
+import me.mrCookieSlime.Slimefun.hooks.SlimefunHooks;
 import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
 import me.mrCookieSlime.Slimefun.hooks.github.GitHubSetup;
 import me.mrCookieSlime.Slimefun.listeners.AncientAltarListener;
@@ -63,7 +60,6 @@ import me.mrCookieSlime.Slimefun.listeners.AutonomousToolsListener;
 import me.mrCookieSlime.Slimefun.listeners.BackpackListener;
 import me.mrCookieSlime.Slimefun.listeners.BlockListener;
 import me.mrCookieSlime.Slimefun.listeners.BowListener;
-import me.mrCookieSlime.Slimefun.listeners.ClearLaggIntegration;
 import me.mrCookieSlime.Slimefun.listeners.CoolerListener;
 import me.mrCookieSlime.Slimefun.listeners.DamageListener;
 import me.mrCookieSlime.Slimefun.listeners.FurnaceListener;
@@ -77,27 +73,24 @@ import me.mrCookieSlime.Slimefun.listeners.TalismanListener;
 import me.mrCookieSlime.Slimefun.listeners.TeleporterListener;
 import me.mrCookieSlime.Slimefun.listeners.ToolListener;
 import me.mrCookieSlime.Slimefun.listeners.WorldListener;
-import net.coreprotect.CoreProtect;
-import net.coreprotect.CoreProtectAPI;
+import me.mrCookieSlime.Slimefun.utils.Settings;
+import me.mrCookieSlime.Slimefun.utils.Utilities;
 
-public class SlimefunStartup extends JavaPlugin {
+public final class SlimefunStartup extends JavaPlugin {
 
 	public static SlimefunStartup instance;
 
-	static PluginUtils utils;
-	static Config researches;
-	static Config items;
-	static Config whitelist;
-	static Config config;
+	private static PluginUtils utils;
+	private static Config researches;
+	private static Config items;
+	private static Config whitelist;
+	private static Config config;
 
 	public static TickerTask ticker;
-
-	private CoreProtectAPI coreProtectAPI;
+	
 	private Utilities utilities = new Utilities();
-
-	private boolean clearlag = false;
-	private boolean exoticGarden = false;
-	private boolean coreProtect = false;
+	private Settings settings;
+	private SlimefunHooks hooks;
 	
 	// Supported Versions of Minecraft
 	private final String[] supported = {"v1_14_"};
@@ -162,6 +155,10 @@ public class SlimefunStartup extends JavaPlugin {
 			config = utils.getConfig();
 			Messages.local = utils.getLocalization();
 			Messages.setup();
+			
+			settings = new Settings(config);
+			settings.RESEARCHES_ENABLED = getResearchCfg().getBoolean("enable-researching");
+			settings.SMELTERY_FIRE_BREAK_CHANCE = (Integer) Slimefun.getItemValue("SMELTERY", "chance.fireBreak");
 
 			// Setting up bStats
 			new Metrics(this);
@@ -199,12 +196,9 @@ public class SlimefunStartup extends JavaPlugin {
 			MiscSetup.loadDescriptions();
 
 			System.out.println("[Slimefun] Loading Researches...");
-			Research.enableResearching = getResearchCfg().getBoolean("enable-researching");
 			ResearchSetup.setupResearches();
 
 			MiscSetup.setupMisc();
-
-			BlockStorage.info_delay = config.getInt("URID.info-delay");
 
 			System.out.println("[Slimefun] Loading World Generators...");
 
@@ -248,8 +242,7 @@ public class SlimefunStartup extends JavaPlugin {
 			// Initiating various Stuff and all Items with a slightly delay (0ms after the Server finished loading)
 			getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
 				Slimefun.emeraldenchants = getServer().getPluginManager().isPluginEnabled("EmeraldEnchants");
-				SlimefunGuide.all_recipes = config.getBoolean("options.show-vanilla-recipes-in-guide");
-				MiscSetup.loadItems();
+				MiscSetup.loadItems(settings);
 
 				for (World world: Bukkit.getWorlds()) {
 					new BlockStorage(world);
@@ -315,53 +308,19 @@ public class SlimefunStartup extends JavaPlugin {
 
 			ticker = new TickerTask();
 
-			getServer().getScheduler().runTaskTimer(this, new PlayerAutoSaver(), 2000L, config.getInt("options.auto-save-delay-in-minutes") * 60L * 20L);
+			getServer().getScheduler().runTaskTimer(this, new PlayerAutoSaver(), 2000L, settings.BLOCK_AUTO_SAVE_DELAY * 60L * 20L);
 
 			// Starting all ASYNC Tasks
-			getServer().getScheduler().runTaskTimerAsynchronously(this, new BlockAutoSaver(), 2000L, config.getInt("options.auto-save-delay-in-minutes") * 60L * 20L);
+			getServer().getScheduler().runTaskTimerAsynchronously(this, new BlockAutoSaver(), 2000L, settings.BLOCK_AUTO_SAVE_DELAY * 60L * 20L);
 			getServer().getScheduler().runTaskTimerAsynchronously(this, ticker, 100L, config.getInt("URID.custom-ticker-delay"));
 
 			getServer().getScheduler().runTaskTimerAsynchronously(this, () -> utilities.connectors.forEach(GitHubConnector::pullFile), 80L, 60 * 60 * 20L);
 
 			// Hooray!
 			System.out.println("[Slimefun] Finished!");
-
-			clearlag = getServer().getPluginManager().isPluginEnabled("ClearLag");
-			coreProtect = getServer().getPluginManager().isPluginEnabled("CoreProtect");
-
-			getServer().getScheduler().runTaskLater(this, () -> {
-				exoticGarden = getServer().getPluginManager().isPluginEnabled("ExoticGarden"); // Had to do it this way, otherwise it seems disabled.
-			}, 0);
-
-			if (clearlag) new ClearLaggIntegration(this);
-			if (coreProtect) coreProtectAPI = ((CoreProtect) getServer().getPluginManager().getPlugin("CoreProtect")).getAPI();
-
-
-			// WorldEdit Hook to clear Slimefun Data upon //set 0 //cut or any other equivalent
-			if (getServer().getPluginManager().isPluginEnabled("WorldEdit")) {
-				try {
-					Class.forName("com.sk89q.worldedit.extent.Extent");
-					new WorldEditHook();
-					System.out.println("[Slimefun] Successfully hooked into WorldEdit!");
-				} catch (Exception x) {
-					System.err.println("[Slimefun] Failed to hook into WorldEdit!");
-					System.err.println("[Slimefun] Maybe consider updating WorldEdit or Slimefun?");
-				}
-			}
+			hooks = new SlimefunHooks(this);
 			
-			if (getServer().getPluginManager().isPluginEnabled("PlaceholderAPI")) {
-				new PlaceholderAPIHook().register();
-			}
-			
-			Research.creative_research = config.getBoolean("options.allow-free-creative-research");
-			Research.titles = config.getStringList("research-ranks");
-			
-			AutoEnchanter.max_emerald_enchantments = config.getInt("options.emerald-enchantment-limit");
-
-			OreWasher.legacy = config.getBoolean("options.legacy-ore-washer");
 			OreWasher.items = new ItemStack[] {SlimefunItems.IRON_DUST, SlimefunItems.GOLD_DUST, SlimefunItems.ALUMINUM_DUST, SlimefunItems.COPPER_DUST, SlimefunItems.ZINC_DUST, SlimefunItems.TIN_DUST, SlimefunItems.LEAD_DUST, SlimefunItems.SILVER_DUST, SlimefunItems.MAGNESIUM_DUST};
-			
-			ElectricDustWasher.legacy_dust_washer = config.getBoolean("options.legacy-dust-washer");
 
 			// Do not show /sf elevator command in our Log, it could get quite spammy
 			CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
@@ -378,7 +337,7 @@ public class SlimefunStartup extends JavaPlugin {
 			ticker.run();
 		}
 		
-		PlayerProfile.iterator().forEachRemaining((profile) -> {
+		PlayerProfile.iterator().forEachRemaining(profile -> {
 			if (profile.isDirty()) profile.save();
 		});
 		
@@ -483,24 +442,16 @@ public class SlimefunStartup extends JavaPlugin {
 		return CSCoreLib.randomizer().nextInt(max) <= percentage;
 	}
 
-	public boolean isClearLagInstalled() {
-		return clearlag;
-	}
-
-	public boolean isExoticGardenInstalled () {
-		return exoticGarden;
-	}
-
-	public boolean isCoreProtectInstalled() {
-		return coreProtect;
-	}
-
-	public CoreProtectAPI getCoreProtectAPI() {
-		return coreProtectAPI;
+	public SlimefunHooks getHooks() {
+		return hooks;
 	}
 	
 	public Utilities getUtilities() {
 		return utilities;
+	}
+	
+	public Settings getSettings() {
+		return settings;
 	}
 
 }
