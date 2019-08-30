@@ -65,8 +65,8 @@ public final class SlimefunGuide {
 	 * @since 4.1.13
 	 */
 	public static int stars = 0;
-	public static int code_bytes = 0;
-	public static Date last_update = new Date();
+	public static int codeBytes = 0;
+	public static Date lastUpdate = new Date();
 	
 	private static final int category_size = 36;
 
@@ -168,7 +168,7 @@ public final class SlimefunGuide {
 		});
 		
 		try {
-			menu.addItem(4, new CustomItem(new ItemStack(Material.COMPARATOR), "&eSource Code", "", "&7Bytes of Code: &6" + IntegerFormat.formatBigNumber(code_bytes), "&7Last Update: &a" + IntegerFormat.timeDelta(last_update) + " ago", "&7Forks: &e" + forks, "&7Stars: &e" + stars, "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 Click to go to GitHub"));
+			menu.addItem(4, new CustomItem(new ItemStack(Material.COMPARATOR), "&eSource Code", "", "&7Bytes of Code: &6" + IntegerFormat.formatBigNumber(codeBytes), "&7Last Update: &a" + IntegerFormat.timeDelta(lastUpdate) + " ago", "&7Forks: &e" + forks, "&7Stars: &e" + stars, "", "&7&oSlimefun 4 is a community project,", "&7&othe source code is available on GitHub", "&7&oand if you want to keep this Plugin alive,", "&7&othen please consider contributing to it", "", "&7\u21E8 Click to go to GitHub"));
 			menu.addMenuClickHandler(4, (pl, slot, item, action) -> {
 				pl.closeInventory();
 				pl.sendMessage("");
@@ -416,8 +416,8 @@ public final class SlimefunGuide {
 				pl -> pl.playSound(pl.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 0.7F)
 			);
 			
-			List<Category> categories = Slimefun.current_categories;
-			List<GuideHandler> handlers = Slimefun.guide_handlers.values().stream().flatMap(List::stream).collect(Collectors.toList());
+			List<Category> categories = Slimefun.currentCategories;
+			List<GuideHandler> handlers = Slimefun.guideHandlers.values().stream().flatMap(List::stream).collect(Collectors.toList());
 			
 			int index = 9;
 			int pages = 1;
@@ -567,7 +567,7 @@ public final class SlimefunGuide {
 												openCategory(p, category, true, selected_page, book);
 											}
 											else {
-												if (!(p.getGameMode() == GameMode.CREATIVE && SlimefunStartup.instance.getSettings().RESEARCHES_FREE_IN_CREATIVE)) {
+												if (!(p.getGameMode() == GameMode.CREATIVE && SlimefunStartup.instance.getSettings().researchesFreeInCreative)) {
 													p.setLevel(p.getLevel() - research.getCost());
 												}
 
@@ -687,9 +687,9 @@ public final class SlimefunGuide {
 				return false;
 			});
 			
-			int category_index = category_size * (selected_page - 1);
+			int categoryIndex = category_size * (selected_page - 1);
 			for (int i = 0; i < category_size; i++) {
-				int target = category_index + i;
+				int target = categoryIndex + i;
 				if (target >= category.getItems().size()) break;
 				final SlimefunItem sfitem = category.getItems().get(target);
 				if (Slimefun.isEnabled(p, sfitem, false)) {
@@ -706,12 +706,12 @@ public final class SlimefunGuide {
 											openCategory(p, category, true, selected_page, book);
 										}
 										else {
-											if (!(pl.getGameMode() == GameMode.CREATIVE && SlimefunStartup.instance.getSettings().RESEARCHES_FREE_IN_CREATIVE)) {
+											if (!(pl.getGameMode() == GameMode.CREATIVE && SlimefunStartup.instance.getSettings().researchesFreeInCreative)) {
 												pl.setLevel(pl.getLevel() - research.getCost());
 											}
 
 											if (pl.getGameMode() == GameMode.CREATIVE) {
-												research.unlock(pl, SlimefunStartup.instance.getSettings().RESEARCHES_FREE_IN_CREATIVE);
+												research.unlock(pl, SlimefunStartup.instance.getSettings().researchesFreeInCreative);
 												openCategory(pl, category, survival, selected_page, book);
 											} 
 											else {
@@ -780,7 +780,7 @@ public final class SlimefunGuide {
 
 		final SlimefunItem sfItem = SlimefunItem.getByItem(item);
 		
-		if (sfItem == null && !SlimefunStartup.instance.getSettings().GUIDE_SHOW_VANILLA_RECIPES) return;
+		if (sfItem == null && !SlimefunStartup.instance.getSettings().guideShowVanillaRecipes) return;
 		
 		ItemStack[] recipe = new ItemStack[9];
 		ItemStack recipeType = null;
@@ -967,12 +967,12 @@ public final class SlimefunGuide {
 				}
 				
 				List<ItemStack> recipes = SlimefunItem.getByItem(item) instanceof SlimefunMachine ? ((SlimefunMachine) SlimefunItem.getByItem(item)).getDisplayRecipes() : ((SlimefunGadget) SlimefunItem.getByItem(item)).getDisplayRecipes();
-				int recipe_size = recipes.size();
-				if (recipe_size > 18) recipe_size = 18;
+				int recipeSize = recipes.size();
+				if (recipeSize > 18) recipeSize = 18;
 				int inputs = -1;
 				int outputs = -1;
 				
-				for (int i = 0; i < recipe_size; i++) {
+				for (int i = 0; i < recipeSize; i++) {
 					int slot = 36;
 					if (i % 2 == 1) {
 						slot = slot + 9;
