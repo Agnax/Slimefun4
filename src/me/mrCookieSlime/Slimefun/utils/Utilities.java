@@ -28,6 +28,8 @@ import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
  */
 public final class Utilities {
 	
+	public int vanillaItems = 0;
+	
 	public Map<UUID, Boolean> jumpState = new HashMap<>();
 	public Set<UUID> damage = new HashSet<>();
 	public Map<UUID, Entity[]> remove = new HashMap<>();
@@ -39,7 +41,7 @@ public final class Utilities {
 	public Set<Location> altarinuse = new HashSet<>();
 	public Set<AltarRecipe> altarRecipes = new HashSet<>();
 	
-	public Map<UUID, List<ItemStack>> soulbound = new HashMap<>();
+	public Map<UUID, Map<Integer, ItemStack>> soulbound = new HashMap<>();
 	public List<UUID> blocks = new ArrayList<>();
 	public List<UUID> cancelPlace = new ArrayList<>();
 	public Map<UUID, ItemStack> arrows = new HashMap<>();
@@ -52,6 +54,8 @@ public final class Utilities {
 	public Set<GitHubConnector> connectors = new HashSet<>();
 	public Map<String, String> contributorHeads = new HashMap<>();
 	public List<Contributor> contributors = new ArrayList<>();
+
+	public Map<UUID, List<Object>> guideHistory = new HashMap<>();
 	
 	public List<CargoTransportEvent> cargoTransportEvents = new ArrayList<>();
 	
