@@ -14,27 +14,27 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  *
- * @author Emman
+ * @author Agnax
  */
 public class InsanityItem extends ItemStack {
     
     public InsanityItem(Material item, String name, int model) {
-            super(new ItemStack(item));
-            ItemMeta im = getItemMeta();
-            im.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
-            im.setCustomModelData(model);
-            setItemMeta(im);
+        super(new ItemStack(item));
+        ItemMeta im = getItemMeta();
+        im.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+        im.setCustomModelData(model);
+        setItemMeta(im);
     }
     public InsanityItem(Material item, String name,int model, String... lore) {
-	super(new ItemStack(item));
-	ItemMeta im = getItemMeta();
-	im.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
-	List<String> lines = new ArrayList<String>();
-	for (String line: lore) {
-		lines.add(ChatColor.translateAlternateColorCodes('&', line));
-	}
-	im.setLore(lines);
-        im.setCustomModelData(model);
-	setItemMeta(im);
+        super(new ItemStack(item));
+        ItemMeta im = getItemMeta();
+        im.setDisplayName(ChatColor.translateAlternateColorCodes('&', name));
+        List<String> lines = new ArrayList<String>();
+        for (String line: lore) {
+            lines.add(ChatColor.translateAlternateColorCodes('&', line));
+        }
+        im.setLore(lines);
+            im.setCustomModelData(model);
+        setItemMeta(im);
     }
 }
