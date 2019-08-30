@@ -89,8 +89,11 @@ public class BlockStorage {
 		
 		File f = new File(path_blocks + w.getName());
 		if (f.exists()) {
-			long total = f.listFiles().length, start = System.currentTimeMillis();
-			long done = 0, timestamp = System.currentTimeMillis(), totalBlocks = 0;
+			long total = f.listFiles().length;
+			long start = System.currentTimeMillis();
+			long done = 0;
+			long timestamp = System.currentTimeMillis();
+			long totalBlocks = 0;
 			
 			try {
 				for (File file: f.listFiles()) {
@@ -101,7 +104,7 @@ public class BlockStorage {
 					}
 					else if (file.getName().endsWith(".sfb")) {
 						if (timestamp + SlimefunStartup.instance.getSettings().BLOCK_LOADING_INFO_DELAY < System.currentTimeMillis()) {
-							System.out.println("[Slimefun] Loading Blocks... " + Math.round((((done * 100.0f) / total) * 100.0f) / 100.0f) + "% done (\"" + w.getName() + "\")");
+							System.out.println("[Slimefun] Loading Blocks... " + Math.round((((done * 100.0F) / total) * 100.0F) / 100.0F) + "% done (\"" + w.getName() + "\")");
 							timestamp = System.currentTimeMillis();
 						}
 
@@ -126,7 +129,7 @@ public class BlockStorage {
 								storage.put(l, blockInfo);
 
 								if (SlimefunItem.isTicking(file.getName().replace(".sfb", ""))) {
-									Set<Location> locations = ticking_chunks.containsKey(chunk_string) ? ticking_chunks.get(chunk_string): new HashSet<Location>();
+									Set<Location> locations = ticking_chunks.containsKey(chunk_string) ? ticking_chunks.get(chunk_string): new HashSet<>();
 									locations.add(l);
 									ticking_chunks.put(chunk_string, locations);
 									if (!loaded_tickers.contains(chunk_string)) loaded_tickers.add(chunk_string);
@@ -315,9 +318,9 @@ public class BlockStorage {
 	}
 
 	public static Config getLocationInfo(Location l) {
-			BlockStorage storage = getStorage(l.getWorld());
-			Config cfg = storage.storage.get(l);
-			return cfg == null ? new BlockInfoConfig() : cfg;
+		BlockStorage storage = getStorage(l.getWorld());
+		Config cfg = storage.storage.get(l);
+		return cfg == null ? new BlockInfoConfig() : cfg;
 	}
 	
 	private static Map<String, String> parseJSON(String json) {
@@ -371,7 +374,7 @@ public class BlockStorage {
 	}
 
 	public static String getLocationInfo(Location l, String key) {
-		return getBlockInfo(l).getString(key);
+		return getLocationInfo(l).getString(key);
 	}
 	
 	public static void addBlockInfo(Location l, String key, String value) {
@@ -523,7 +526,9 @@ public class BlockStorage {
 			if (item != null && item.isTicking()) {
 				String chunk_string = locationToChunkString(l);
 				if (value != null) {
-					Set<Location> locations = ticking_chunks.containsKey(chunk_string) ? ticking_chunks.get(chunk_string): new HashSet<Location>();
+					Set<Location> locations = ticking_chunks.get(chunk_string);
+					if (locations == null) locations = new HashSet<>();
+					
 					locations.add(l);
 					ticking_chunks.put(chunk_string, locations);
 					if (!loaded_tickers.contains(chunk_string)) loaded_tickers.add(chunk_string);
@@ -611,9 +616,7 @@ public class BlockStorage {
 		if (menu != null) {
 			for (HumanEntity human : new ArrayList<>(menu.toInventory().getViewers())) {
 				// Prevents "java.lang.IllegalStateException: Asynchronous entity add!" when closing inventory while holding an item
-				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> {
-					human.closeInventory();
-				});
+				Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunStartup.instance, () -> human.closeInventory());
 			}
 
 			inventories.get(l).delete(l);
@@ -721,6 +724,6 @@ public class BlockStorage {
 
 	public boolean hasUniversalInventory(Location l) {
 		String id = checkID(l);
-		return id == null ? false: hasUniversalInventory(id);
+		return id != null && hasUniversalInventory(id);
 	}
 }

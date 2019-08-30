@@ -80,7 +80,6 @@ public final class SlimefunStartup extends JavaPlugin {
 
 	public static SlimefunStartup instance;
 
-	private static PluginUtils utils;
 	private static Config researches;
 	private static Config items;
 	private static Config whitelist;
@@ -142,7 +141,7 @@ public final class SlimefunStartup extends JavaPlugin {
 
 			System.out.println("[Slimefun] Loading Config...");
 
-			utils = new PluginUtils(this);
+			PluginUtils utils = new PluginUtils(this);
 			utils.setupConfig();
 
 			// Loading all extra configs
@@ -259,21 +258,15 @@ public final class SlimefunStartup extends JavaPlugin {
 				getServer().getScheduler().runTaskTimer(this, () -> {
 					for (Player p: Bukkit.getOnlinePlayers()) {
 						for (ItemStack armor: p.getInventory().getArmorContents()) {
-							if (armor != null) {
-								if (Slimefun.hasUnlocked(p, armor, true)) {
-									if (SlimefunItem.getByItem(armor) instanceof SlimefunArmorPiece) {
-										for (PotionEffect effect: ((SlimefunArmorPiece) SlimefunItem.getByItem(armor)).getEffects()) {
-											p.removePotionEffect(effect.getType());
-											p.addPotionEffect(effect);
-										}
+							if (armor != null && Slimefun.hasUnlocked(p, armor, true)) {
+								if (SlimefunItem.getByItem(armor) instanceof SlimefunArmorPiece) {
+									for (PotionEffect effect: ((SlimefunArmorPiece) SlimefunItem.getByItem(armor)).getEffects()) {
+										p.removePotionEffect(effect.getType());
+										p.addPotionEffect(effect);
 									}
-									if (SlimefunManager.isItemSimiliar(armor, SlimefunItem.getItem("SOLAR_HELMET"), false)) {
-										if (p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850) {
-											if (p.getEyeLocation().getBlock().getLightFromSky() == 15) {
-												ItemEnergy.chargeInventory(p, Float.valueOf(String.valueOf(Slimefun.getItemValue("SOLAR_HELMET", "charge-amount"))));
-											}
-										}
-									}
+								}
+								if (SlimefunManager.isItemSimiliar(armor, SlimefunItem.getItem("SOLAR_HELMET"), false) && p.getWorld().getTime() < 12300 || p.getWorld().getTime() > 23850 && p.getEyeLocation().getBlock().getLightFromSky() == 15) {
+									ItemEnergy.chargeInventory(p, Float.valueOf(String.valueOf(Slimefun.getItemValue("SOLAR_HELMET", "charge-amount"))));
 								}
 							}
 						}

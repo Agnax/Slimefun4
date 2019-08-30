@@ -1,6 +1,6 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 import org.bukkit.Material;
@@ -32,7 +32,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 	
-	public static final Map<Material, Integer> crops = new HashMap<>();
+	public static final Map<Material, Integer> crops = new EnumMap<>(Material.class);
 	
 	static {
 		crops.put(Material.WHEAT, 7);
@@ -41,6 +41,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 		crops.put(Material.NETHER_WART, 3);
 		crops.put(Material.BEETROOTS, 3);
 		crops.put(Material.COCOA, 8);
+		crops.put(Material.SWEET_BERRY_BUSH, 3);
 	}
 
 	public CropGrowthAccelerator(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
@@ -139,22 +140,20 @@ public abstract class CropGrowthAccelerator extends SlimefunItem {
 		for (int x = -getRadius(); x <= getRadius(); x++) {
 			for (int z = -getRadius(); z <= getRadius(); z++) {
 				Block block = b.getRelative(x, 0, z);
-				if (crops.containsKey(block.getType())) {
-					if (((Ageable) block.getBlockData()).getAge() < crops.get(block.getType())) {
-						for (int slot : getInputSlots()) {
-							if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
-								if (work > (getSpeed() - 1)) break master;
-								if (ChargableBlock.getCharge(b) < getEnergyConsumption()) break master;
-								ChargableBlock.addCharge(b, -getEnergyConsumption());
-								
-								Ageable ageable = (Ageable) block.getBlockData();
-								ageable.setAge(ageable.getAge() + 1);
-								block.setBlockData(ageable);
+				if (crops.containsKey(block.getType()) && ((Ageable) block.getBlockData()).getAge() < crops.get(block.getType())) {
+					for (int slot : getInputSlots()) {
+						if (SlimefunManager.isItemSimiliar(BlockStorage.getInventory(b).getItemInSlot(slot), SlimefunItems.FERTILIZER, false)) {
+							if (work > (getSpeed() - 1)) break master;
+							if (ChargableBlock.getCharge(b) < getEnergyConsumption()) break master;
+							ChargableBlock.addCharge(b, -getEnergyConsumption());
 
-								block.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, block.getLocation().add(0.5D, 0.5D, 0.5D), 4, 0.1F, 0.1F, 0.1F);
-								work++;
-								break;
-							}
+							Ageable ageable = (Ageable) block.getBlockData();
+							ageable.setAge(ageable.getAge() + 1);
+							block.setBlockData(ageable);
+
+							block.getWorld().spawnParticle(Particle.VILLAGER_HAPPY, block.getLocation().add(0.5D, 0.5D, 0.5D), 4, 0.1F, 0.1F, 0.1F);
+							work++;
+							break;
 						}
 					}
 				}

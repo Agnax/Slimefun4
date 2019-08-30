@@ -1,5 +1,8 @@
 package me.mrCookieSlime.Slimefun.Lists;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -97,6 +100,7 @@ public class SlimefunItems {
 	
 	/*		 Food 		*/
 	public static final ItemStack FORTUNE_COOKIE = new CustomItem(Material.COOKIE, "&6Galleta del futuro", "", "&a&oTe habla sobre tu futuro :o");
+	public static final ItemStack DIET_COOKIE = new CustomItem(Material.COOKIE, "&6Galleta dietetica", "", "&aUna galleta muy ligera.");
 	public static final ItemStack BEEF_JERKY = new CustomItem(Material.COOKED_BEEF, "&6Carne chida", "", "&a&oSaturandote");
 	public static final ItemStack MAGIC_SUGAR = new CustomItem(Material.SUGAR, "&6Azucar magica", "", "&a&oSiente el poder de la diabetes!");
 	public static final ItemStack MONSTER_JERKY = new CustomItem(Material.ROTTEN_FLESH, "&6Carne mounstruosa", "", "&a&oNo más hambre por un buen tiempo");
@@ -126,11 +130,20 @@ public class SlimefunItems {
 	public static final ItemStack EASTER_CARROT_PIE = new CustomItem(Material.PUMPKIN_PIE, "&6Carrot Pie");
 	
 	/*		 Weapons 		*/
-	public static final ItemStack GRANDMAS_WALKING_STICK = new CustomItem(Material.STICK, "&7Bastón de la abuela", 0, new String[0], new String[] {"KNOCKBACK-2"});
-	public static final ItemStack GRANDPAS_WALKING_STICK = new CustomItem(Material.STICK, "&7Bastón de la abuela", 0, new String[0], new String[] {"KNOCKBACK-5"});
+	public static final ItemStack GRANDMAS_WALKING_STICK = new CustomItem(Material.STICK, "&7Bastón de la abuela");
+	public static final ItemStack GRANDPAS_WALKING_STICK = new CustomItem(Material.STICK, "&7Bastón de la abuela");
 	public static final ItemStack SWORD_OF_BEHEADING = new CustomItem(Material.IRON_SWORD, "&6Espada de decapitación", "&7Beheading II", "", "&rTiene la oportunidad de decapitar a los mobs", "&r(incluso una mayor probabilidad de esqueletos de Wither)");
-	public static final ItemStack BLADE_OF_VAMPIRES = new CustomItem(Material.GOLDEN_SWORD, "&cEspada vampírica", 0, new String[] {"&7Life Steal I", "", "&rCada vez que atacas algo", "&rtienes un 45% de posibilidades de", "&rrecuperar 2 corazones de tu salud"}, new String[] {"FIRE_ASPECT-2", "DURABILITY-4", "DAMAGE_ALL-2"});
+	public static final ItemStack BLADE_OF_VAMPIRES = new CustomItem(Material.GOLDEN_SWORD, "&cEspada vampírica");
 	public static final ItemStack SEISMIC_AXE = new CustomItem(Material.IRON_AXE, "&aHacha sísmica", "", "&7&oUn terremoto portable...", "", "&7&eClick Derecho&7 para usar");
+	
+	static {
+		GRANDMAS_WALKING_STICK.addUnsafeEnchantment(Enchantment.KNOCKBACK, 2);
+		GRANDPAS_WALKING_STICK.addUnsafeEnchantment(Enchantment.KNOCKBACK, 5);
+		
+		BLADE_OF_VAMPIRES.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 2);
+		BLADE_OF_VAMPIRES.addUnsafeEnchantment(Enchantment.DURABILITY, 4);
+		BLADE_OF_VAMPIRES.addUnsafeEnchantment(Enchantment.DAMAGE_ALL, 2);
+	}
 	
 	/*		Bows		*/
 	public static final ItemStack EXPLOSIVE_BOW = new CustomItem(Material.BOW, "&cArco explosivo", "&rCualquier flecha disparada usando este arco", "&rlanzará a los enemigos golpeados al aire");
@@ -140,58 +153,139 @@ public class SlimefunItems {
 	public static final ItemStack AUTO_SMELT_PICKAXE = new CustomItem(Material.DIAMOND_PICKAXE, "&6Pico de fundición", "&c&lAuto-Smelting", "", "&9Funciona con fortuna");
 	public static final ItemStack LUMBER_AXE = new CustomItem(Material.DIAMOND_AXE, "&6Hacha deforástica", "&a&oCorta todo el árbol...");
 	public static final ItemStack PICKAXE_OF_CONTAINMENT = new CustomItem(Material.GOLDEN_PICKAXE, "&cPico de contención", "", "&9Te permite picar spawners...");
-	public static final ItemStack HERCULES_PICKAXE = new CustomItem(Material.IRON_PICKAXE, "&9Pico de Hércules", 0, new String[] {"", "&rTan poderoso que", "&raplasta todos los minerales extraídos", "&ren polvo..."}, new String[] {"DURABILITY-2", "DIG_SPEED-4"});
+	public static final ItemStack HERCULES_PICKAXE = new CustomItem(Material.IRON_PICKAXE, "&9Pico de Hércules","", "&rTan poderoso que", "&raplasta todos los minerales extraídos", "&ren polvo...");
+	public static final ItemStack EXPLOSIVE_SHOVEL = new CustomItem(Material.DIAMOND_SHOVEL, "&ePala explosiva", "", "&rTe permite minar un poco", "&rde bloques a la vez...");
 	public static final ItemStack EXPLOSIVE_PICKAXE = new CustomItem(Material.DIAMOND_PICKAXE, "&ePico Explosivo", "", "&rTe permite minar un poco", "&rde bloques a la vez...", "", "&9Funciona con fortuna");
 	public static final ItemStack PICKAXE_OF_THE_SEEKER = new CustomItem(Material.DIAMOND_PICKAXE, "&aPico del buscador", "&rSiempre te indicará el mineral más cercano", "&rpero podría dañarse al hacerlo", "", "&7&eClick Derecho&7 ser señalado al mineral más cercano");
-	public static final ItemStack COBALT_PICKAXE = new CustomItem(Material.IRON_PICKAXE, "&9Pico de cobalto", 0, new String[0], new String[] {"DURABILITY-3", "DIG_SPEED-6"});
+	public static final ItemStack COBALT_PICKAXE = new CustomItem(Material.IRON_PICKAXE, "&9Pico de cobalto");
 	public static final ItemStack PICKAXE_OF_VEIN_MINING = new CustomItem(Material.DIAMOND_PICKAXE, "&ePico de vetas minerales", "", "&rEste pico se cavará", "&rtoda la veta del mineral...");
-
+	
+	static {
+		HERCULES_PICKAXE.addUnsafeEnchantment(Enchantment.DURABILITY, 5);
+		HERCULES_PICKAXE.addUnsafeEnchantment(Enchantment.DIG_SPEED, 3);
+		
+		COBALT_PICKAXE.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
+		COBALT_PICKAXE.addUnsafeEnchantment(Enchantment.DIG_SPEED, 6);
+	}
+	
 	/*		 Armor 		*/
 	public static final ItemStack GLOWSTONE_HELMET = new CustomArmor(new CustomItem(Material.LEATHER_HELMET, "&e&lCasco de glowstone", "", "&a&o¡Brilla como el sol!", "", "&9+ Visión Nocturna"), Color.YELLOW);
 	public static final ItemStack GLOWSTONE_CHESTPLATE = new CustomArmor(new CustomItem(Material.LEATHER_CHESTPLATE, "&e&lPechera de glowstone", "", "&a&o¡Brilla como el sol!", "", "&9+ Visión Nocturna"), Color.YELLOW);
 	public static final ItemStack GLOWSTONE_LEGGINGS = new CustomArmor(new CustomItem(Material.LEATHER_LEGGINGS, "&e&lPantalones de glowstone", "", "&a&o¡Brilla como el sol!", "", "&9+ Visión Nocturna"), Color.YELLOW);
 	public static final ItemStack GLOWSTONE_BOOTS = new CustomArmor(new CustomItem(Material.LEATHER_BOOTS, "&e&lBotas de glowstone", "", "&a&o¡Brilla como el sol!", "", "&9+ Visión Nocturna"), Color.YELLOW);
+	
 	public static final ItemStack ENDER_HELMET = new CustomArmor(new CustomItem(Material.LEATHER_HELMET, "&5&lCasco del ender", "", "&a&o¡A veces está aquí, a veces allá!"), Color.fromRGB(28, 25, 112));
 	public static final ItemStack ENDER_CHESTPLATE = new CustomArmor(new CustomItem(Material.LEATHER_CHESTPLATE, "&5&lPechera del ender", "", "&a&o¡A veces está aquí, a veces allá!"), Color.fromRGB(28, 25, 112));
 	public static final ItemStack ENDER_LEGGINGS = new CustomArmor(new CustomItem(Material.LEATHER_LEGGINGS, "&5&lPantalones del ender", "", "&a&o¡A veces está aquí, a veces allá!"), Color.fromRGB(28, 25, 112));
 	public static final ItemStack ENDER_BOOTS = new CustomArmor(new CustomItem(Material.LEATHER_BOOTS, "&5&lBotas del ender", "", "&a&o¡A veces está aquí, a veces allá!", "" , "&9+ No Enderpearl Damage"), Color.fromRGB(28, 25, 112));
+	
 	public static final ItemStack SLIME_HELMET = new CustomArmor(new CustomItem(Material.LEATHER_HELMET, "&a&lCasco de Slime", "", "&a&oSe siente rebotable"), Color.LIME);
 	public static final ItemStack SLIME_CHESTPLATE = new CustomArmor(new CustomItem(Material.LEATHER_CHESTPLATE, "&a&lPechera de Slime", "", "&a&oSe siente rebotable"), Color.LIME);
 	public static final ItemStack SLIME_LEGGINGS = new CustomArmor(new CustomItem(Material.LEATHER_LEGGINGS, "&a&lPantalones de Slime", "", "&a&oSe siente rebotable", "", "&9+ Speed"), Color.LIME);
 	public static final ItemStack SLIME_BOOTS = new CustomArmor(new CustomItem(Material.LEATHER_BOOTS, "&a&lBotas de Slime", "", "&a&oSe siente rebotable", "", "&9+ Jump Boost", "&9+ No Fall Damage"), Color.LIME);
-	public static final ItemStack CACTUS_HELMET = new CustomArmor(new CustomItem(Material.LEATHER_HELMET, "&2Casco de cactus", 0, new String[0], new String[] {"THORNS-3", "DURABILITY-5"}), Color.GREEN);
-	public static final ItemStack CACTUS_CHESTPLATE = new CustomArmor(new CustomItem(Material.LEATHER_CHESTPLATE, "&2Pechera de cactus", 0, new String[0], new String[] {"THORNS-3", "DURABILITY-5"}), Color.GREEN);
-	public static final ItemStack CACTUS_LEGGINGS = new CustomArmor(new CustomItem(Material.LEATHER_LEGGINGS, "&2Pantalones de cactus", 0, new String[0], new String[] {"THORNS-3", "DURABILITY-5"}), Color.GREEN);
-	public static final ItemStack CACTUS_BOOTS = new CustomArmor(new CustomItem(Material.LEATHER_BOOTS, "&2Botas de cactus", 0, new String[0], new String[] {"THORNS-3", "DURABILITY-5"}), Color.GREEN);
-	public static final ItemStack DAMASCUS_STEEL_HELMET = new CustomItem(Material.IRON_HELMET, "&7Casco de Acero damasco", new String[] {"DURABILITY-4", "PROTECTION_ENVIRONMENTAL-4"}, 0);
-	public static final ItemStack DAMASCUS_STEEL_CHESTPLATE = new CustomItem(Material.IRON_CHESTPLATE, "&7Pechera de Acero damasco", new String[] {"DURABILITY-4", "PROTECTION_ENVIRONMENTAL-4"}, 0);
-	public static final ItemStack DAMASCUS_STEEL_LEGGINGS = new CustomItem(Material.IRON_LEGGINGS, "&7Pantalones de Acero damasco", new String[] {"DURABILITY-4", "PROTECTION_ENVIRONMENTAL-4"}, 0);
-	public static final ItemStack DAMASCUS_STEEL_BOOTS = new CustomItem(Material.IRON_BOOTS, "&7Botas de Acero damasco", new String[] {"DURABILITY-4", "PROTECTION_ENVIRONMENTAL-4"}, 0);
-	public static final ItemStack REINFORCED_ALLOY_HELMET = new CustomItem(Material.IRON_HELMET, "&bCasco reforzado", new String[] {"DURABILITY-9", "PROTECTION_ENVIRONMENTAL-9"}, 0);
-	public static final ItemStack REINFORCED_ALLOY_CHESTPLATE = new CustomItem(Material.IRON_CHESTPLATE, "&bPechera reforzado", new String[] {"DURABILITY-9", "PROTECTION_ENVIRONMENTAL-9"}, 0);
-	public static final ItemStack REINFORCED_ALLOY_LEGGINGS = new CustomItem(Material.IRON_LEGGINGS, "&bPantalones reforzado", new String[] {"DURABILITY-9", "PROTECTION_ENVIRONMENTAL-9"}, 0);
-	public static final ItemStack REINFORCED_ALLOY_BOOTS = new CustomItem(Material.IRON_BOOTS, "&bBotas reforzado", new String[] {"DURABILITY-9", "PROTECTION_ENVIRONMENTAL-9"}, 0);
+	
+	public static final ItemStack CACTUS_HELMET = new CustomArmor(new CustomItem(Material.LEATHER_HELMET, "&2Casco de cactus", Color.GREEN);
+	public static final ItemStack CACTUS_CHESTPLATE = new CustomArmor(new CustomItem(Material.LEATHER_CHESTPLATE, "&2Pechera de cactus", Color.GREEN);
+	public static final ItemStack CACTUS_LEGGINGS = new CustomArmor(new CustomItem(Material.LEATHER_LEGGINGS, "&2Pantalones de cactus", Color.GREEN);
+	public static final ItemStack CACTUS_BOOTS = new CustomArmor(new CustomItem(Material.LEATHER_BOOTS, "&2Botas de cactus", Color.GREEN);
+	
+	public static final ItemStack DAMASCUS_STEEL_HELMET = new CustomItem(Material.IRON_HELMET, "&7Casco de Acero damasco");
+	public static final ItemStack DAMASCUS_STEEL_CHESTPLATE = new CustomItem(Material.IRON_CHESTPLATE, "&7Pechera de Acero damasco");
+	public static final ItemStack DAMASCUS_STEEL_LEGGINGS = new CustomItem(Material.IRON_LEGGINGS, "&7Pantalones de Acero damasco");
+	public static final ItemStack DAMASCUS_STEEL_BOOTS = new CustomItem(Material.IRON_BOOTS, "&7Botas de Acero damasco");
+	
+	public static final ItemStack REINFORCED_ALLOY_HELMET = new CustomItem(Material.IRON_HELMET, "&bCasco reforzado");
+	public static final ItemStack REINFORCED_ALLOY_CHESTPLATE = new CustomItem(Material.IRON_CHESTPLATE, "&bPechera reforzado");
+	public static final ItemStack REINFORCED_ALLOY_LEGGINGS = new CustomItem(Material.IRON_LEGGINGS, "&bPantalones reforzado");
+	public static final ItemStack REINFORCED_ALLOY_BOOTS = new CustomItem(Material.IRON_BOOTS, "&bBotas reforzado");
+	
 	public static final ItemStack SCUBA_HELMET = new CustomArmor(new CustomItem(Material.LEATHER_HELMET, "&cCasco de buceo", "", "&bTe permite respirar bajo el agua", "&4&oParte de traje de materiales peligrosos"), Color.ORANGE);
 	public static final ItemStack HAZMATSUIT_CHESTPLATE = new CustomArmor(new CustomItem(Material.LEATHER_CHESTPLATE, "&cTraje de materiales peligrosos", "", "&bTe permite caminar a través del fuego", "&4&oParte de traje de materiales peligrosos"), Color.ORANGE);
 	public static final ItemStack HAZMATSUIT_LEGGINGS = new CustomArmor(new CustomItem(Material.LEATHER_LEGGINGS, "&cPantalones del traje de materiales peligrosos", "", "&4&oParte de traje de materiales peligrosos"), Color.ORANGE);
 	public static final ItemStack RUBBER_BOOTS = new CustomArmor(new CustomItem(Material.LEATHER_BOOTS, "&cRubber Botas", "", "&4&oParte de traje de materiales peligrosos"), Color.BLACK);
-	public static final ItemStack GILDED_IRON_HELMET = new CustomItem(Material.GOLDEN_HELMET, "&6Casco de Hierro dorado", new String[] {"DURABILITY-6", "PROTECTION_ENVIRONMENTAL-8"}, 0);
-	public static final ItemStack GILDED_IRON_CHESTPLATE = new CustomItem(Material.GOLDEN_CHESTPLATE, "&6Pechera de Hierro dorado", new String[] {"DURABILITY-6", "PROTECTION_ENVIRONMENTAL-8"}, 0);
-	public static final ItemStack GILDED_IRON_LEGGINGS = new CustomItem(Material.GOLDEN_LEGGINGS, "&6Pantalones de Hierro dorado", new String[] {"DURABILITY-6", "PROTECTION_ENVIRONMENTAL-8"}, 0);
-	public static final ItemStack GILDED_IRON_BOOTS = new CustomItem(Material.GOLDEN_BOOTS, "&6Botas de Hierro dorado", new String[] {"DURABILITY-6", "PROTECTION_ENVIRONMENTAL-8"}, 0);
-	public static final ItemStack GOLD_HELMET = new CustomItem(Material.GOLDEN_HELMET, "&6Casco de oro puro", 0, new String[] {"&912-Quilates"}, new String[] {"DURABILITY-10"});
-	public static final ItemStack GOLD_CHESTPLATE = new CustomItem(Material.GOLDEN_CHESTPLATE, "&6Pechera de oro puro", 0, new String[] {"&912-Quilates"}, new String[] {"DURABILITY-10"});
-	public static final ItemStack GOLD_LEGGINGS = new CustomItem(Material.GOLDEN_LEGGINGS, "&6Pantalones de oro puro", 0, new String[] {"&912-Quilates"}, new String[] {"DURABILITY-10"});
-	public static final ItemStack GOLD_BOOTS = new CustomItem(Material.GOLDEN_BOOTS, "&6Botas de oro puro", 0, new String[] {"&912-Quilates"}, new String[] {"DURABILITY-10"});
-	public static final ItemStack SLIME_HELMET_STEEL = new CustomItem(Material.IRON_HELMET, "&a&lCasco de slime", 0, new String[] {"&7&oReforzado", "", "&a&oSe siente rebotable"}, new String[] {"DURABILITY-4", "PROTECTION_ENVIRONMENTAL-2"});
-	public static final ItemStack SLIME_CHESTPLATE_STEEL = new CustomItem(Material.IRON_CHESTPLATE, "&a&lPechera de slime", 0, new String[] {"&7&oReforzado", "", "&a&oSe siente rebotable"}, new String[] {"DURABILITY-4", "PROTECTION_ENVIRONMENTAL-2"});
-	public static final ItemStack SLIME_LEGGINGS_STEEL = new CustomItem(Material.IRON_LEGGINGS, "&a&lPantalones de slime", 0, new String[] {"&7&oReforzado", "", "&a&oSe siente rebotable", "", "&9+ Speed"}, new String[] {"DURABILITY-4", "PROTECTION_ENVIRONMENTAL-2"});
-	public static final ItemStack SLIME_BOOTS_STEEL = new CustomItem(Material.IRON_BOOTS, "&a&lBotas de slime", 0, new String[] {"&7&oReforzado", "", "&a&oSe siente rebotable", "", "&9+ Jump Boost", "&9+ No Fall Damage"}, new String[] {"DURABILITY-4", "PROTECTION_ENVIRONMENTAL-2"});
-	public static final ItemStack BOOTS_OF_THE_STOMPER = new CustomArmor(new CustomItem(Material.LEATHER_BOOTS, "&bBotas of the Stomper", "", "&9All Fall Damage you receive", "&9will be applied to nearby Mobs/Players", "", "&9+ No Fall Damage"), Color.AQUA);
-	public static final ItemStack HEAVY_METAL_HELMET = new CustomItem(Material.IRON_HELMET, "&cCasco pesado", 0, new String[] {"", "&9+ Fuerza", "&9+ Lentitud"}, new String[] {"DURABILITY-10", "PROTECTION_ENVIRONMENTAL-10"});
-	public static final ItemStack HEAVY_METAL_CHESTPLATE = new CustomItem(Material.IRON_CHESTPLATE, "&cPechera pesada", 0, new String[] {"", "&9+ Fuerza", "&9+ Lentitud"}, new String[] {"DURABILITY-10", "PROTECTION_ENVIRONMENTAL-10"});
-	public static final ItemStack HEAVY_METAL_LEGGINGS = new CustomItem(Material.IRON_LEGGINGS, "&cPantalones pesados", 0, new String[] {"", "&9+ Fuerza", "&9+ Lentitud"}, new String[] {"DURABILITY-10", "PROTECTION_ENVIRONMENTAL-10"});
-	public static final ItemStack HEAVY_METAL_BOOTS = new CustomItem(Material.IRON_BOOTS, "&cBotas pesadas", 0, new String[] {"", "&9+ Fuerza", "&9+ Lentitud"}, new String[] {"DURABILITY-10", "PROTECTION_ENVIRONMENTAL-10"});
+	
+	public static final ItemStack GILDED_IRON_HELMET = new CustomItem(Material.GOLDEN_HELMET, "&6Casco de Hierro dorado");
+	public static final ItemStack GILDED_IRON_CHESTPLATE = new CustomItem(Material.GOLDEN_CHESTPLATE, "&6Pechera de Hierro dorado");
+	public static final ItemStack GILDED_IRON_LEGGINGS = new CustomItem(Material.GOLDEN_LEGGINGS, "&6Pantalones de Hierro dorado");
+	public static final ItemStack GILDED_IRON_BOOTS = new CustomItem(Material.GOLDEN_BOOTS, "&6Botas de Hierro dorado");
+	
+	public static final ItemStack GOLD_HELMET = new CustomItem(Material.GOLDEN_HELMET, "&6Casco de oro puro");
+	public static final ItemStack GOLD_CHESTPLATE = new CustomItem(Material.GOLDEN_CHESTPLATE, "&6Pechera de oro puro");
+	public static final ItemStack GOLD_LEGGINGS = new CustomItem(Material.GOLDEN_LEGGINGS, "&6Pantalones de oro puro");
+	public static final ItemStack GOLD_BOOTS = new CustomItem(Material.GOLDEN_BOOTS, "&6Botas de oro puro");
+	
+	public static final ItemStack SLIME_HELMET_STEEL = new CustomItem(Material.IRON_HELMET, "&a&lCasco de slime","&7&oReforzado", "", "&a&oSe siente rebotable");
+	public static final ItemStack SLIME_CHESTPLATE_STEEL = new CustomItem(Material.IRON_CHESTPLATE, "&a&lPechera de slime", "&7&oReforzado", "", "&a&oSe siente rebotable");
+	public static final ItemStack SLIME_LEGGINGS_STEEL = new CustomItem(Material.IRON_LEGGINGS, "&a&lPantalones de slime","&7&oReforzado", "", "&a&oSe siente rebotable", "", "&9+ Speed");
+	public static final ItemStack SLIME_BOOTS_STEEL = new CustomItem(Material.IRON_BOOTS, "&a&lBotas de slime", "&7&oReforzado", "", "&a&oSe siente rebotable", "", "&9+ Jump Boost", "&9+ Sin daño de caída");
+		
+	public static final ItemStack HEAVY_METAL_HELMET = new CustomItem(Material.IRON_HELMET, "&cCasco pesado", "", "&9+ Fuerza", "&9+ Lentitud");
+	public static final ItemStack HEAVY_METAL_CHESTPLATE = new CustomItem(Material.IRON_CHESTPLATE, "&cPechera pesada", "", "&9+ Fuerza", "&9+ Lentitud");
+	public static final ItemStack HEAVY_METAL_LEGGINGS = new CustomItem(Material.IRON_LEGGINGS, "&cPantalones pesados", "", "&9+ Fuerza", "&9+ Lentitud");
+	public static final ItemStack HEAVY_METAL_BOOTS = new CustomItem(Material.IRON_BOOTS, "&cBotas pesadas", "", "&9+ Fuerza", "&9+ Lentitud");
+
+	public static final ItemStack BOOTS_OF_THE_STOMPER = new CustomArmor(new CustomItem(Material.LEATHER_BOOTS, "&bBotas del pisotón", "", "&9Todo el daño de caida que recibes", "&9se aplicará a los mobs/jugadores cercanos", "", "&9+ Sin daño de caída"), Color.AQUA);
+
+	static {
+		Map<Enchantment, Integer> cactus = new HashMap<>();
+		cactus.put(Enchantment.THORNS, 3);
+		cactus.put(Enchantment.DURABILITY, 6);
+		
+		CACTUS_HELMET.addUnsafeEnchantments(cactus);
+		CACTUS_CHESTPLATE.addUnsafeEnchantments(cactus);
+		CACTUS_LEGGINGS.addUnsafeEnchantments(cactus);
+		CACTUS_BOOTS.addUnsafeEnchantments(cactus);
+		
+		Map<Enchantment, Integer> damascus = new HashMap<>();
+		damascus.put(Enchantment.DURABILITY, 5);
+		damascus.put(Enchantment.PROTECTION_ENVIRONMENTAL, 5);
+		
+		DAMASCUS_STEEL_HELMET.addUnsafeEnchantments(damascus);
+		DAMASCUS_STEEL_CHESTPLATE.addUnsafeEnchantments(damascus);
+		DAMASCUS_STEEL_LEGGINGS.addUnsafeEnchantments(damascus);
+		DAMASCUS_STEEL_BOOTS.addUnsafeEnchantments(damascus);
+		
+		Map<Enchantment, Integer> reinforced = new HashMap<>();
+		reinforced.put(Enchantment.DURABILITY, 9);
+		reinforced.put(Enchantment.PROTECTION_ENVIRONMENTAL, 9);
+		
+		REINFORCED_ALLOY_HELMET.addUnsafeEnchantments(reinforced);
+		REINFORCED_ALLOY_CHESTPLATE.addUnsafeEnchantments(reinforced);
+		REINFORCED_ALLOY_LEGGINGS.addUnsafeEnchantments(reinforced);
+		REINFORCED_ALLOY_BOOTS.addUnsafeEnchantments(reinforced);
+		
+		Map<Enchantment, Integer> gilded = new HashMap<>();
+		gilded.put(Enchantment.DURABILITY, 6);
+		gilded.put(Enchantment.PROTECTION_ENVIRONMENTAL, 8);
+		
+		GILDED_IRON_HELMET.addUnsafeEnchantments(gilded);
+		GILDED_IRON_CHESTPLATE.addUnsafeEnchantments(gilded);
+		GILDED_IRON_LEGGINGS.addUnsafeEnchantments(gilded);
+		GILDED_IRON_BOOTS.addUnsafeEnchantments(gilded);
+		
+		GOLD_HELMET.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
+		GOLD_CHESTPLATE.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
+		GOLD_LEGGINGS.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
+		GOLD_BOOTS.addUnsafeEnchantment(Enchantment.DURABILITY, 10);
+		
+		Map<Enchantment, Integer> slime = new HashMap<>();
+		slime.put(Enchantment.DURABILITY, 4);
+		slime.put(Enchantment.PROTECTION_ENVIRONMENTAL, 2);
+		
+		SLIME_HELMET_STEEL.addUnsafeEnchantments(slime);
+		SLIME_CHESTPLATE_STEEL.addUnsafeEnchantments(slime);
+		SLIME_LEGGINGS_STEEL.addUnsafeEnchantments(slime);
+		SLIME_BOOTS_STEEL.addUnsafeEnchantments(slime);
+		
+		Map<Enchantment, Integer> heavy = new HashMap<>();
+		heavy.put(Enchantment.DURABILITY, 10);
+		heavy.put(Enchantment.PROTECTION_ENVIRONMENTAL, 10);
+		
+		HEAVY_METAL_HELMET.addUnsafeEnchantments(heavy);
+		HEAVY_METAL_CHESTPLATE.addUnsafeEnchantments(heavy);
+		HEAVY_METAL_LEGGINGS.addUnsafeEnchantments(heavy);
+		HEAVY_METAL_BOOTS.addUnsafeEnchantments(heavy);
+	}
 
 /*		 Misc 		*/
 	public static final ItemStack MAGIC_LUMP_1 = new CustomItem(Material.GOLD_NUGGET, "&6Bulto magico &7- &eI", "", "&c&oNivel: I");
@@ -226,7 +320,7 @@ public class SlimefunItems {
 	public static final ItemStack PURE_ORE_CLUSTER = new CustomItem(Material.GUNPOWDER, "&6Pedazo de mineral puro");
 	public static final ItemStack SMALL_URANIUM = new CustomItem(getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzhiMjlhZmE2ZDZkYzkyM2UyZTEzMjRiZjgxOTI3NTBmN2JkYmRkYzY4OTYzMmEyYjZjMThkOWZlN2E1ZSJ9fX0="), "&cPequeño trozo de Uranium", "", "&eNivel de radiación: MODERADO", "&4&oTraje de materiales peligrosos requerido");
 	public static final ItemStack TINY_URANIUM = new CustomItem(getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzhiMjlhZmE2ZDZkYzkyM2UyZTEzMjRiZjgxOTI3NTBmN2JkYmRkYzY4OTYzMmEyYjZjMThkOWZlN2E1ZSJ9fX0="), "&cPequeña pila de Uranium", "", "&cNivel de radiación: LOW", "&4&oTraje de materiales peligrosos sin requerir");
-	
+
 	public static final ItemStack MAGNET = new CustomItem(getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYWJhOGViYzRjNmE4MTczMDk0NzQ5OWJmN2UxZDVlNzNmZWQ2YzFiYjJjMDUxZTk2ZDM1ZWIxNmQyNDYxMGU3In19fQ=="), "&cMagneto");
 	public static final ItemStack NECROTIC_SKULL = new CustomItem(Material.WITHER_SKELETON_SKULL, "&cCabeza necrótica");
 	public static final ItemStack ESSENCE_OF_AFTERLIFE = new CustomItem(Material.GUNPOWDER, "&4Escencia de la próxima vida");
@@ -245,21 +339,20 @@ public class SlimefunItems {
 	public static final ItemStack ANCIENT_ALTAR = new CustomItem(Material.ENCHANTING_TABLE, "&dAltar antiguo", "", "&5Bloque para el", "&5proceso de crafteos magicos");
 	public static final ItemStack COPPER_WIRE = new CustomItem(Material.STRING, "&6Alambre de cobre", "", "&6Componente crucial en módulos eléctricos.");
 
-	
 	public static final ItemStack RAINBOW_WOOL = new CustomItem(Material.WHITE_WOOL, "&5Lana arcoíris", "", "&d¡Cambia de colores infinitamente!");
 	public static final ItemStack RAINBOW_GLASS = new CustomItem(Material.WHITE_STAINED_GLASS, "&5Cristal arcoíris", "", "&d¡Cambia de colores infinitamente!");
 	public static final ItemStack RAINBOW_CLAY = new CustomItem(Material.WHITE_TERRACOTTA, "&5Arcilla arcoíris", "", "&d¡Cambia de colores infinitamente!");
 	public static final ItemStack RAINBOW_GLASS_PANE = new CustomItem(Material.WHITE_STAINED_GLASS_PANE, "&5Panel de cristal arcoíris", "", "&d¡Cambia de colores infinitamente!");
 	
-	public static final ItemStack RAINBOW_WOOL_XMAS = new CustomItem(Material.WHITE_WOOL, "&5Rainbow Wool &7(Christmas)", "", Christmas.color("< Christmas Edition >"));
-	public static final ItemStack RAINBOW_GLASS_XMAS = new CustomItem(Material.WHITE_STAINED_GLASS, "&5Rainbow Glass &7(Christmas)", "", Christmas.color("< Christmas Edition >"));
-	public static final ItemStack RAINBOW_CLAY_XMAS = new CustomItem(Material.WHITE_TERRACOTTA, "&5Rainbow Clay &7(Christmas)", "", Christmas.color("< Christmas Edition >"));
-	public static final ItemStack RAINBOW_GLASS_PANE_XMAS = new CustomItem(Material.WHITE_STAINED_GLASS_PANE, "&5Rainbow Glass Pane &7(Christmas)", "", Christmas.color("< Christmas Edition >"));
+	public static final ItemStack RAINBOW_WOOL_XMAS = new CustomItem(Material.WHITE_WOOL, "&5Lana arcoíris &7(Navidad)", "", Christmas.color("< Edición Navidad >"));
+	public static final ItemStack RAINBOW_GLASS_XMAS = new CustomItem(Material.WHITE_STAINED_GLASS, "&5Cristal arcoíris &7(Navidad)", "", Christmas.color("< Edición Navidad >"));
+	public static final ItemStack RAINBOW_CLAY_XMAS = new CustomItem(Material.WHITE_TERRACOTTA, "&5Arcilla arcoíris &7(Navidad)", "", Christmas.color("< Edición Navidad >"));
+	public static final ItemStack RAINBOW_GLASS_PANE_XMAS = new CustomItem(Material.WHITE_STAINED_GLASS_PANE, "&5Panel de cristal arcoíris &7(Navidad)", "", Christmas.color("< Edición Navidad >"));
 	
-	public static final ItemStack RAINBOW_WOOL_VALENTINE = new CustomItem(Material.PINK_WOOL, "&5Rainbow Wool &7(Valentine's Day)", "", "&d< Valentine's Day Edition >");
-	public static final ItemStack RAINBOW_GLASS_VALENTINE = new CustomItem(Material.PINK_STAINED_GLASS, "&5Rainbow Glass &7(Valentine's Day)", "", "&d< Valentine's Day Edition >");
-	public static final ItemStack RAINBOW_CLAY_VALENTINE = new CustomItem(Material.PINK_TERRACOTTA, "&5Rainbow Clay &7(Valentine's Day)", "", "&d< Valentine's Day Edition >");
-	public static final ItemStack RAINBOW_GLASS_PANE_VALENTINE = new CustomItem(Material.PINK_STAINED_GLASS_PANE, "&5Rainbow Glass Pane &7(Valentine's Day)", "", "&d< Valentine's Day Edition >");
+	public static final ItemStack RAINBOW_WOOL_VALENTINE = new CustomItem(Material.PINK_WOOL, "&5Lana arcoíris &7(Día de San Valentín)", "", "&d< Edición Día de San Valentín >");
+	public static final ItemStack RAINBOW_GLASS_VALENTINE = new CustomItem(Material.PINK_STAINED_GLASS, "&5Cristal arcoíris &7(Día de San Valentín)", "", "&d< Edición Día de San Valentín >");
+	public static final ItemStack RAINBOW_CLAY_VALENTINE = new CustomItem(Material.PINK_TERRACOTTA, "&5Arcilla arcoíris &7(Día de San Valentín)", "", "&d< Edición Día de San Valentín >");
+	public static final ItemStack RAINBOW_GLASS_PANE_VALENTINE = new CustomItem(Material.PINK_STAINED_GLASS_PANE, "&5Panel de cristal arcoíris &7(Día de San Valentín)", "", "&d< Edición Día de San Valentín >");
     
 	/*		 Ingots 		*/
 	public static final ItemStack COPPER_INGOT = new InsanityItem(Material.BRICK, "&bLingote de Cobre",3);
@@ -362,9 +455,15 @@ public class SlimefunItems {
 	
 	/*		Staves		*/
 	public static final ItemStack STAFF_ELEMENTAL = new CustomItem(Material.STICK, "&6Cetro Elemental");
-	public static final ItemStack STAFF_WIND = new CustomItem(Material.STICK, "&6Cetro Elemental &7- &b&oViento", 0, new String[] {"", "&7Elemento: &b&oViento", "", "&7&eClick Derecho&7 para lanzarse hacia adelante"}, new String[] {"LUCK-1"});
-	public static final ItemStack STAFF_FIRE = new CustomItem(Material.STICK, "&6Cetro Elemental &7- &c&oFuego", 0, new String[] {"", "&7Elemento: &c&oFuego"}, new String[] {"FIRE_ASPECT-5"});
-	public static final ItemStack STAFF_WATER = new CustomItem(Material.STICK, "&6Cetro Elemental &7- &1&oAgua", 0, new String[] {"", "&7Elemento: &1&oAgua", "", "&7&eClick Derecho&7 para extinguirte"}, new String[] {"WATER_WORKER-1"});
+	public static final ItemStack STAFF_WIND = new CustomItem(Material.STICK, "&6Cetro Elemental &7- &b&oViento", "", "&7Elemento: &b&oViento", "", "&7&eClick Derecho&7 para lanzarse hacia adelante");
+	public static final ItemStack STAFF_FIRE = new CustomItem(Material.STICK, "&6Cetro Elemental &7- &c&oFuego", "", "&7Elemento: &c&oFuego");
+	public static final ItemStack STAFF_WATER = new CustomItem(Material.STICK, "&6Cetro Elemental &7- &1&oAgua", "", "&7Elemento: &1&oAgua", "", "&7&eClick Derecho&7 para extinguirte");
+
+	static {
+		STAFF_WIND.addUnsafeEnchantment(Enchantment.LUCK, 1);
+		STAFF_FIRE.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 5);
+		STAFF_WATER.addUnsafeEnchantment(Enchantment.WATER_WORKER, 1);
+	}
 	
 	/*		 Machines 		*/
 	public static final ItemStack GRIND_STONE = new CustomItem(Material.DISPENSER, "&bPiedra de amolar", "", "&a&oMuela los artículos para una mayor eficiencia");
@@ -656,11 +755,11 @@ public class SlimefunItems {
 	
 	public static final ItemStack ELYTRA = new ItemStack(Material.ELYTRA);
 	public static final ItemStack ELYTRA_SCALE = new CustomItem(Material.FEATHER, "&bEscala Eyltra");
-	public static final ItemStack INFUSED_ELYTRA = new CustomItem(new CustomItem(ELYTRA, "&5Elytra Infundido"), new String[] {"MENDING-1"});
+	public static final ItemStack INFUSED_ELYTRA = new CustomItem(ELYTRA, "&5Elytra Infundido");
 	public static final ItemStack SOULBOUND_ELYTRA = new CustomItem(ELYTRA, "&cElytra unión de alma");
 
 	static {
-		INFUSED_ELYTRA.addEnchantment(Enchantment.MENDING, 1);
+		INFUSED_ELYTRA.addUnsafeEnchantment(Enchantment.MENDING, 1);
 	}
 	
 	// ChestTerminal Addon

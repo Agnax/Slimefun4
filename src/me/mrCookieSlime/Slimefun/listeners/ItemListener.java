@@ -71,10 +71,8 @@ public class ItemListener implements Listener {
 
 	@EventHandler
 	public void onIgnitionChamberItemMove(InventoryMoveItemEvent e) {
-		if (e.getInitiator().getHolder() instanceof Hopper) {
-			if (BlockStorage.check(((Hopper) e.getInitiator().getHolder()).getBlock(), "IGNITION_CHAMBER")) {
-				e.setCancelled(true);
-			}
+		if (e.getInitiator().getHolder() instanceof Hopper && BlockStorage.check(((Hopper) e.getInitiator().getHolder()).getBlock(), "IGNITION_CHAMBER")) {
+			e.setCancelled(true);
 		}
 	}
 
@@ -331,7 +329,8 @@ public class ItemListener implements Listener {
 				}
 				else if (item.getType() == Material.POTION) {
 					SlimefunItem sfItem = SlimefunItem.getByItem(item);
-					if (sfItem != null && sfItem instanceof Juice) {
+					
+					if (sfItem instanceof Juice) {
 						// Fix for Saturation on potions is no longer working
 						for (PotionEffect effect : ((PotionMeta) item.getItemMeta()).getCustomEffects()) {
 							if (effect.getType().equals(PotionEffectType.SATURATION)) {
@@ -403,10 +402,10 @@ public class ItemListener implements Listener {
 			}
 		}
 		else if (e.getEntity() instanceof Wither) {
-			SlimefunItem item = BlockStorage.check(e.getBlock());
-			if (item != null) {
-				if (item.getID().equals("WITHER_PROOF_OBSIDIAN")) e.setCancelled(true);
-				else if (item.getID().equals("WITHER_PROOF_GLASS")) e.setCancelled(true);
+			String id = BlockStorage.checkID(e.getBlock());
+			if (id != null) {
+				if (id.equals("WITHER_PROOF_OBSIDIAN")) e.setCancelled(true);
+				else if (id.equals("WITHER_PROOF_GLASS")) e.setCancelled(true);
 			}
 		}
 	}
@@ -416,11 +415,14 @@ public class ItemListener implements Listener {
 		if (e.getRawSlot() == 2 && e.getWhoClicked() instanceof Player && e.getInventory().getType() == InventoryType.ANVIL) {
 			ItemStack slot0 = e.getInventory().getContents()[0];
 			ItemStack slot1 = e.getInventory().getContents()[1];
+			
 			if (SlimefunManager.isItemSimiliar(slot0, SlimefunItems.ELYTRA, true)) return;
+			
 			if (SlimefunItem.getByItem(slot0) != null && !SlimefunItem.isDisabled(slot0)) {
 				e.setCancelled(true);
 				Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
-			} else if (SlimefunItem.getByItem(slot1) != null && !SlimefunItem.isDisabled(slot1)) {
+			} 
+			else if (SlimefunItem.getByItem(slot1) != null && !SlimefunItem.isDisabled(slot1)) {
 				e.setCancelled(true);
 				Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
 			}
@@ -429,7 +431,8 @@ public class ItemListener implements Listener {
 			if (SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(BookDesign.BOOK), true)) {
 				e.setCancelled(true);
 				Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
-			} else if (SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(BookDesign.CHEST), true)) {
+			} 
+			else if (SlimefunManager.isItemSimiliar(slot0, SlimefunGuide.getItem(BookDesign.CHEST), true)) {
 				e.setCancelled(true);
 				Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
 			}
@@ -437,7 +440,8 @@ public class ItemListener implements Listener {
 			if (SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(BookDesign.BOOK), true)) {
 				e.setCancelled(true);
 				Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
-			} else if (SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(BookDesign.CHEST), true)) {
+			} 
+			else if (SlimefunManager.isItemSimiliar(slot1, SlimefunGuide.getItem(BookDesign.CHEST), true)) {
 				e.setCancelled(true);
 				Messages.local.sendTranslation((Player) e.getWhoClicked(), "anvil.not-working", true);
 			}
@@ -447,9 +451,7 @@ public class ItemListener implements Listener {
 	@EventHandler (ignoreCancelled = true)
 	public void onPreBrew(InventoryClickEvent e) {
 		Inventory inventory = e.getInventory();
-		if (inventory instanceof BrewerInventory && inventory.getHolder() instanceof BrewingStand) {
-			if (e.getRawSlot() < inventory.getSize()) e.setCancelled(SlimefunItem.getByItem(e.getCursor()) != null);
-		}
+		if (inventory instanceof BrewerInventory && inventory.getHolder() instanceof BrewingStand && e.getRawSlot() < inventory.getSize()) e.setCancelled(SlimefunItem.getByItem(e.getCursor()) != null);
 	}
 
 }

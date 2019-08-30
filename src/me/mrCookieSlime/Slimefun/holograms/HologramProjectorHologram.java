@@ -17,22 +17,27 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.World.ArmorStandFactory;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 
-public class Projector {
+public final class HologramProjectorHologram {
 	
-	public static ArmorStand getArmorStand(Block projector) {
+	private HologramProjectorHologram() {}
+	
+	public static ArmorStand getArmorStand(Block projector, boolean createIfNoneExists) {
 		String nametag = BlockStorage.getLocationInfo(projector.getLocation(), "text");
-		double offset = Double.valueOf(BlockStorage.getLocationInfo(projector.getLocation(), "offset")) + 0.5;
+		double offset = Double.parseDouble(BlockStorage.getLocationInfo(projector.getLocation(), "offset"));
 		Location l = new Location(projector.getWorld(), projector.getX() + 0.5, projector.getY() + offset, projector.getZ() + 0.5);
 		
 		for (Entity n : l.getChunk().getEntities()) {
-			if (n instanceof ArmorStand) {
-				if (n.getCustomName() != null && n.getCustomName().equals(nametag) && l.distanceSquared(n.getLocation()) < 0.4D) return (ArmorStand) n;
-			}
+			if (n instanceof ArmorStand && n.getCustomName() != null && n.getCustomName().equals(nametag) && l.distanceSquared(n.getLocation()) < 0.4D) return (ArmorStand) n;
 		}
 		
 		ArmorStand hologram = ArmorStandFactory.createHidden(l);
 		hologram.setCustomName(nametag);
 		return hologram;
+	}
+	
+	public static void remove(Block b) {
+		ArmorStand hologram = getArmorStand(b, false);
+		if (hologram != null) hologram.remove();
 	}
 
 	public static void openEditor(Player p, final Block projector) {
@@ -43,7 +48,7 @@ public class Projector {
 			pl.closeInventory();
 			Messages.local.sendTranslation(pl, "machines.HOLOGRAM_PROJECTOR.enter-text", true);
 			MenuHelper.awaitChatInput(pl, (player, message) -> {
-				ArmorStand hologram = getArmorStand(projector);
+				ArmorStand hologram = getArmorStand(projector, true);
 				hologram.setCustomName(ChatColor.translateAlternateColorCodes('&', message));
 				BlockStorage.addBlockInfo(projector, "text", hologram.getCustomName());
 				openEditor(player, projector);
@@ -55,7 +60,7 @@ public class Projector {
 		menu.addItem(1, new CustomItem(new ItemStack(Material.CLOCK), "&7Altura: &e" + DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getLocationInfo(projector.getLocation(), "offset")) + 1.0D), "", "&rClick Izquierdo: &7+0.1", "&rClick Derecho: &7-0.1"));
 		menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
 			double offset = DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getLocationInfo(projector.getLocation(), "offset")) + (action.isRightClicked() ? -0.1F : 0.1F));
-			ArmorStand hologram = getArmorStand(projector);
+			ArmorStand hologram = getArmorStand(projector, true);
 			Location l = new Location(projector.getWorld(), projector.getX() + 0.5, projector.getY() + offset, projector.getZ() + 0.5);
 			hologram.teleport(l);
 			BlockStorage.addBlockInfo(projector, "offset", String.valueOf(offset));
