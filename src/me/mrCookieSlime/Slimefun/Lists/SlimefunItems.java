@@ -40,7 +40,7 @@ public class SlimefunItems {
 	public static final ItemStack PARACHUTE = new CustomArmor(new CustomItem(Material.LEATHER_CHESTPLATE, "&r&lParachute", "", "&7Mantén &eShift&7 para usar"), Color.WHITE);
 	public static final ItemStack GRAPPLING_HOOK = new CustomItem(Material.LEAD, "&6Gancho corto", "", "&7&eClick &7Derecho para usar");
 	public static final ItemStack SOLAR_HELMET = new CustomItem(Material.IRON_HELMET, "&bCasco Solar", "", "&a&oCarga tus items y armaduras");
-	public static final ItemStack CLOTH = new CustomItem(Material.PAPER, "&bTela");
+	public static final ItemStack CLOTH = new InsanityItem(Material.PAPER, "&bTela",2);
 	public static final ItemStack CAN = new CustomItem(getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOTRkYTk3ZjA4MGUzOTViODQyYzRjYzgyYTg0MDgyM2Q0ZGJkOGNhNjg4YTIwNjg1M2U1NzgzZTRiZmRjMDEyIn19fQ=="), "&rLata");
 	public static final ItemStack NIGHT_VISION_GOGGLES = new CustomArmor(new CustomItem(Material.LEATHER_HELMET, "&aGafas de visión nocturna", "", "&9+ Visión nocturna"), Color.BLACK);
 	public static final ItemStack FARMER_SHOES = new CustomArmor(new CustomItem(Material.LEATHER_BOOTS, "&eZapatos de granjero", "", "&6&oEvita que puedas pisotear tus cultivos."), Color.YELLOW);
@@ -298,15 +298,15 @@ public class SlimefunItems {
 	public static final ItemStack BASIC_CIRCUIT_BOARD = new CustomItem(Material.ACTIVATOR_RAIL, "&bTabla de circuitos basica");
 	public static final ItemStack ADVANCED_CIRCUIT_BOARD = new CustomItem(Material.POWERED_RAIL, "&bTabla de circuitos avanzada");
 	public static final ItemStack WHEAT_FLOUR = new CustomItem(Material.SUGAR, "&rHarina de trigo");
-	public static final ItemStack STEEL_PLATE = new CustomItem(Material.PAPER, "&7&lPlaca de acero");
+	public static final ItemStack STEEL_PLATE = new InsanityItem(Material.PAPER, "&7&lPlaca de acero",1);
 	public static final ItemStack BATTERY = new CustomItem(getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNmUyZGRhNmVmNjE4NWQ0ZGQ2ZWE4Njg0ZTk3ZDM5YmE4YWIwMzdlMjVmNzVjZGVhNmJkMjlkZjhlYjM0ZWUifX19"), "&6Batería");
 	public static final ItemStack CARBON = new CustomItem(getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvOGIzYTA5NWI2YjgxZTZiOTg1M2ExOTMyNGVlZGYwYmI5MzQ5NDE3MjU4ZGQxNzNiOGVmZjg3YTA4N2FhIn19fQ=="), "&eCarbono");
 	public static final ItemStack COMPRESSED_CARBON = new CustomItem(getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzIxZDQ5NTE2NTc0OGQzMTE2Zjk5ZDZiNWJkNWQ0MmViOGJhNTkyYmNkZmFkMzdmZDk1ZjliNmMwNGEzYiJ9fX0="), "&cCarono comprimido");
 	public static final ItemStack CARBON_CHUNK = new CustomItem(getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMzIxZDQ5NTE2NTc0OGQzMTE2Zjk5ZDZiNWJkNWQ0MmViOGJhNTkyYmNkZmFkMzdmZDk1ZjliNmMwNGEzYiJ9fX0="), "&4Trozo de carbono");
 	public static final ItemStack STEEL_THRUSTER = new CustomItem(Material.BUCKET, "&7&lPropulsor de acero");
 	public static final ItemStack POWER_CRYSTAL = new CustomItem(getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTNjMWIwMzZiNmUwMzUxN2IyODVhODExYmQ4NWU3M2Y1YWJmZGFjYzFkZGY5MGRmZjk2MmUxODA5MzRlMyJ9fX0="), "&c&lCristal de poder");
-	public static final ItemStack CHAIN = new CustomItem(Material.STRING, "&bCadena");
-	public static final ItemStack HOOK = new CustomItem(Material.FLINT, "&bGancho");
+	public static final ItemStack CHAIN = new InsanityItem(Material.STRING, "&bCadena",1);
+	public static final ItemStack HOOK = new InsanityItem(Material.FLINT, "&bGancho",1);
 	public static final ItemStack SIFTED_ORE = new CustomItem(Material.GUNPOWDER, "&6Mineral tamizado");
 	public static final ItemStack STONE_CHUNK = new CustomItem(getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2U4ZjVhZGIxNGQ2YzlmNmI4MTBkMDI3NTQzZjFhOGMxZjQxN2UyZmVkOTkzYzk3YmNkODljNzRmNWUyZTgifX19"), "&6Trozo de piedra");
 	public static final ItemStack LAVA_CRYSTAL = new CustomItem(getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTNhZDhlZTg0OWVkZjA0ZWQ5YTI2Y2EzMzQxZjYwMzNiZDc2ZGNjNDIzMWVkMWVhNjNiNzU2NTc1MWIyN2FjIn19fQ=="), "&4Cristal de lava");
@@ -334,10 +334,10 @@ public class SlimefunItems {
 	public static final ItemStack HARDENED_GLASS = new CustomItem(Material.LIGHT_GRAY_STAINED_GLASS, "&7Cristal", "", "&rResistente a explosiones");
 	public static final ItemStack WITHER_PROOF_OBSIDIAN = new CustomItem(Material.OBSIDIAN, "&5Obsidiana contra withers", "", "&rResistente a explosiones", "&rResistente a explosiones de wither");
 	public static final ItemStack WITHER_PROOF_GLASS = new CustomItem(Material.PURPLE_STAINED_GLASS, "&5Cristal contra withers", "", "&rResistente a explosiones", "&rResistente a explosiones de wither");
-	public static final ItemStack REINFORCED_PLATE = new CustomItem(Material.PAPER, "&7Placa reforzada");
+	public static final ItemStack REINFORCED_PLATE = new InsanityItem(Material.PAPER, "&7Placa reforzada",3);
 	public static final ItemStack ANCIENT_PEDESTAL = new CustomItem(Material.DISPENSER, "&dPedestal ancestral", "", "&5Parte del altar antiguo");
 	public static final ItemStack ANCIENT_ALTAR = new CustomItem(Material.ENCHANTING_TABLE, "&dAltar antiguo", "", "&5Bloque para el", "&5proceso de crafteos magicos");
-	public static final ItemStack COPPER_WIRE = new CustomItem(Material.STRING, "&6Alambre de cobre", "", "&6Componente crucial en módulos eléctricos.");
+	public static final ItemStack COPPER_WIRE = new InsanityItem(Material.STRING, "&6Alambre de cobre", 2, "", "&6Componente crucial en módulos eléctricos.");
 
 	public static final ItemStack RAINBOW_WOOL = new CustomItem(Material.WHITE_WOOL, "&5Lana arcoíris", "", "&d¡Cambia de colores infinitamente!");
 	public static final ItemStack RAINBOW_GLASS = new CustomItem(Material.WHITE_STAINED_GLASS, "&5Cristal arcoíris", "", "&d¡Cambia de colores infinitamente!");
@@ -659,7 +659,7 @@ public class SlimefunItems {
 	
 	public static final ItemStack INFUSED_HOPPER = new CustomItem(Material.HOPPER, "&5Tolva infundida", "", "&rRecoge automáticamente los items cercanos", "&ren un radio de 7x7x7.");
 
-	public static final ItemStack PLASTIC_SHEET = new CustomItem(Material.PAPER, "&rLámina de plástico");
+	public static final ItemStack PLASTIC_SHEET = new InsanityItem(Material.PAPER, "&rLámina de plástico",4);
 	public static final ItemStack HEATED_PRESSURE_CHAMBER = new CustomItem(Material.LIGHT_GRAY_STAINED_GLASS, "&cCámara de presión climatizada", "", "&4Maquina End-Game", "&8\u21E8 &7Velocidad: 1x", "&8\u21E8 &e\u26A1 &710 J/s");
 	public static final ItemStack HEATED_PRESSURE_CHAMBER_2 = new CustomItem(Material.LIGHT_GRAY_STAINED_GLASS, "&cCámara de presión climatizada &7- &eII", "", "&4Maquina End-Game", "&8\u21E8 &7Velocidad: 5x", "&8\u21E8 &e\u26A1 &744 J/s");
 	
