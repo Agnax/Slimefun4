@@ -184,10 +184,10 @@ public class SlimefunItems {
 	public static final ItemStack SLIME_LEGGINGS = new CustomArmor(new CustomItem(Material.LEATHER_LEGGINGS, "&a&lPantalones de Slime", "", "&a&oSe siente rebotable", "", "&9+ Speed"), Color.LIME);
 	public static final ItemStack SLIME_BOOTS = new CustomArmor(new CustomItem(Material.LEATHER_BOOTS, "&a&lBotas de Slime", "", "&a&oSe siente rebotable", "", "&9+ Jump Boost", "&9+ No Fall Damage"), Color.LIME);
 	
-	public static final ItemStack CACTUS_HELMET = new CustomArmor(new CustomItem(Material.LEATHER_HELMET, "&2Casco de cactus", Color.GREEN);
-	public static final ItemStack CACTUS_CHESTPLATE = new CustomArmor(new CustomItem(Material.LEATHER_CHESTPLATE, "&2Pechera de cactus", Color.GREEN);
-	public static final ItemStack CACTUS_LEGGINGS = new CustomArmor(new CustomItem(Material.LEATHER_LEGGINGS, "&2Pantalones de cactus", Color.GREEN);
-	public static final ItemStack CACTUS_BOOTS = new CustomArmor(new CustomItem(Material.LEATHER_BOOTS, "&2Botas de cactus", Color.GREEN);
+	public static final ItemStack CACTUS_HELMET = new CustomArmor(new CustomItem(Material.LEATHER_HELMET, "&2Casco de cactus"), Color.GREEN);
+	public static final ItemStack CACTUS_CHESTPLATE = new CustomArmor(new CustomItem(Material.LEATHER_CHESTPLATE, "&2Pechera de cactus"), Color.GREEN);
+	public static final ItemStack CACTUS_LEGGINGS = new CustomArmor(new CustomItem(Material.LEATHER_LEGGINGS, "&2Pantalones de cactus"), Color.GREEN);
+	public static final ItemStack CACTUS_BOOTS = new CustomArmor(new CustomItem(Material.LEATHER_BOOTS, "&2Botas de cactus"), Color.GREEN);
 	
 	public static final ItemStack DAMASCUS_STEEL_HELMET = new CustomItem(Material.IRON_HELMET, "&7Casco de Acero damasco");
 	public static final ItemStack DAMASCUS_STEEL_CHESTPLATE = new CustomItem(Material.IRON_CHESTPLATE, "&7Pechera de Acero damasco");
