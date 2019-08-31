@@ -1184,7 +1184,7 @@ public final class SlimefunSetup {
 					List<String> lore = im.getLore();
 					
 					for (int i = 0; i < lore.size(); i++) {
-						if (lore.get(i).contains("<Type>")) lore.set(i, lore.get(i).replace("<Type>", StringUtils.format(((CreatureSpawner) b.getState()).getSpawnedType().toString())));
+						if (lore.get(i).contains("<Tipo>")) lore.set(i, lore.get(i).replace("<Tipo>", StringUtils.format(((CreatureSpawner) b.getState()).getSpawnedType().toString())));
 					}
 					
 					im.setLore(lore);
@@ -2048,7 +2048,12 @@ public final class SlimefunSetup {
 					if (e.getClickedBlock() == null || !(e.getClickedBlock().getState() instanceof Container)) {
 						p.setLevel(p.getLevel() - 1);
 						e.setCancelled(true);
-						p.getInventory().addItem(new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco de conocimiento"));
+						try{
+							p.getInventory().addItem(new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco de conocimiento"));
+						} catch(Exception x) {
+							x.printStackTrace();
+						}
+						
 						
 						p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 0.5F);
 						
