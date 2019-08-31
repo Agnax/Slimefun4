@@ -30,7 +30,6 @@ import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.api.network.Network;
-import me.mrCookieSlime.Slimefun.api.network.NetworkComponent;
 import me.mrCookieSlime.Slimefun.holograms.CargoHologram;
 
 public class CargoNet extends Network {
@@ -87,28 +86,28 @@ public class CargoNet extends Network {
 		return RANGE;
 	}
 
-	public NetworkComponent classifyLocation(Location l) {
+	public Network.Component classifyLocation(Location l) {
 		String id = BlockStorage.checkID(l);
 		if (id == null) return null;
 		switch(id) {
 			case "CARGO_MANAGER":
-				return NetworkComponent.REGULATOR;
+				return Component.REGULATOR;
 			case "CARGO_NODE":
-				return NetworkComponent.CONNECTOR;
+				return Component.CONNECTOR;
 			case "CARGO_NODE_INPUT":
 			case "CARGO_NODE_OUTPUT":
 			case "CARGO_NODE_OUTPUT_ADVANCED":
 			case "CT_IMPORT_BUS":
 			case "CT_EXPORT_BUS":
 			case "CHEST_TERMINAL":
-				return NetworkComponent.TERMINUS;
+				return Component.TERMINUS;
 			default:
 				return null;
 		}
 	}
 
-	public void locationClassificationChange(Location l, NetworkComponent from, NetworkComponent to) {
-		if (from == NetworkComponent.TERMINUS) {
+	public void locationClassificationChange(Location l, Component from, Component to) {
+		if (from == Component.TERMINUS) {
 			inputNodes.remove(l);
 			outputNodes.remove(l);
 			advancedOutputNodes.remove(l);
@@ -116,7 +115,7 @@ public class CargoNet extends Network {
 			imports.remove(l);
 			exports.remove(l);
 		}
-		if (to == NetworkComponent.TERMINUS) {
+		if (to == Component.TERMINUS) {
 			switch(BlockStorage.checkID(l)) {
 				case "CARGO_NODE_INPUT":
 					inputNodes.add(l);

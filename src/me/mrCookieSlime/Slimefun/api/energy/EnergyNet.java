@@ -13,10 +13,16 @@ import me.mrCookieSlime.Slimefun.SlimefunStartup;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.network.Network;
-import me.mrCookieSlime.Slimefun.api.network.NetworkComponent;
 import me.mrCookieSlime.Slimefun.holograms.EnergyHologram;
 
 public class EnergyNet extends Network {
+	
+	public static enum NetworkComponent {
+		SOURCE,
+		DISTRIBUTOR,
+		CONSUMER,
+		NONE;
+	}
 
 	private static final int RANGE = 6;
 
@@ -24,27 +30,27 @@ public class EnergyNet extends Network {
 	public static Set<String> machinesStorage = new HashSet<>();
 	public static Set<String> machinesOutput = new HashSet<>();
 	
-	public static EnergyNetComponent getComponent(Block b) {
+	public static NetworkComponent getComponent(Block b) {
 		return getComponent(b.getLocation());
 	}
 
-	public static EnergyNetComponent getComponent(String id) {
-		if (machinesInput.contains(id)) return EnergyNetComponent.SOURCE;
-		if (machinesStorage.contains(id)) return EnergyNetComponent.DISTRIBUTOR;
-		if (machinesOutput.contains(id)) return EnergyNetComponent.CONSUMER;
-		return EnergyNetComponent.NONE;
+	public static NetworkComponent getComponent(String id) {
+		if (machinesInput.contains(id)) return NetworkComponent.SOURCE;
+		if (machinesStorage.contains(id)) return NetworkComponent.DISTRIBUTOR;
+		if (machinesOutput.contains(id)) return NetworkComponent.CONSUMER;
+		return NetworkComponent.NONE;
 	}
 
-	public static EnergyNetComponent getComponent(Location l) {
-		if (!BlockStorage.hasBlockInfo(l)) return EnergyNetComponent.NONE;
+	public static NetworkComponent getComponent(Location l) {
+		if (!BlockStorage.hasBlockInfo(l)) return NetworkComponent.NONE;
 		String id = BlockStorage.checkID(l);
-		if (machinesInput.contains(id)) return EnergyNetComponent.SOURCE;
-		if (machinesStorage.contains(id)) return EnergyNetComponent.DISTRIBUTOR;
-		if (machinesOutput.contains(id)) return EnergyNetComponent.CONSUMER;
-		return EnergyNetComponent.NONE;
+		if (machinesInput.contains(id)) return NetworkComponent.SOURCE;
+		if (machinesStorage.contains(id)) return NetworkComponent.DISTRIBUTOR;
+		if (machinesOutput.contains(id)) return NetworkComponent.CONSUMER;
+		return NetworkComponent.NONE;
 	}
 
-	public static void registerComponent(String id, EnergyNetComponent component) {
+	public static void registerComponent(String id, NetworkComponent component) {
 		switch (component) {
 		case CONSUMER:
 			machinesOutput.add(id);
@@ -85,25 +91,24 @@ public class EnergyNet extends Network {
 		return RANGE;
 	}
 
-	public NetworkComponent classifyLocation(Location l) {
-		if (regulator.equals(l)) return NetworkComponent.REGULATOR;
+	public Network.Component classifyLocation(Location l) {
+		if (regulator.equals(l)) return Network.Component.REGULATOR;
 		switch (getComponent(l)) {
 			case DISTRIBUTOR:
-				return NetworkComponent.CONNECTOR;
+				return Network.Component.CONNECTOR;
 			case CONSUMER:
 			case SOURCE:
-				return NetworkComponent.TERMINUS;
+				return Network.Component.TERMINUS;
 			default:
 				return null;
 		}
 	}
 
-	public void locationClassificationChange(Location l, NetworkComponent from, NetworkComponent to) {
-		if (from == NetworkComponent.TERMINUS) {
+	public void locationClassificationChange(Location l, Network.Component from, Network.Component to) {
+		if (from == Network.Component.TERMINUS) {
 			input.remove(l);
 			output.remove(l);
 		}
-		
 		switch (getComponent(l)) {
 			case DISTRIBUTOR:
 				if (ChargableBlock.isCapacitor(l)) storage.add(l);
