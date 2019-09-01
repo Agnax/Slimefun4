@@ -587,7 +587,7 @@ public class SlimefunItems {
 		ItemStack itemL = new ItemStack(Material.FIREWORK_STAR);
 		FireworkEffectMeta imL = (FireworkEffectMeta) itemL.getItemMeta();
 		imL.setEffect(FireworkEffect.builder().with(Type.BURST).withColor(Color.YELLOW).build());
-		imL.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Ancient Rune &8&l[&e&lLightning&8&l]"));
+		imL.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&7Runa antigua &8&l[&e&lRayo&8&l]"));
 		itemL.setItemMeta(imL);
 		RUNE_LIGHTNING = itemL;
 	}

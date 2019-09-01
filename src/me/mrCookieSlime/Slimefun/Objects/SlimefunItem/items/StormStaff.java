@@ -27,7 +27,7 @@ import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 
 public class StormStaff extends SlimefunItem {
 	
-	private final static int MAX_USES = 8;
+	private final static int MAX_USES = 10;
 	
 	public StormStaff(Category category, ItemStack item, String id, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, id, recipeType, recipe, getCraftedOutput());
@@ -38,7 +38,7 @@ public class StormStaff extends SlimefunItem {
 		ItemMeta im = item.getItemMeta();
 		List<String> lore = im.getLore();
 		
-		lore.set(4, ChatColor.translateAlternateColorCodes('&', "&e" + MAX_USES + " Uses &7left"));
+		lore.set(4, ChatColor.translateAlternateColorCodes('&', "&e" + MAX_USES + " Usos &7restantes"));
 		
 		im.setLore(lore);
 		item.setItemMeta(im);
@@ -81,14 +81,14 @@ public class StormStaff extends SlimefunItem {
 										}
 										
 										for (int i = MAX_USES; i > 0; i--) {
-											if (i == 1 && ChatColor.translateAlternateColorCodes('&', "&e1 Use &7left").equals(itemML.get(4))) {
+											if (i == 1 && ChatColor.translateAlternateColorCodes('&', "&e1 Uso &7restante").equals(itemML.get(4))) {
 												e.setCancelled(true);
 												p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
 												item.setAmount(0);
 												return true;
 											}
-											else if (ChatColor.translateAlternateColorCodes('&', "&e" + i + " Uses &7left").equals(itemML.get(4))) {
-												itemML.set(4, ChatColor.translateAlternateColorCodes('&', "&e" + (i - 1) + " " + (i > 2 ? "Uses": "Use") + " &7left"));
+											else if (ChatColor.translateAlternateColorCodes('&', "&e" + i + " Usos &7restantes").equals(itemML.get(4))) {
+												itemML.set(4, ChatColor.translateAlternateColorCodes('&', "&e" + (i - 1) + " " + (i > 2 ? "Usos": "Uso") + (i > 2 ? " &7restantes": " &7restante")));
 												e.setCancelled(true);
 												
 												// Saving the changes to lore and item.
