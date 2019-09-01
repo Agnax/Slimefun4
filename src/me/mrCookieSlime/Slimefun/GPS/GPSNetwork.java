@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -24,7 +25,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.MenuHelper;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Math.DoubleHandler;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.Setup.Messages;
@@ -69,7 +70,7 @@ public class GPSNetwork {
 		else return transmitters.get(uuid).size();
 	}
 	
-	public void openTransmitterControlPanel(Player p) throws Exception {
+	public void openTransmitterControlPanel(Player p) {
 		ChestMenu menu = new ChestMenu("&9Panel de Control");
 		
 		for (int slot : border) {
@@ -78,37 +79,35 @@ public class GPSNetwork {
 			);
 		}
 		
-		menu.addItem(2, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0="), "&7Descripción general del transmisor &e(Seleccionado)"));
-		menu.addMenuClickHandler(2,
-			(pl, slot, item, action) -> false
-		);
-		
-		menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRjZmJhNThmYWYxZjY0ODQ3ODg0MTExODIyYjY0YWZhMjFkN2ZjNjJkNDQ4MWYxNGYzZjNiY2I2MzMwIn19fQ=="), "&7Información de red", "", "&8\u21E8 &7Estado: " + (getNetworkComplexity(p.getUniqueId()) > 0 ? "&2&lEN LINEA": "&4&lDESCONECTADO"), "&8\u21E8 &7Complejidad: &r" + getNetworkComplexity(p.getUniqueId())));
-		menu.addMenuClickHandler(4,
-			(pl, slot, item, action) -> false
-		);
-		
-		menu.addItem(6, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&7Visión general del punto de referencia &r(Seleccionado)"));
-		menu.addMenuClickHandler(6, (pl, slot, item, action) -> {
-			try {
-				openWaypointControlPanel(pl);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return false;
-		});
-		
-		int index = 0;
-		for (Location l : getTransmitters(p.getUniqueId())) {
-			if (index >= inventory.length) break;
-			int slot = inventory[index];
-			
-			menu.addItem(slot, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0="), "&bTransmisor de gps", "&8\u21E8 &7Mundo: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "", "&8\u21E8 &7Intensidad de señal: &r" + l.getBlockY(), "&8\u21E8 &7Ping: &r" + DoubleHandler.fixDouble(1000D / l.getY()) + "ms"));
-			menu.addMenuClickHandler(slot,
-				(pl, slotn, item, action) -> false
+		try {
+			menu.addItem(2, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0="), "&7Descripción general del transmisor &e(Seleccionada)"));
+			menu.addMenuClickHandler(2,
+				(pl, slot, item, action) -> false
 			);
 			
-			index++;
+			menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRjZmJhNThmYWYxZjY0ODQ3ODg0MTExODIyYjY0YWZhMjFkN2ZjNjJkNDQ4MWYxNGYzZjNiY2I2MzMwIn19fQ=="), "&7Información de red", "", "&8\u21E8 &7Estado: " + (getNetworkComplexity(p.getUniqueId()) > 0 ? "&2&lEn linea": "&4&lDESCONECTADO"), "&8\u21E8 &7Complejidad: &r" + getNetworkComplexity(p.getUniqueId())));
+			menu.addMenuClickHandler(4,
+				(pl, slot, item, action) -> false
+			);
+			
+			menu.addItem(6, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&7Descripción del punto de referencia &r(Seleccionada)"));
+			menu.addMenuClickHandler(6, (pl, slot, item, action) -> {
+				openWaypointControlPanel(pl);
+				return false;
+			});
+			
+			int index = 0;
+			for (Location l : getTransmitters(p.getUniqueId())) {
+				if (index >= inventory.length) break;
+				int slot = inventory[index];
+				
+				menu.addItem(slot, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0="), "&bTransmisor GPS", "&8\u21E8 &7Mundo: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "", "&8\u21E8 &7Intensidad de señal: &r" + l.getBlockY(), "&8\u21E8 &7Ping: &r" + DoubleHandler.fixDouble(1000D / l.getY()) + "ms"));
+				menu.addMenuClickHandler(slot, (pl, slotn, item, action) -> false);
+				
+				index++;
+			}
+		} catch(Exception x) {
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating the GPS Transmitter Panel for Slimefun " + Slimefun.getVersion(), x);
 		}
 		
 		menu.open(p);
@@ -131,57 +130,53 @@ public class GPSNetwork {
 		}
 	}
 	
-	public void openWaypointControlPanel(Player p) throws Exception {
+	public void openWaypointControlPanel(Player p) {
 		ChestMenu menu = new ChestMenu("&9Control Panel");
 		
 		for (int slot: border) {
-			menu.addItem(slot, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
-				(pl, slotn, item, action) -> false
-			);
+			menu.addItem(slot, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (pl, slotn, item, action) -> false);
 		}
 		
-		menu.addItem(2, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0="), "&7Descripción general del transmisor &r(Seleccionado)"));
-		menu.addMenuClickHandler(2, (pl, slot, item, action) -> {
-			try {
+		try {
+			menu.addItem(2, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYjBjOWMxYTAyMmY0MGI3M2YxNGI0Y2JhMzdjNzE4YzZhNTMzZjNhMjg2NGI2NTM2ZDVmNDU2OTM0Y2MxZiJ9fX0="), "&7Descripción general del transmisor &r(Seleccionar)"));
+			menu.addMenuClickHandler(2, (pl, slot, item, action) -> {
 				openTransmitterControlPanel(pl);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return false;
-		});
-		
-		menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRjZmJhNThmYWYxZjY0ODQ3ODg0MTExODIyYjY0YWZhMjFkN2ZjNjJkNDQ4MWYxNGYzZjNiY2I2MzMwIn19fQ=="), "&7Información de red", "", "&8\u21E8 &7Estado: " + (getNetworkComplexity(p.getUniqueId()) > 0 ? "&2&lEN LÍNEA": "&4&lDESCONECTADO"), "&8\u21E8 &7Complejidad: &r" + getNetworkComplexity(p.getUniqueId())));
-		menu.addMenuClickHandler(4,	(pl, slot, item, action) -> false);
-		
-		menu.addItem(6, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&7Waypoint Overview &e(Selected)"));
-		menu.addMenuClickHandler(6, (pl, slot, item, action) -> false);
-		
-		int index = 0;
-		for (final Map.Entry<String, Location> entry : getWaypoints(p.getUniqueId()).entrySet()) {
-			if (index >= inventory.length) break;
-			int slot = inventory[index];
-			
-			Location l = entry.getValue();
-			ItemStack globe = getPlanet(entry);
-			
-			menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7Mundo: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "", "&8\u21E8 &cClick para borrar"));
-			menu.addMenuClickHandler(slot, (pl, slotn, item, action) -> {
-				String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', entry.getKey())).toUpperCase().replace(" ", "_");
-				Config cfg = new Config("data-storage/Slimefun/waypoints/" + pl.getUniqueId().toString() + ".yml");
-				cfg.setValue(id, null);
-				cfg.save();
-				pl.playSound(pl.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
-				try {
-					openWaypointControlPanel(pl);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
 				return false;
 			});
 			
-			index++;
+			menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRjZmJhNThmYWYxZjY0ODQ3ODg0MTExODIyYjY0YWZhMjFkN2ZjNjJkNDQ4MWYxNGYzZjNiY2I2MzMwIn19fQ=="), "&7Información de red", "", "&8\u21E8 &7Estado: " + (getNetworkComplexity(p.getUniqueId()) > 0 ? "&2&lEn Línea": "&4&lDESCONECTADA"), "&8\u21E8 &7Complejidad: &r" + getNetworkComplexity(p.getUniqueId())));
+			menu.addMenuClickHandler(4, (pl, slot, item, action) -> false);
+			
+			menu.addItem(6, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&7Descripción del punto de referencia &e(Seleccionado)"));
+			menu.addMenuClickHandler(6, (pl, slot, item, action) -> false);
+			
+			int index = 0;
+			for (final Map.Entry<String, Location> entry : getWaypoints(p.getUniqueId()).entrySet()) {
+				if (index >= inventory.length) break;
+				int slot = inventory[index];
+				
+				Location l = entry.getValue();
+				ItemStack globe = getPlanet(entry);
+				
+				menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7Mundo: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "", "&8\u21E8 &cHaga clic para eliminar"));
+				menu.addMenuClickHandler(slot, (pl, slotn, item, action) -> {
+					String id = ChatColor.stripColor(ChatColor.translateAlternateColorCodes('&', entry.getKey())).toUpperCase().replace(" ", "_");
+					Config cfg = new Config("data-storage/Slimefun/waypoints/" + pl.getUniqueId().toString() + ".yml");
+					cfg.setValue(id, null);
+					cfg.save();
+					pl.playSound(pl.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
+
+					openWaypointControlPanel(pl);
+					return false;
+				});
+				
+				index++;
+			}
 		}
-		
+		catch(Exception x) {
+			Slimefun.getLogger().log(Level.SEVERE, "Se produjo un error al crear el panel de waypoint GPS para Slimefun " + Slimefun.getVersion(), x);
+		}
+			
 		menu.open(p);
 	}
 
@@ -239,24 +234,22 @@ public class GPSNetwork {
 		for (OreGenResource resource: OreGenSystem.listResources()) {
 			int supply = OreGenSystem.getSupplies(resource, chunk, true);
 			
-			menu.addItem(index, new CustomItem(resource.getIcon(), "&7Recurso: &e" + resource.getName(), "", "&7Chunk Escaneado:", "&8\u21E8 &7X: " + chunk.getX() + " Z: " + chunk.getZ(), "", "&7Resultado: &e" + supply + " " + resource.getMeasurementUnit()),
-				(pl, slot, item, action) -> false
-			);
+			menu.addItem(index, new CustomItem(resource.getIcon(), "&7Recurso: &e" + resource.getName(), "", "&7Chunk Escaneado:", "&8\u21E8 &7X: " + chunk.getX() + " Z: " + chunk.getZ(), "", "&7Resultado: &e" + supply + " " + resource.getMeasurementUnit()), (pl, slot, item, action) -> false);
 			index++;
 		}
 		
 		menu.open(p);
 	}
 	
-	public static void openTeleporterGUI(Player p, UUID uuid, Block b, final int complexity) throws Exception {
-		if (SlimefunStartup.instance.getUtilities().teleporterUsers.contains(p.getUniqueId())) return;
+	public static void openTeleporterGUI(Player p, UUID uuid, Block b, final int complexity) {
+		if (SlimefunPlugin.getUtilities().teleporterUsers.contains(p.getUniqueId())) return;
 		
 		p.playSound(p.getLocation(), Sound.UI_BUTTON_CLICK, 1F, 1F);
-		SlimefunStartup.instance.getUtilities().teleporterUsers.add(p.getUniqueId());
+		SlimefunPlugin.getUtilities().teleporterUsers.add(p.getUniqueId());
 		
 		ChestMenu menu = new ChestMenu("&3Teletransportador");
 		
-		menu.addMenuCloseHandler(pl -> SlimefunStartup.instance.getUtilities().teleporterUsers.remove(pl.getUniqueId()));
+		menu.addMenuCloseHandler(pl -> SlimefunPlugin.getUtilities().teleporterUsers.remove(pl.getUniqueId()));
 		
 		for (int slot : teleporter_border) {
 			menu.addItem(slot, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "),
@@ -264,26 +257,31 @@ public class GPSNetwork {
 			);
 		}
 		
-		menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&7Visión general del punto de referencia &e(Seleccione un destino)"));
-		menu.addMenuClickHandler(4,	(pl, slot, item, action) -> false);
-		
-		final Location source = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + 2D, b.getZ() + 0.5D);
-		int index = 0;
-		for (final Map.Entry<String, Location> entry: Slimefun.getGPSNetwork().getWaypoints(uuid).entrySet()) {
-			if (index >= teleporter_inventory.length) break;
-			int slot = teleporter_inventory[index];
+		try {
+			menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzljODg4MWU0MjkxNWE5ZDI5YmI2MWExNmZiMjZkMDU5OTEzMjA0ZDI2NWRmNWI0MzliM2Q3OTJhY2Q1NiJ9fX0="), "&7Descripción del punto de referencia &e(Seleccione un destino)"));
+			menu.addMenuClickHandler(4, (pl, slot, item, action) -> false);
 			
-			final Location l = entry.getValue();
-			ItemStack globe = getPlanet(entry);
-			
-			menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7Mundo: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "&8\u21E8 &7Tiempo estimado de teletransportación: &r" + (50 / TeleportationSequence.getSpeed(Slimefun.getGPSNetwork().getNetworkComplexity(uuid), source, l)) + "s", "", "&8\u21E8 &cClick para seleccionar"));
-			menu.addMenuClickHandler(slot, (pl, slotn, item, action) -> {
-					pl.closeInventory();
-					TeleportationSequence.start(pl.getUniqueId(), complexity, source, l, false);
-					return false;
-			});
-			
-			index++;
+			final Location source = new Location(b.getWorld(), b.getX() + 0.5D, b.getY() + 2D, b.getZ() + 0.5D);
+			int index = 0;
+			for (final Map.Entry<String, Location> entry: Slimefun.getGPSNetwork().getWaypoints(uuid).entrySet()) {
+				if (index >= teleporter_inventory.length) break;
+				int slot = teleporter_inventory[index];
+				
+				final Location l = entry.getValue();
+				ItemStack globe = getPlanet(entry);
+				
+				menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7Mundo: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "&8\u21E8 &7Tiempo estimado de teletransportación: &r" + (50 / TeleportationSequence.getSpeed(Slimefun.getGPSNetwork().getNetworkComplexity(uuid), source, l)) + "s", "", "&8\u21E8 &cClic para seleccionar"));
+				menu.addMenuClickHandler(slot, (pl, slotn, item, action) -> {
+						pl.closeInventory();
+						TeleportationSequence.start(pl.getUniqueId(), complexity, source, l, false);
+						return false;
+				});
+				
+				index++;
+			}
+		} 
+		catch (Exception x) {
+			Slimefun.getLogger().log(Level.SEVERE, "Se produjo un error al crear un menú de teletransportador para Slimefun " + Slimefun.getVersion(), x);
 		}
 		
 		menu.open(p);

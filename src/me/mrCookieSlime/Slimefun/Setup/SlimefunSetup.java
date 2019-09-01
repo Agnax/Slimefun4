@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
 import java.util.stream.Stream;
 
 import org.bukkit.Bukkit;
@@ -62,14 +63,13 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Player.PlayerInventory;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Recipe.RecipeCalculator;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.StringUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GPS.Elevator;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.GPS.NetworkStatus;
 import me.mrCookieSlime.Slimefun.Lists.Categories;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Misc.PostSlimefunLoadingHandler;
 import me.mrCookieSlime.Slimefun.Objects.MultiBlock;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
@@ -102,43 +102,43 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.Teleporter;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AdvancedCargoOutputNode;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AnimalGrowthAccelerator;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoAnvil;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoBreeder;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoDisenchanter;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoDrier;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutoEnchanter;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutomatedCraftingChamber;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.AdvancedCargoOutputNode;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.CargoInputNode;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo.CargoOutputNode;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.BlockPlacer;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.CarbonPress;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.CargoInputNode;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.CargoOutputNode;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ChargingBench;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Composter;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.CropGrowthAccelerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Crucible;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricDustWasher;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricFurnace;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricGoldPan;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricIngotFactory;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectricSmeltery;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ElectrifiedCrucible;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.EnergyRegulator;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.FluidPump;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.FoodComposter;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.FoodFabricator;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Freezer;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.HeatedPressureChamber;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.HologramProjector;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.InfusedHopper;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.NetherDrill;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.OilPump;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ReactorAccessPort;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.Refinery;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.TrashCan;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.WitherAssembler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.XPCollector;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AnimalGrowthAccelerator;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AutoAnvil;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AutoBreeder;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AutoDisenchanter;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AutoDrier;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AutoEnchanter;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AutomatedCraftingChamber;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.CarbonPress;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ChargingBench;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.CropGrowthAccelerator;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElectricDustWasher;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElectricFurnace;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElectricGoldPan;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElectricIngotFactory;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElectricSmeltery;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.ElectrifiedCrucible;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.EnergyRegulator;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.FluidPump;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.FoodComposter;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.FoodFabricator;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.Freezer;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.HeatedPressureChamber;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.NetherDrill;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.OilPump;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.Refinery;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.WitherAssembler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.ArmorForge;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.AutomatedPanningMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.Compressor;
@@ -679,7 +679,7 @@ public final class SlimefunSetup {
 		new ItemStack[] {null, SlimefunItems.HOOK, SlimefunItems.HOOK, null, SlimefunItems.CHAIN, SlimefunItems.HOOK, SlimefunItems.CHAIN, null, null})
 		.register(true, new ItemInteractionHandler() {
 
-			private Utilities variables = SlimefunStartup.instance.getUtilities();
+			private Utilities variables = SlimefunPlugin.getUtilities();
 
 			@Override
 			public boolean onRightClick(ItemUseEvent e, Player p, ItemStack item) {
@@ -902,17 +902,17 @@ public final class SlimefunSetup {
 
 		new Talisman(SlimefunItems.TALISMAN_ANVIL, "ANVIL_TALISMAN",
 		new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.ANVIL), SlimefunItems.TALISMAN, new ItemStack(Material.ANVIL), SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
-		true, false, "anvil", new PotionEffect[0])
+		true, false, "anvil")
 		.register(true);
 
 		new Talisman(SlimefunItems.TALISMAN_MINER, "MINER_TALISMAN",
 		new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.TALISMAN, SlimefunItems.SIFTED_ORE, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
-		false, false, "miner", 20, new PotionEffect[0])
+		false, false, "miner", 20)
 		.register(true);
 
 		new Talisman(SlimefunItems.TALISMAN_HUNTER, "HUNTER_TALISMAN",
 		new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.SYNTHETIC_SAPPHIRE, SlimefunItems.TALISMAN, SlimefunItems.MONSTER_JERKY, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
-		false, false, "hunter", 20, new PotionEffect[0])
+		false, false, "hunter", 20)
 		.register(true);
 
 		new Talisman(SlimefunItems.TALISMAN_LAVA, "LAVA_TALISMAN",
@@ -927,7 +927,7 @@ public final class SlimefunSetup {
 
 		new Talisman(SlimefunItems.TALISMAN_ANGEL, "ANGEL_TALISMAN",
 		new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.FEATHER), SlimefunItems.TALISMAN, new ItemStack(Material.FEATHER), SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3},
-		false, true, "angel", 75, new PotionEffect[0])
+		false, true, "angel", 75)
 		.register(true);
 
 		new Talisman(SlimefunItems.TALISMAN_FIRE, "FIRE_TALISMAN",
@@ -937,7 +937,7 @@ public final class SlimefunSetup {
 
 		new Talisman(SlimefunItems.TALISMAN_MAGICIAN, "MAGICIAN_TALISMAN",
 		new ItemStack[] {SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3, new ItemStack(Material.ENCHANTING_TABLE), SlimefunItems.TALISMAN, new ItemStack(Material.ENCHANTING_TABLE), SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3},
-		false, false, "magician", 80, new PotionEffect[0])
+		false, false, "magician", 80)
 		.register(true);
 
 		new Talisman(SlimefunItems.TALISMAN_TRAVELLER, "TRAVELLER_TALISMAN",
@@ -967,14 +967,14 @@ public final class SlimefunSetup {
 
 		new Talisman(SlimefunItems.TALISMAN_WHIRLWIND, "WHIRLWIND_TALISMAN",
 		new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.STAFF_WIND, SlimefunItems.TALISMAN_TRAVELLER, SlimefunItems.STAFF_WIND, SlimefunItems.MAGIC_LUMP_3, null, SlimefunItems.MAGIC_LUMP_3}
-		, false, true, "whirlwind", 60, new PotionEffect[0])
+		, false, true, "whirlwind", 60)
 		.register(true);
 
 		new Talisman(SlimefunItems.TALISMAN_WIZARD, "WIZARD_TALISMAN",
 		new ItemStack[] {SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3, SlimefunItems.MAGIC_EYE_OF_ENDER, SlimefunItems.TALISMAN_MAGICIAN, SlimefunItems.MAGIC_EYE_OF_ENDER, SlimefunItems.ENDER_LUMP_3, null, SlimefunItems.ENDER_LUMP_3},
-		false, false, "wizard", 60, new PotionEffect[0])
+		false, false, "wizard", 60)
 		.register(true);
-		
+
 		new ExcludedTool(Categories.TOOLS, SlimefunItems.LUMBER_AXE, "LUMBER_AXE", RecipeType.MAGIC_WORKBENCH,
 		new ItemStack[] {SlimefunItems.SYNTHETIC_DIAMOND, SlimefunItems.SYNTHETIC_DIAMOND, null, SlimefunItems.SYNTHETIC_EMERALD, SlimefunItems.GILDED_IRON, null, null, SlimefunItems.GILDED_IRON, null})
 		.register(true, new BlockBreakHandler() {
@@ -1305,7 +1305,7 @@ public final class SlimefunSetup {
 							if (InvUtils.fits(inv, adding)) {
 								for (int i = 0; i < 4; i++) {
 									int j = i;
-									Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
+									Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
 										if (j < 3) {
 											b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
 										} else {
@@ -1374,7 +1374,7 @@ public final class SlimefunSetup {
 							if (InvUtils.fits(inv, adding)) {
 								for (int i = 0; i < 4; i++) {
 									int j = i;
-									Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
+									Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
 										if (j < 3) {
 											b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, ore);
 										} 
@@ -1444,8 +1444,8 @@ public final class SlimefunSetup {
 							for (int z = -1; z <= 1; z++) {
 								Block b = e.getBlock().getRelative(x, y, z);
 								if (b.getType() != Material.AIR && !b.isLiquid() && !StringUtils.equals(b.getType().toString(), explosiveblacklist) && CSCoreLib.getLib().getProtectionManager().canBuild(e.getPlayer().getUniqueId(), b)) {
-									if (SlimefunStartup.instance.getHooks().isCoreProtectInstalled()) {
-										SlimefunStartup.instance.getHooks().getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
+									if (SlimefunPlugin.getHooks().isCoreProtectInstalled()) {
+										SlimefunPlugin.getHooks().getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
 									}
 
 									b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
@@ -1509,8 +1509,8 @@ public final class SlimefunSetup {
 								}
 								if (correctType) {
 									if (CSCoreLib.getLib().getProtectionManager().canBuild(e.getPlayer().getUniqueId(), b)) {
-										if (SlimefunStartup.instance.getHooks().isCoreProtectInstalled()) {
-											SlimefunStartup.instance.getHooks().getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
+										if (SlimefunPlugin.getHooks().isCoreProtectInstalled()) {
+											SlimefunPlugin.getHooks().getCoreProtectAPI().logRemoval(e.getPlayer().getName(), b.getLocation(), b.getType(), b.getBlockData());
 										}
 
 										b.getWorld().playEffect(b.getLocation(), Effect.STEP_SOUND, b.getType());
@@ -1555,8 +1555,8 @@ public final class SlimefunSetup {
 						for (int y = -4; y <= 4; y++) {
 							for (int z = -4; z <= 4; z++) {
 								if (p.getLocation().getBlock().getRelative(x, y, z).getType().toString().endsWith("_ORE")) {
-									if (closest == null) closest = p.getLocation().getBlock().getRelative(x, y, z);
-									else if (p.getLocation().distance(closest.getLocation()) < p.getLocation().distance(p.getLocation().getBlock().getRelative(x, y, z).getLocation())) closest = p.getLocation().getBlock().getRelative(x, y, z);
+									if (closest == null || p.getLocation().distance(closest.getLocation()) < p.getLocation().distance(p.getLocation().getBlock().getRelative(x, y, z).getLocation()))
+									    closest = p.getLocation().getBlock().getRelative(x, y, z);
 								}
 							}
 						}
@@ -1734,7 +1734,7 @@ public final class SlimefunSetup {
 							FallingBlock block = ground.getWorld().spawnFallingBlock(ground.getBlock().getRelative(BlockFace.UP).getLocation(), ground.getBlock().getBlockData());
 							block.setDropItem(false);
 							block.setVelocity(new Vector(0, 0.4 + i * 0.01, 0));
-							SlimefunStartup.instance.getUtilities().blocks.add(block.getUniqueId());
+							SlimefunPlugin.getUtilities().blocks.add(block.getUniqueId());
 						}
 						for (Entity n: ground.getChunk().getEntities()) {
 							if (n instanceof LivingEntity && n.getLocation().distance(ground) <= 2.0D && !n.getUniqueId().equals(p.getUniqueId())) {
@@ -1980,7 +1980,7 @@ public final class SlimefunSetup {
 
 			@Override
 			public boolean onHit(EntityDamageByEntityEvent e, LivingEntity n) {
-				if (SlimefunManager.isItemSimiliar(SlimefunStartup.instance.getUtilities().arrows.get(e.getDamager().getUniqueId()), SlimefunItems.EXPLOSIVE_BOW, true)) {
+				if (SlimefunManager.isItemSimiliar(SlimefunPlugin.getUtilities().arrows.get(e.getDamager().getUniqueId()), SlimefunItems.EXPLOSIVE_BOW, true)) {
 					Vector vector = n.getVelocity();
 					vector.setY(0.6);
 					n.setVelocity(vector);
@@ -1998,7 +1998,7 @@ public final class SlimefunSetup {
 
 			@Override
 			public boolean onHit(EntityDamageByEntityEvent e, LivingEntity n) {
-				if (SlimefunManager.isItemSimiliar(SlimefunStartup.instance.getUtilities().arrows.get(e.getDamager().getUniqueId()), SlimefunItems.ICY_BOW, true)) {
+				if (SlimefunManager.isItemSimiliar(SlimefunPlugin.getUtilities().arrows.get(e.getDamager().getUniqueId()), SlimefunItems.ICY_BOW, true)) {
 					n.getWorld().playEffect(n.getLocation(), Effect.STEP_SOUND, Material.ICE);
 					n.getWorld().playEffect(n.getEyeLocation(), Effect.STEP_SOUND, Material.ICE);
 					n.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 20 * 2, 10));
@@ -2048,13 +2048,8 @@ public final class SlimefunSetup {
 					if (e.getClickedBlock() == null || !(e.getClickedBlock().getState() instanceof Container)) {
 						p.setLevel(p.getLevel() - 1);
 						e.setCancelled(true);
-						try{
-							p.getInventory().addItem(new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco de conocimiento"));
-						} catch(Exception x) {
-							x.printStackTrace();
-						}
-						
-						
+						p.getInventory().addItem(new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco de conocimiento"));
+												
 						p.playSound(p.getLocation(), Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 1F, 0.5F);
 						
 						if (e.getParentEvent().getHand() == EquipmentSlot.HAND) {
@@ -2199,7 +2194,7 @@ public final class SlimefunSetup {
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				Item stack = AncientAltarListener.findItem(b);
 				if (stack != null) { 
-					stack.removeMetadata("item_placed", SlimefunStartup.instance);
+					stack.removeMetadata("item_placed", SlimefunPlugin.instance);
 					b.getWorld().dropItem(b.getLocation(), AncientAltarListener.fixItemStack(stack.getItemStack(), stack.getCustomName()));
 					stack.remove();
 				}
@@ -3062,11 +3057,8 @@ public final class SlimefunSetup {
 				SlimefunItem item = BlockStorage.check(e.getClickedBlock());
 				if (item == null || !item.getID().equals("GPS_CONTROL_PANEL")) return false;
 				e.setCancelled(true);
-				try {
-					Slimefun.getGPSNetwork().openTransmitterControlPanel(p);
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
+
+				Slimefun.getGPSNetwork().openTransmitterControlPanel(p);
 				return true;
 			}
 		});
@@ -3498,11 +3490,8 @@ public final class SlimefunSetup {
 				SlimefunItem item = BlockStorage.check(e.getClickedBlock());
 				if (item == null || !item.getID().equals("GPS_GEO_SCANNER")) return false;
 				e.setCancelled(true);
-				try {
-					Slimefun.getGPSNetwork().scanChunk(p, e.getClickedBlock().getChunk());
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}
+
+				Slimefun.getGPSNetwork().scanChunk(p, e.getClickedBlock().getChunk());
 				return true;
 			}
 		});
@@ -4007,15 +3996,11 @@ public final class SlimefunSetup {
 			}
 
 			@Override
-			public void extraTick(Location l) {
-
-			}
-
-			@Override
 			public ItemStack getProgressBar() {
 				try {
 					return CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYTNhZDhlZTg0OWVkZjA0ZWQ5YTI2Y2EzMzQxZjYwMzNiZDc2ZGNjNDIzMWVkMWVhNjNiNzU2NTc1MWIyN2FjIn19fQ==");
 				} catch (Exception e) {
+					Slimefun.getLogger().log(Level.SEVERE, "Se produjo un error al crear la barra de progreso de un reactor para Slimefun " + Slimefun.getVersion());
 					return new ItemStack(Material.BLAZE_POWDER);
 				}
 			}
@@ -4023,7 +4008,13 @@ public final class SlimefunSetup {
             @Override
             public ItemStack getCoolant() {
                 return SlimefunItems.REACTOR_COOLANT_CELL;
-            }
+			}
+
+			@Override
+			public void extraTick(Location l) {
+				// This machine does not need to perform anything while ticking
+				// The Nether Star Reactor uses this method to generate the Wither Effect
+			}
 		}
 		.registerChargeableBlock(true, 16384);
 
@@ -4047,7 +4038,7 @@ public final class SlimefunSetup {
 
 			@Override
 			public void extraTick(final Location l) {
-				Bukkit.getScheduler().runTaskLater(SlimefunStartup.instance, () -> {
+				Bukkit.getScheduler().runTaskLater(SlimefunPlugin.instance, () -> {
 					for (Entity entity : ReactorHologram.getArmorStand(l, true).getNearbyEntities(5, 5, 5)) {
 						if (entity instanceof LivingEntity) {
 							((LivingEntity) entity).addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 60, 1));
@@ -4283,7 +4274,7 @@ public final class SlimefunSetup {
 	}
 	
 	public static void registerPostHandler(PostSlimefunLoadingHandler handler) {
-		MiscSetup.postHandlers.add(handler);
+		SlimefunPlugin.getUtilities().postHandlers.add(handler);
 	}
 
 }

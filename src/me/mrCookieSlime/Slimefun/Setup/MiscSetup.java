@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun.Setup;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.stream.Stream;
 
 import org.bukkit.Bukkit;
@@ -16,16 +17,16 @@ import org.bukkit.inventory.ItemStack;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.Colors;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItemSerializer.ItemFlag;
-import me.mrCookieSlime.Slimefun.SlimefunStartup;
+import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
-import me.mrCookieSlime.Slimefun.Misc.PostSlimefunLoadingHandler;
 import me.mrCookieSlime.Slimefun.Objects.Research;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.Alloy;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.ReplacingAlloy;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.AutomatedCraftingChamber;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AutomatedCraftingChamber;
+import me.mrCookieSlime.Slimefun.Setup.PostSlimefunLoadingHandler;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunRecipes;
 import me.mrCookieSlime.Slimefun.utils.Settings;
@@ -33,8 +34,6 @@ import me.mrCookieSlime.Slimefun.utils.Settings;
 public final class MiscSetup {
 	
 	private MiscSetup() {}
-	
-	public static List<PostSlimefunLoadingHandler> postHandlers = new ArrayList<>();
 	
 	public static void setupMisc() {
 		if (SlimefunItem.getByID("COMMON_TALISMAN") != null && (Boolean) Slimefun.getItemValue("COMMON_TALISMAN", "recipe-requires-nether-stars")) {
@@ -55,11 +54,11 @@ public final class MiscSetup {
 		while (iterator.hasNext()) {
 			SlimefunItem item = iterator.next();
 			if (item == null) {
-				System.err.println("[Slimefun] Removed bugged Item ('NULL?')");
+				Slimefun.getLogger().log(Level.WARNING, "Removed bugged Item ('NULL?')");
 				iterator.remove();
 			}
 			else if (item.getItem() == null) {
-				System.err.println("[Slimefun] Removed bugged Item ('" + item.getID() + "')");
+				Slimefun.getLogger().log(Level.WARNING, "Removed bugged Item ('" + item.getID() + "')");
 				iterator.remove();
 			}
 		}
@@ -205,22 +204,22 @@ public final class MiscSetup {
 		CommandSender sender = Bukkit.getConsoleSender();
 		ChatColor color = Colors.getRandom();
 		
-		for (PostSlimefunLoadingHandler handler: postHandlers) {
+		for (PostSlimefunLoadingHandler handler: SlimefunPlugin.getUtilities().postHandlers) {
 			handler.run(pre, init, post);
 		}
 		
 		sender.sendMessage(color + "###################### - Slimefun - ######################");
 		sender.sendMessage(color + "Successfully loaded " + SlimefunItem.list().size() + " Items (" + Research.list().size() + " Researches)");
-		sender.sendMessage(color + "( " + SlimefunStartup.instance.getUtilities().vanillaItems + " Items from Slimefun, " + (SlimefunItem.list().size() - SlimefunStartup.instance.getUtilities().vanillaItems) + " Items from Addons )");
+		sender.sendMessage(color + "( " + SlimefunPlugin.getUtilities().vanillaItems + " Items from Slimefun, " + (SlimefunItem.list().size() - SlimefunPlugin.getUtilities().vanillaItems) + " Items from Addons )");
 		sender.sendMessage(color + "##########################################################");
-		SlimefunStartup.getItemCfg().save();
-		SlimefunStartup.getResearchCfg().save();
-		SlimefunStartup.getWhitelist().save();
+		SlimefunPlugin.getItemCfg().save();
+		SlimefunPlugin.getResearchCfg().save();
+		SlimefunPlugin.getWhitelist().save();
 	}
 
 	public static void setupItemSettings() {
 		for (World world: Bukkit.getWorlds()) {
-			SlimefunStartup.getWhitelist().setDefaultValue(world.getName() + ".enabled-items.SLIMEFUN_GUIDE", true);
+			SlimefunPlugin.getWhitelist().setDefaultValue(world.getName() + ".enabled-items.SLIMEFUN_GUIDE", true);
 		}
 		
 		Slimefun.setItemVariable("ORE_CRUSHER", "double-ores", true);

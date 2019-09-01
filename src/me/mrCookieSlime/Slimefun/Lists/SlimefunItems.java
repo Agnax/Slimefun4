@@ -2,6 +2,7 @@ package me.mrCookieSlime.Slimefun.Lists;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
@@ -19,6 +20,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomPotion;
 import me.mrCookieSlime.CSCoreLibPlugin.general.String.Christmas;
 import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
+import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 import me.mrCookieSlime.Slimefun.Lists.InsanityItem;
 
@@ -773,7 +775,7 @@ public class SlimefunItems {
 			return CustomSkull.getItem(texture);
 		}
 		catch(Exception x) {
-			x.printStackTrace();
+			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while initializing the Items for Slimefun " + Slimefun.getVersion(), x);
 			
 			return new ItemStack(Material.PLAYER_HEAD);
 		}

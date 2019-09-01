@@ -6,6 +6,8 @@ import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 
 public final class Settings {
 	
+	public boolean printOutLoading;
+	
 	public boolean researchesEnabled;
 	public boolean researchesFreeInCreative;
 	public List<String> researchesTitles;
@@ -21,9 +23,11 @@ public final class Settings {
 	public boolean legacyOreGrinder;
 	public boolean legacyOreWasher;
 	
-	public int SMELTERY_FIRE_BREAK_CHANCE;
+	public int smelteryFireBreakChance;
 	
 	public Settings(Config cfg) {
+		printOutLoading = cfg.getBoolean("options.print-out-loading");
+		
 		researchesFreeInCreative = cfg.getBoolean("options.allow-free-creative-research");
 		researchesTitles = cfg.getStringList("research-ranks");
 		
