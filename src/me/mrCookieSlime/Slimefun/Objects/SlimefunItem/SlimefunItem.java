@@ -37,14 +37,8 @@ import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 public class SlimefunItem {
 
 	public static List<SlimefunItem> items = new ArrayList<>();
-
 	public static Map<String, SlimefunItem> mapID = new HashMap<>();
-	public static List<ItemStack> radioactive = new ArrayList<>();
-	public static Set<String> tickers = new HashSet<>();
-
 	public static List<SlimefunItem> all = new ArrayList<>();
-	public static Map<String, Set<ItemHandler>> handlers = new HashMap<>();
-	public static Map<String, SlimefunBlockHandler> blockhandler = new HashMap<>();
 
 	private String id;
 	private String hash;
@@ -256,7 +250,7 @@ public class SlimefunItem {
 				for (ItemHandler handler: itemhandlers) {
 					Set<ItemHandler> handlerset = getHandlers(handler.toCodename());
 					handlerset.add(handler);
-					handlers.put(handler.toCodename(), handlerset);
+					SlimefunPlugin.getUtilities().itemHandlers.put(handler.toCodename(), handlerset);
 				}
 
 				if (SlimefunPlugin.getSettings().printOutLoading) {
@@ -407,7 +401,7 @@ public class SlimefunItem {
 		for (ItemHandler h: handler) {
 			if (h instanceof BlockTicker) {
 				this.ticking = true;
-				tickers.add(getID());
+				SlimefunPlugin.getUtilities().tickers.add(getID());
 				this.blockTicker = (BlockTicker) h;
 			}
 			else if (h instanceof EnergyTicker) {
@@ -439,22 +433,22 @@ public class SlimefunItem {
 	}
 
 	public void register(boolean vanilla, SlimefunBlockHandler handler) {
-		blockhandler.put(getID(), handler);
+		SlimefunPlugin.getUtilities().blockHandlers.put(getID(), handler);
 		register(vanilla);
 	}
 
 	public void register(SlimefunBlockHandler handler) {
-		blockhandler.put(getID(), handler);
+		SlimefunPlugin.getUtilities().blockHandlers.put(getID(), handler);
 		register(false);
 	}
 
 	public static Set<ItemHandler> getHandlers(String codeid) {
-		if (handlers.containsKey(codeid)) return handlers.get(codeid);
+		if (SlimefunPlugin.getUtilities().itemHandlers.containsKey(codeid)) return SlimefunPlugin.getUtilities().itemHandlers.get(codeid);
 		else return new HashSet<>();
 	}
 
 	public static void setRadioactive(ItemStack item) {
-		radioactive.add(item);
+		SlimefunPlugin.getUtilities().radioactiveItems.add(item);
 	}
 
 	public static ItemStack getItem(String id) {
@@ -517,11 +511,11 @@ public class SlimefunItem {
 	}
 
 	public static boolean isTicking(String item) {
-		return tickers.contains(item);
+		return SlimefunPlugin.getUtilities().tickers.contains(item);
 	}
 
 	public static void registerBlockHandler(String id, SlimefunBlockHandler handler) {
-		blockhandler.put(id, handler);
+		SlimefunPlugin.getUtilities().blockHandlers.put(id, handler);
 	}
 
 	public void registerChargeableBlock(boolean vanilla, int capacity, ItemHandler... handlers) {

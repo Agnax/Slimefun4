@@ -17,13 +17,17 @@ import org.bukkit.inventory.ItemStack;
 
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.Objects.Category;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
+import me.mrCookieSlime.Slimefun.Objects.handlers.ItemHandler;
 import me.mrCookieSlime.Slimefun.Setup.PostSlimefunLoadingHandler;
 import me.mrCookieSlime.Slimefun.ancient_altar.AltarRecipe;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.GuideHandler;
 import me.mrCookieSlime.Slimefun.api.PlayerProfile;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.inventory.UniversalBlockMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoTransportEvent;
+import me.mrCookieSlime.Slimefun.api.item_transport.ItemRequest;
 import me.mrCookieSlime.Slimefun.hooks.github.Contributor;
 import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
 
@@ -38,6 +42,24 @@ import me.mrCookieSlime.Slimefun.hooks.github.GitHubConnector;
 public final class Utilities {
 	
 	public int vanillaItems = 0;
+
+	public Set<ItemStack> radioactiveItems = new HashSet<>();
+	public Map<String, Set<ItemHandler>> itemHandlers = new HashMap<>();
+	public Map<String, SlimefunBlockHandler> blockHandlers = new HashMap<>();
+	public Set<String> tickers = new HashSet<>();
+	
+	public Map<String, Integer> blocksEnergyCapacity = new HashMap<>();
+	public Set<String> rechargeableItems = new HashSet<>();
+	public Set<String> capacitorIDs = new HashSet<>();
+	
+	public Set<String> energyNetInput = new HashSet<>();
+	public Set<String> energyNetStorage = new HashSet<>();
+	public Set<String> energyNetOutput = new HashSet<>();
+	
+	public Map<Location, Integer> roundRobin = new HashMap<>();
+	public Set<ItemRequest> itemRequests = new HashSet<>();
+
+	public Map<String, BlockMenuPreset> blockMenuPresets = new HashMap<>();
 	
 	public List<Category> currentlyEnabledCategories = new ArrayList<>();
 	
