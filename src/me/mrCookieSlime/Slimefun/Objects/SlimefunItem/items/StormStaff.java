@@ -75,7 +75,7 @@ public class StormStaff extends SimpleSlimefunItem<ItemInteractionHandler> {
 									}
 									
 									for (int i = MAX_USES; i > 0; i--) {
-										if (i == 1 && ChatColor.translateAlternateColorCodes('&', "&e1 Use &7left").equals(itemLore.get(4))) {
+										if (i == 1 && ChatColor.translateAlternateColorCodes('&', "&e1 Uso &7restante").equals(itemLore.get(4))) {
 											e.setCancelled(true);
 											p.playSound(p.getLocation(), Sound.ENTITY_ITEM_BREAK, 1, 1);
 											item.setAmount(0);
