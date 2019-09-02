@@ -245,7 +245,8 @@ public class SlimefunItem {
 				items.add(this);
 				if (slimefun) SlimefunPlugin.getUtilities().vanillaItems++;
 				mapID.put(this.id, this);
-				this.create();
+				
+				create();
 				
 				for (ItemHandler handler: itemhandlers) {
 					Set<ItemHandler> handlerset = getHandlers(handler.toCodename());
@@ -261,6 +262,8 @@ public class SlimefunItem {
 				if (this instanceof VanillaItem) this.state = State.VANILLA;
 				else this.state = State.DISABLED;
 			}
+
+			postRegister();
 		} catch(Exception x) {
 			Slimefun.getLogger().log(Level.WARNING, "Registering the Item '" + id + "' for Slimefun " + Slimefun.getVersion() + " has failed", x);
 		}
@@ -387,9 +390,18 @@ public class SlimefunItem {
 		return false;
 	}
 
+	@Deprecated
 	public void install() {}
+	
+	/**
+	 *  @deprecated Use {@link SlimefunItem#postRegister()} instead
+	 */
+	@Deprecated
 	public void create()  {}
 
+	/**
+	 * @deprecated Use {@link SlimefunItem#addItemHandler(ItemHandler...)} instead
+	 */
 	@Deprecated
 	public void addItemHandler(me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handler) {
 		addItemHandler((ItemHandler[]) handler);
@@ -421,12 +433,18 @@ public class SlimefunItem {
 		register(false);
 	}
 
+	/**
+	 * @deprecated Use {@link SlimefunItem#register(boolean, ItemHandler...)} instead
+	 */
 	@Deprecated
 	public void register(boolean vanilla, me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handlers) {
 		addItemHandler(handlers);
 		register(vanilla);
 	}
 
+	/**
+	 * @deprecated Use {@link SlimefunItem#register(ItemHandler...)} instead
+	 */
 	@Deprecated
 	public void register(me.mrCookieSlime.Slimefun.Objects.SlimefunItem.handlers.ItemHandler... handlers) {
 		register((ItemHandler[]) handlers);
@@ -505,6 +523,8 @@ public class SlimefunItem {
 		EnergyNet.registerComponent(id, EnergyNetComponent.DISTRIBUTOR);
 		ChargableBlock.registerCapacitor(id, capacity);
 	}
+
+	public void postRegister() {}
 
 	protected void setItem(ItemStack stack) {
 		this.item = stack;
