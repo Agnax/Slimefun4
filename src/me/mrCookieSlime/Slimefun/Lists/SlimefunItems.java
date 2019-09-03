@@ -8,8 +8,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.FireworkEffect.Type;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkEffectMeta;
 import org.bukkit.potion.PotionEffect;
@@ -488,8 +488,13 @@ public class SlimefunItems {
 	
 	public static final ItemStack SOLAR_PANEL = new CustomItem(Material.DAYLIGHT_DETECTOR, "&bPanel solar", "", "&a&oTransforma la luz solar en energía");
 	public static final ItemStack SOLAR_ARRAY = new CustomItem(Material.DAYLIGHT_DETECTOR, "&bMatriz solar", "", "&a&oTransforma la luz solar en energía");
+	
+	@Deprecated
 	public static final ItemStack DIGITAL_MINER = new CustomItem(Material.IRON_PICKAXE, "&bQuarry digital", "", "&a&o¡Lo mina todo!");
+	
+	@Deprecated
 	public static final ItemStack ADVANCED_DIGITAL_MINER = new CustomItem(Material.DIAMOND_PICKAXE, "&6Quarry digital avanzado", "", "&a&o¡Lo mina todo!", "&a&oDuplica automáticamente tus minerales");
+	
 	public static final ItemStack AUTOMATED_PANNING_MACHINE = new CustomItem(Material.BOWL, "&aPaneo automatizada", "", "&a&oUna versión MultiBlock de la charola de oro");
 	public static final ItemStack OUTPUT_CHEST = new CustomItem(Material.CHEST, "&4Cofre de salida", "", "&c&oUna máquina básica tratará de ingresar", "&c&olos items si el cofre está de forma", "&c&oadyacente al dispenser.");
 	public static final ItemStack HOLOGRAM_PROJECTOR = new CustomItem(Material.QUARTZ_SLAB, "&bProyector holografico", "", "&rProyecta un holograma editable");
@@ -599,7 +604,10 @@ public class SlimefunItems {
 	public static final ItemStack SOLAR_GENERATOR_4 = new CustomItem(Material.DAYLIGHT_DETECTOR, "&eGenerador solar Energizado", "", "&9Funciona en la noche", "", "&4Generador End-Game", "&8\u21E8 &e\u26A1 &70 J Buffer", "&8\u21E8 &e\u26A1 &7256 J/s (Day)", "&8\u21E8 &e\u26A1 &7128 J/s (Noche)");
 	
 	public static final ItemStack COAL_GENERATOR = new CustomItem(getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTBkNTNjNzIxMGQwNDVhYjU0Y2Q4OGQyOWNkM2VlYmNjYzY2M2IwNzM5MjI4ZDhjMzZhOTk4ZGJlOGRmNjEyZiJ9fX0="), "&cGenerador de carbón", "", "&6Generador promedio", "&8\u21E8 &e\u26A1 &764 J Buffer", "&8\u21E8 &e\u26A1 &716 J/s");
+	public static final ItemStack COAL_GENERATOR_2 = new CustomItem(getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNTBkNTNjNzIxMGQwNDVhYjU0Y2Q4OGQyOWNkM2VlYmNjYzY2M2IwNzM5MjI4ZDhjMzZhOTk4ZGJlOGRmNjEyZiJ9fX0="), "&cGenerador de carbón &7(&eII&7)", "", "&6Generador avanzado", "&8\u21E8 &e\u26A1 &7256 J Buffer", "&8\u21E8 &e\u26A1 &730 J/s");
+	
 	public static final ItemStack LAVA_GENERATOR = new CustomItem(getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2NiOTQyNjNmNzEyZDkwMmRkMTM2MjUxZmQ0ZDhkMDA1ODkwYzY1N2FiNWVlNDkwY2NjOWJmNmVjMDliOGY1NyJ9fX0="), "&4Generador de lava", "", "&6Generador promedio", "&8\u21E8 &e\u26A1 &7512 J Buffer", "&8\u21E8 &e\u26A1 &720 J/s");
+	public static final ItemStack LAVA_GENERATOR_2 = new CustomItem(getSkull("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvY2NiOTQyNjNmNzEyZDkwMmRkMTM2MjUxZmQ0ZDhkMDA1ODkwYzY1N2FiNWVlNDkwY2NjOWJmNmVjMDliOGY1NyJ9fX0="), "&4Generador de lava &7(&eII&7)", "", "&6Generador avanzado", "&8\u21E8 &e\u26A1 &71024 J Buffer", "&8\u21E8 &e\u26A1 &740 J/s");
 	
 	public static final ItemStack ELECTRIC_FURNACE = new CustomItem(Material.FURNACE, "&cHorno eléctrico", "", "&eMáquina básica", "&8\u21E8 &7Velocidad: 1x", "&8\u21E8 &e\u26A1 &74 J/s");
 	public static final ItemStack ELECTRIC_FURNACE_2 = new CustomItem(Material.FURNACE, "&cHorno eléctrico &7- &eII", "", "&aMáquina mid-game", "&8\u21E8 &7Velocidad: 2x", "&8\u21E8 &e\u26A1 &76 J/s");
