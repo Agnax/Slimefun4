@@ -41,7 +41,7 @@ public class WitherAssembler extends SlimefunItem {
 	public WitherAssembler(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		
-		new BlockMenuPreset(name, "&5Wither Assembler") {
+		new BlockMenuPreset(name, "&5Ensamblador de Wither") {
 			
 			@Override
 			public void init() {
@@ -78,7 +78,7 @@ public class WitherAssembler extends SlimefunItem {
 						return false;
 					});
 				} catch(Exception x) {
-					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating a Wither Assembler for Slimefun " + Slimefun.getVersion(), x);
+					Slimefun.getLogger().log(Level.SEVERE, "Se produjo un error al crear un ensamblador Wither para Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 

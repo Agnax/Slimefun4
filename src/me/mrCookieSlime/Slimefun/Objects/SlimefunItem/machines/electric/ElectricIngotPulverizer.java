@@ -21,7 +21,7 @@ public class ElectricIngotPulverizer extends AContainer implements RecipeDisplay
 	
 	@Override
 	public String getInventoryTitle() {
-		return "&bElectric Ingot Pulverizer";
+		return "&bPulverizador de lingotes eléctrico";
 	}
 
 	@Override

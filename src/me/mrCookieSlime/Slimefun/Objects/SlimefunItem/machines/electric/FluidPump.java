@@ -36,7 +36,7 @@ public class FluidPump extends SlimefunItem implements InventoryBlock {
 	public FluidPump(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		
-		createPreset(this, "&9Fluid Pump", this::constructMenu);
+		createPreset(this, "&9Bomba de fluidos", this::constructMenu);
 	}
 	
 	private void constructMenu(BlockMenuPreset preset) {
