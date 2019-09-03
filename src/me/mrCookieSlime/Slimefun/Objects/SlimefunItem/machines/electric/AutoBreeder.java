@@ -7,10 +7,8 @@ import org.bukkit.Particle;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.InvUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
@@ -18,9 +16,8 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.World.Animals;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -28,51 +25,28 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import me.mrCookieSlime.Slimefun.holograms.AutoBreederHologram;
 
-public class AutoBreeder extends SlimefunItem {
+public class AutoBreeder extends SlimefunItem implements InventoryBlock {
 	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 
 	public AutoBreeder(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
+		createPreset(this, "&6Auto criador", this::constructMenu);
 		
-		new BlockMenuPreset(name, "&6Auto criador") {
-			
-			@Override
-			public void init() {
-				constructMenu(this);
-			}
-
-			@Override
-			public boolean canOpen(Block b, Player p) {
-				return p.hasPermission("slimefun.inventory.bypass") || CSCoreLib.getLib().getProtectionManager().canAccessChest(p.getUniqueId(), b, true);
-			}
-
-			@Override
-			public int[] getSlotsAccessedByItemTransport(ItemTransportFlow flow) {
-				if (flow == ItemTransportFlow.INSERT) return getInputSlots();
-				return new int[0];
-			}
-		};
-		
-		registerBlockHandler(name, new SlimefunBlockHandler() {
-			
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				AutoBreederHologram.remove(b);
-				BlockMenu inv = BlockStorage.getInventory(b);
-				if (inv != null) {
-					for (int slot : getInputSlots()) {
-						if (inv.getItemInSlot(slot) != null) {
-							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
-							inv.replaceExistingItem(slot, null);
-						}
+		registerBlockHandler(name, (p, b, tool, reason) -> {
+			AutoBreederHologram.remove(b);
+			BlockMenu inv = BlockStorage.getInventory(b);
+			if (inv != null) {
+				for (int slot : getInputSlots()) {
+					if (inv.getItemInSlot(slot) != null) {
+						b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
+						inv.replaceExistingItem(slot, null);
 					}
 				}
-				return true;
 			}
+			return true;
 		});
 	}
 	
@@ -86,12 +60,18 @@ public class AutoBreeder extends SlimefunItem {
 		return 60;
 	}
 	
+	@Override
 	public int[] getInputSlots() {
 		return new int[] {10, 11, 12, 13, 14, 15, 16};
 	}
 	
 	@Override
-	public void register(boolean slimefun) {
+	public int[] getOutputSlots() {
+		return new int[0];
+	}
+	
+	@Override
+	public void preRegister() {
 		addItemHandler(new BlockTicker() {
 			
 			@Override
@@ -99,7 +79,7 @@ public class AutoBreeder extends SlimefunItem {
 				try {
 					AutoBreeder.this.tick(b);
 				} catch (Exception x) {
-					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while ticking an Auto Breeder for Slimefun " + Slimefun.getVersion(), x);
+					Slimefun.getLogger().log(Level.SEVERE, "Se produjo un error al hacer clic en un reproductor automático para Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 
@@ -108,8 +88,6 @@ public class AutoBreeder extends SlimefunItem {
 				return true;
 			}
 		});
-
-		super.register(slimefun);
 	}
 	
 	protected void tick(Block b) throws Exception {

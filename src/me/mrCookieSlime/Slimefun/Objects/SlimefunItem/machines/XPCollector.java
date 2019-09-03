@@ -17,6 +17,7 @@ import me.mrCookieSlime.Slimefun.Objects.Category;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
@@ -24,7 +25,6 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.holograms.XPCollectorHologram;
-import me.mrCookieSlime.Slimefun.utils.InventoryBlock;
 
 public class XPCollector extends SlimefunItem implements InventoryBlock {
 	
@@ -32,7 +32,7 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 
 	public XPCollector(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
-		createPreset(getID(), "&aRecolector de XP", this::constructMenu);
+		createPreset(this, "&aRecolector de XP", this::constructMenu);
 		
 		registerBlockHandler(name, new SlimefunBlockHandler() {
 			
@@ -81,7 +81,7 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 	}
 	
 	@Override
-	public void register(boolean slimefun) {
+	public void preRegister() {
 		addItemHandler(new BlockTicker() {
 			
 			@Override
@@ -98,8 +98,6 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 				return true;
 			}
 		});
-
-		super.register(slimefun);
 	}
 	
 	protected void tick(Block b) {

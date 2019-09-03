@@ -26,9 +26,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ReactorAccessPort;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -138,10 +136,7 @@ public abstract class AReactor extends SlimefunItem {
 			}
 		};
 
-		registerBlockHandler(id, new SlimefunBlockHandler() {
-
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
+		registerBlockHandler(id, (p, b, tool, reason) -> {
 				BlockMenu inv = BlockStorage.getInventory(b);
 				if (inv != null) {
 					for (int slot : getFuelSlots()) {
@@ -170,7 +165,6 @@ public abstract class AReactor extends SlimefunItem {
 				processing.remove(b.getLocation());
 				ReactorHologram.remove(b.getLocation());
 				return true;
-			}
 		});
 
 		this.registerDefaultRecipes();
@@ -252,7 +246,7 @@ public abstract class AReactor extends SlimefunItem {
 	}
 
 	@Override
-	public void register(boolean slimefun) {
+	public void preRegister() {
 		addItemHandler(new EnergyTicker() {
 
 			private Set<Location> explode = new HashSet<>();
@@ -365,8 +359,6 @@ public abstract class AReactor extends SlimefunItem {
 				return explosion;
 			}
 		});
-
-		super.register(slimefun);
 	}
 
 	private void restockCoolant(Location l, BlockMenu port) {

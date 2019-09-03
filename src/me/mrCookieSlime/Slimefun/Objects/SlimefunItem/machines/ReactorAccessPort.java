@@ -16,9 +16,7 @@ import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.Category;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AReactor;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -97,10 +95,7 @@ public class ReactorAccessPort extends SlimefunItem {
 			}
 		};
 		
-		registerBlockHandler(name, new SlimefunBlockHandler() {
-
-			@Override
-			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
+		registerBlockHandler(name, (p, b, tool, reason) -> {
 				BlockMenu inv = BlockStorage.getInventory(b);
 				
 				if (inv != null) {
@@ -126,7 +121,6 @@ public class ReactorAccessPort extends SlimefunItem {
 					}
 				}
 				return true;
-			}
 		});
 	}
 	
