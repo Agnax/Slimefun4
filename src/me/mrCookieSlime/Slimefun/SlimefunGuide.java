@@ -404,7 +404,7 @@ public final class SlimefunGuide {
 				pl -> pl.playSound(pl.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 0.7F)
 			);
 			
-			List<Category> categories = SlimefunPlugin.getUtilities().currentlyEnabledCategories;
+			List<Category> categories = SlimefunPlugin.getUtilities().enabledCategories;
 			List<GuideHandler> handlers = SlimefunPlugin.getUtilities().guideHandlers.values().stream().flatMap(List::stream).collect(Collectors.toList());
 			
 			int index = 9;
@@ -716,7 +716,10 @@ public final class SlimefunGuide {
 							index++;
 						}
 						else {
-							menu.addItem(index, new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false), "", "&rNo tienes permisos", "&rpara acceder a este item"));
+							List<String> list = Messages.local.getTranslation("tooltips.item-permission");
+							String[] strings = list.toArray(new String[list.size()]);
+							CustomItem display = new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false),  strings);
+						    menu.addItem(index, display);
 							menu.addMenuClickHandler(index, (pl, slot, item, action) -> false);
 							index++;
 						}
