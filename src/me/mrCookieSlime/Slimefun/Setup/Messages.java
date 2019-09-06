@@ -40,9 +40,9 @@ public final class Messages {
 		local.setDefault("messages.give-research", "&bYou have given %player% the Research &7\"%research%&7\"");
 		local.setDefault("messages.battery.add", "&2+ &7%charge% J &8(%machine%)");
 		local.setDefault("messages.battery.remove", "&4- &7%charge% J &8(%machine%)");
-		local.setDefault("messages.hungry", "&cYou are too hungry to do that!");
+		local.setDefault("messages.hungry", "&c¡Tienes mucha hambre para hacer esto!");
 		local.setDefault("messages.mode-change", "&bSe ha cambiado el modo del %device%: &9%mode%");
-		local.setDefault("messages.disabled-in-world", "&4&lThis Item has been disabled in this World");
+		local.setDefault("messages.disabled-in-world", "&4&l¡Este item está desactivado en este mundo!");
 		local.setDefault("messages.talisman.anvil", "&a&oYour Talisman saved your Tool from breaking");
 		local.setDefault("messages.talisman.miner", "&a&oYour Talisman just doubled your Drops");
 		local.setDefault("messages.talisman.hunter", "&a&oYour Talisman just doubled your Drops");
