@@ -1,4 +1,4 @@
-package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -24,12 +24,13 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
-import me.mrCookieSlime.Slimefun.holograms.XPCollectorHologram;
 
 public class XPCollector extends SlimefunItem implements InventoryBlock {
 	
 	private static final int[] border = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26};
 
+	protected int energyConsumption = 10;
+	
 	public XPCollector(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 		createPreset(this, "&aRecolector de XP", this::constructMenu);
@@ -43,7 +44,6 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 			
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
-				XPCollectorHologram.remove(b);
 				BlockMenu inv = BlockStorage.getInventory(b);
 				if (inv != null) {
 					for (int slot: getOutputSlots()) {
@@ -76,10 +76,6 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 		}
 	}
 	
-	public int getEnergyConsumption() {
-		return 10;
-	}
-	
 	@Override
 	public void preRegister() {
 		addItemHandler(new BlockTicker() {
@@ -101,30 +97,26 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 	}
 	
 	protected void tick(Block b) {
-		Iterator<Entity> iterator = XPCollectorHologram.getArmorStand(b, true).getNearbyEntities(4D, 4D, 4D).iterator();
-		while (iterator.hasNext()) {
+		Iterator<Entity> iterator = b.getWorld().getNearbyEntities(b.getLocation(), 4.0, 4.0, 4.0, n -> n instanceof ExperienceOrb && n.isValid()).iterator();
+		int xp = 0;
+		
+		while (iterator.hasNext() && xp == 0) {
 			Entity n = iterator.next();
-			if (n instanceof ExperienceOrb) {
-				if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
-				
-				if (n.isValid()) {
-					int xp = getEXP(b) + ((ExperienceOrb) n).getExperience();
-					
-					ChargableBlock.addCharge(b, -getEnergyConsumption());
-					n.remove();
-					
-					int withdrawn = 0;
-					for (int level = 0; level < getEXP(b); level = level + 10) {
-						if (fits(b, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco de conocimiento"))) {
-							withdrawn = withdrawn + 10;
-							pushItems(b, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco de conocimiento"));
-						}
-					}
-					BlockStorage.addBlockInfo(b, "stored-exp", String.valueOf(xp - withdrawn));
-					
-					return;
+			if (ChargableBlock.getCharge(b) < energyConsumption) return;
+			
+			xp = getEXP(b) + ((ExperienceOrb) n).getExperience();
+			
+			ChargableBlock.addCharge(b, -energyConsumption);
+			n.remove();
+			
+			int withdrawn = 0;
+			for (int level = 0; level < getEXP(b); level = level + 10) {
+				if (fits(b, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco de conocimiento"))) {
+					withdrawn = withdrawn + 10;
+					pushItems(b, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco de conocimiento"));
 				}
 			}
+			BlockStorage.addBlockInfo(b, "stored-exp", String.valueOf(xp - withdrawn));
 		}
 	}
 

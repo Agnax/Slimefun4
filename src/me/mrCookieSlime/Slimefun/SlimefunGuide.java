@@ -3,6 +3,7 @@ package me.mrCookieSlime.Slimefun;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -57,7 +58,8 @@ public final class SlimefunGuide {
 	private SlimefunGuide() {}
 	
 	private static final int category_size = 36;
-
+	private static final int[] slots = new int[] {0, 2, 3, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
+	
 	@Deprecated
 	public static ItemStack getItem() {
 		return getItem(SlimefunGuideLayout.CHEST);
@@ -66,11 +68,11 @@ public final class SlimefunGuide {
 	public static ItemStack getItem(SlimefunGuideLayout design) {
 		switch (design) {
 		case BOOK:
-			return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aGuía de InsanityItems &7(Book GUI)", "", "&eClick derecho &8\u21E8 &7Buscar items", "&eShift + Click derecho &8\u21E8 &7Abre la config / Créditos");
+			return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aGuía de SlimeFun &7(Book GUI)", "", "&eClick derecho &8\u21E8 &7Buscar items", "&eShift + Click derecho &8\u21E8 &7Abre la config / Créditos");
 		case CHEAT_SHEET:
-			return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&cGuía de InsanityItems &4(Cheat Sheet)", "", "&4&lSólo para admins", "", "&eClick derecho &8\u21E8 &7Buscar items", "&eShift + Click derecho &8\u21E8 &7Abre la config / Créditos");
+			return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&cGuía de SlimeFun &4(Cheat Sheet)", "", "&4&lSólo para admins", "", "&eClick derecho &8\u21E8 &7Buscar items", "&eShift + Click derecho &8\u21E8 &7Abre la config / Créditos");
 		case CHEST:
-			return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aGuía de InsanityItems &7(Chest GUI)", "", "&eClick derecho &8\u21E8 &7Buscar items", "&eShift + Click derecho &8\u21E8 &7Abre la config / Créditos");
+			return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&aGuía de SlimeFun &7(Chest GUI)", "", "&eClick derecho &8\u21E8 &7Buscar items", "&eShift + Click derecho &8\u21E8 &7Abre la config / Créditos");
 		default:
 			return null;
 		}
@@ -83,10 +85,8 @@ public final class SlimefunGuide {
 	
 	@Deprecated
 	public static ItemStack getDeprecatedItem(boolean book) {
-		return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&eGuía de InsanityItems &7(Right Click)", (book ? "": "&2"), "&rThis is your basic Guide for Slimefun", "&rYou can see all Items added by this Plugin", "&ror its Addons including their Recipes", "&ra bit of information and more");
+		return new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&eGuía de SlimeFun &7(Right Click)", (book ? "": "&2"), "&rThis is your basic Guide for Slimefun", "&rYou can see all Items added by this Plugin", "&ror its Addons including their Recipes", "&ra bit of information and more");
 	}
-	
-	private static final int[] slots = new int[] {0, 2, 3, 5, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
 	
 	public static void openSettings(Player p, final ItemStack guide) {
 		final ChestMenu menu = new ChestMenu("Configuración / Info");
@@ -184,16 +184,12 @@ public final class SlimefunGuide {
 		final ChestMenu menu = new ChestMenu("Credits");
 		
 		menu.setEmptySlotsClickable(false);
-		menu.addMenuOpeningHandler(
-			pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F)
-		);
+		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
 		
 		for (int i = 0; i < 9; i++) {
 			if (i != 4) {
 				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
-				menu.addMenuClickHandler(i,
-					(pl, slot, item, action) -> false
-				);
+				menu.addMenuClickHandler(i, (pl, slot, item, action) -> false);
 			}
 			else {
 				menu.addItem(4, new CustomItem(new ItemStack(Material.EMERALD), "&7\u21E6 Regresar a la configuración"));
@@ -205,11 +201,7 @@ public final class SlimefunGuide {
 		}
 		
 		int index = 9;
-		double total = 0;
-
-		for (Contributor contributor : SlimefunPlugin.getUtilities().contributors) {
-			total += contributor.getCommits();
-		}
+		double total = 1.0 * SlimefunPlugin.getUtilities().contributors.stream().mapToInt(Contributor::getCommits).sum();
 		
 		for (final Contributor contributor: SlimefunPlugin.getUtilities().contributors) {
 			ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
@@ -259,7 +251,10 @@ public final class SlimefunGuide {
 	public static void openGuide(Player p, boolean book) {
 		if (!SlimefunPlugin.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled")) return;
 		if (!SlimefunPlugin.getWhitelist().getBoolean(p.getWorld().getName() + ".enabled-items.SLIMEFUN_GUIDE")) return;
-		if (!getHistory().containsKey(p.getUniqueId())) openMainMenu(p, true, book, 1);
+		
+		if (!getHistory().containsKey(p.getUniqueId())) {
+			openMainMenu(p, true, book, 1);
+		}
 		else {
 			Object last = getLastEntry(p, false);
 			if (last instanceof Category) openCategory(p, (Category) last, true, 1, book);
@@ -270,8 +265,9 @@ public final class SlimefunGuide {
 	}
 
 	public static void openMainMenu(final Player p, final boolean survival, final boolean book, final int selected_page) {
-		if (survival)
+		if (survival) {
 			clearHistory(p.getUniqueId());
+		}
 		
 		if (book) {
 			List<TellRawMessage> pages = new ArrayList<>();
@@ -293,7 +289,7 @@ public final class SlimefunGuide {
 				}
 				
 				if (locked) {
-					// Dont display that Category...
+					// Don't display that Category...
 				}
 				else {
 					if (tier < category.getTier()) {
@@ -372,7 +368,7 @@ public final class SlimefunGuide {
 			
 			for (int i = 0; i < texts.size(); i = i + 10) {
 				TellRawMessage page = new TellRawMessage();
-				page.addText(ChatColor.translateAlternateColorCodes('&', "&b&l- Guía de InsanityItems -\n\n"));
+				page.addText(ChatColor.translateAlternateColorCodes('&', "&b&l- Guía de SlimeFun -\n\n"));
 				for (int j = i; j < texts.size() && j < i + 10; j++) {
 					page.addText(texts.get(j) + "\n");
 					if (tooltips.get(j) != null) page.addHoverEvent(HoverAction.SHOW_TEXT, tooltips.get(j));
@@ -394,15 +390,13 @@ public final class SlimefunGuide {
 				pages.add(page);
 			}
 			
-			new CustomBookOverlay("Guía de InsanityItems", "mrCookieSlime", pages.toArray(new TellRawMessage[pages.size()])).open(p);
+			new CustomBookOverlay("Guía de SlimeFun", "mrCookieSlime", pages.toArray(new TellRawMessage[pages.size()])).open(p);
 		}
 		else {
-			final ChestMenu menu = new ChestMenu("Guía de InsanityItems");
+			final ChestMenu menu = new ChestMenu("Guía de SlimeFun");
 			
 			menu.setEmptySlotsClickable(false);
-			menu.addMenuOpeningHandler(
-				pl -> pl.playSound(pl.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 0.7F)
-			);
+			menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 0.7F));
 			
 			List<Category> categories = SlimefunPlugin.getUtilities().enabledCategories;
 			List<GuideHandler> handlers = SlimefunPlugin.getUtilities().guideHandlers.values().stream().flatMap(List::stream).collect(Collectors.toList());
@@ -412,16 +406,12 @@ public final class SlimefunGuide {
 			
 			for (int i = 0; i < 9; i++) {
 				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
-				menu.addMenuClickHandler(i,
-					(pl, slot, item, action) -> false
-				);
+				menu.addMenuClickHandler(i, (pl, slot, item, action) -> false);
 			}
 			
 			for (int i = 45; i < 54; i++) {
 				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
-				menu.addMenuClickHandler(i,
-					(pl, slot, item, action) -> false
-				);
+				menu.addMenuClickHandler(i, (pl, slot, item, action) -> false);
 			}
 			
 			int target = (category_size * (selected_page - 1)) - 1;
@@ -435,12 +425,13 @@ public final class SlimefunGuide {
 				target++;
 				
 				if (target >= categories.size()) {
-					if (!survival) break;
+					if (!survival) {
+						break;
+					}
 					index = handlers.get(target - categories.size()).next(p, index, menu);
 				}
 				else {
 					final Category category = categories.get(target);
-					
 					boolean locked = true;
 					
 					for (SlimefunItem item: category.getItems()) {
@@ -487,13 +478,13 @@ public final class SlimefunGuide {
 						parents.add(ChatColor.translateAlternateColorCodes('&', "&rNecesitas desbloquear todos los items"));
 						parents.add(ChatColor.translateAlternateColorCodes('&', "&rde las siguientes categorias:"));
 						parents.add("");
+						
 						for (Category parent : ((LockedCategory) category).getParents()) {
 							parents.add(parent.getItem().getItemMeta().getDisplayName());
 						}
+						
 						menu.addItem(index, new CustomItem(Material.BARRIER, "&4LOCKED &7- &r" + category.getItem().getItemMeta().getDisplayName(), parents.toArray(new String[parents.size()])));
-						menu.addMenuClickHandler(index,
-							(pl, slot, item, action) -> false
-						);
+						menu.addMenuClickHandler(index, (pl, slot, item, action) -> false);
 						index++;
 					}
 				}
@@ -610,28 +601,32 @@ public final class SlimefunGuide {
 			
 			for (int i = 0; i < texts.size(); i = i + 10) {
 				TellRawMessage page = new TellRawMessage();
-				page.addText(ChatColor.translateAlternateColorCodes('&', "&b&l- Guía de InsanityItems -\n\n"));
+				page.addText(ChatColor.translateAlternateColorCodes('&', "&b&l- Guia de Slimefun -\n\n"));
+				
 				for (int j = i; j < texts.size() && j < i + 10; j++) {
 					page.addText(texts.get(j) + "\n");
 					if (tooltips.get(j) != null) page.addHoverEvent(HoverAction.SHOW_TEXT, tooltips.get(j));
 					if (actions.get(j) != null) page.addClickEvent(actions.get(j));
 				}
+				
 				page.addText("\n");
 				page.addText(ChatColor.translateAlternateColorCodes('&', "&6\u21E6 &lBack"));
 				page.addHoverEvent(HoverAction.SHOW_TEXT, ChatColor.translateAlternateColorCodes('&', "&eHaga clic para volver a la descripción de la categoría."));
 				page.addClickEvent(new PlayerRunnable(2) {
+					
 					@Override
 					public void run(final Player p) {
 						Bukkit.getScheduler().scheduleSyncDelayedTask(SlimefunPlugin.instance, () -> openMainMenu(p, survival, true, 1), 1L);
 					}
+					
 				});
 				pages.add(page);
 			}
 			
-			new CustomBookOverlay("Guía de InsanityItems", "mrCookieSlime", pages.toArray(new TellRawMessage[pages.size()])).open(p);
+			new CustomBookOverlay("Guía de SlimeFun", "mrCookieSlime", pages.toArray(new TellRawMessage[pages.size()])).open(p);
 		}
 		else {
-			final ChestMenu menu = new ChestMenu("Guía de InsanityItems");
+			final ChestMenu menu = new ChestMenu("Guía de SlimeFun");
 			
 			menu.setEmptySlotsClickable(false);
 			menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 0.7F));
@@ -680,11 +675,13 @@ public final class SlimefunGuide {
 				int target = categoryIndex + i;
 				if (target >= category.getItems().size()) break;
 				final SlimefunItem sfitem = category.getItems().get(target);
+				
 				if (Slimefun.isEnabled(p, sfitem, false)) {
 					if (survival && !Slimefun.hasUnlocked(p, sfitem.getItem(), false) && sfitem.getResearch() != null) {
 						if (Slimefun.hasPermission(p, sfitem, false)) {
 						    final Research research = sfitem.getResearch();
-							menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + StringUtils.formatItemName(sfitem.getItem(), false), "&4&lBLOQUEADO", "", "&a> Click para desbloquear", "", "&7Cuesta: &b" + research.getCost() + " niveles"));
+						    
+							menu.addItem(index, new CustomItem(Material.BARRIER, "&r" + StringUtils.formatItemName(sfitem.getItem(), false), "&4&lBLOQUEADO", "", "&a> Click para desbloquear", "", "&7Cuesta: &b" + research.getCost() + " Niveles"));
 							menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
 								if (!Research.isResearching(pl)) {
 									if (research.canUnlock(pl)) {
@@ -716,10 +713,8 @@ public final class SlimefunGuide {
 							index++;
 						}
 						else {
-							List<String> list = Messages.local.getTranslation("tooltips.item-permission");
-							String[] strings = list.toArray(new String[list.size()]);
-							CustomItem display = new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false),  strings);
-						    menu.addItem(index, display);
+							List<String> tooltip = Messages.local.getTranslation("tooltips.item-permission");
+						    menu.addItem(index, new CustomItem(Material.BARRIER, StringUtils.formatItemName(sfitem.getItem(), false), tooltip.toArray(new String[tooltip.size()])));
 							menu.addMenuClickHandler(index, (pl, slot, item, action) -> false);
 							index++;
 						}
@@ -745,25 +740,28 @@ public final class SlimefunGuide {
 	}
 
 	public static void addToHistory(Player p, Object obj) {
-		List<Object> list = new ArrayList<>();
-		if (getHistory().containsKey(p.getUniqueId())) list = getHistory().get(p.getUniqueId());
+		LinkedList<Object> list = getHistory().get(p.getUniqueId());
+		
+		if (list == null) {
+			list = new LinkedList<>();
+			getHistory().put(p.getUniqueId(), list);
+		}
+		
 		list.add(obj);
-		getHistory().put(p.getUniqueId(), list);
 	}
 
 	private static Object getLastEntry(Player p, boolean remove) {
-		List<Object> list = new ArrayList<>();
-		if (getHistory().containsKey(p.getUniqueId())) list = getHistory().get(p.getUniqueId());
+		LinkedList<Object> history = getHistory().get(p.getUniqueId());
 		
-		if (remove && !list.isEmpty()) {
-			Object obj = list.get(list.size() - 1);
-			list.remove(obj);
+		if (remove && history != null && !history.isEmpty()) {
+			history.removeLast();
 		}
 		
-		if (list.isEmpty()) getHistory().remove(p.getUniqueId());
-		else getHistory().put(p.getUniqueId(), list);
+		if (history != null && history.isEmpty()) {
+			getHistory().remove(p.getUniqueId());
+		}
 		
-		return list.isEmpty() ? null: list.get(list.size() - 1);
+		return history == null || history.isEmpty() ? null: history.getLast();
 	}
 
 	public static void displayItem(Player p, final ItemStack item, boolean addToHistory, final boolean book, final int page) {
@@ -777,7 +775,7 @@ public final class SlimefunGuide {
 		ItemStack recipeType = null;
 		ItemStack recipeOutput = item;
 		
-		ChestMenu menu = new ChestMenu("Guía de InsanityItems");
+		ChestMenu menu = new ChestMenu("Guía de Slimefun");
 		
 		menu.setEmptySlotsClickable(false);
 		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.ENTITY_BAT_TAKEOFF, 0.7F, 0.7F));
@@ -834,7 +832,9 @@ public final class SlimefunGuide {
 		
 		if (addToHistory) addToHistory(p, sfItem != null ? sfItem: item);
 		
-		if (getHistory().containsKey(p.getUniqueId()) && getHistory().get(p.getUniqueId()).size() > 1) {
+		LinkedList<Object> history = getHistory().get(p.getUniqueId());
+		
+		if (history != null && history.size() > 1) {
 			menu.addItem(0, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&7\u21E6 Back", "", "&rLeft Click: &7Go back to previous Page", "&rShift + left Click: &7Go back to Main Menu"));
 			menu.addMenuClickHandler(0, (pl, slot, itemstack, action) -> {
 				if (action.isShiftClicked()) openMainMenu(p, true, book, 1);
@@ -1021,7 +1021,7 @@ public final class SlimefunGuide {
 		menu.open(p);
 	}
 	
-	private static Map<UUID, List<Object>> getHistory() {
+	private static Map<UUID, LinkedList<Object>> getHistory() {
 		return SlimefunPlugin.getUtilities().guideHistory;
 	}
 	
@@ -1033,11 +1033,9 @@ public final class SlimefunGuide {
 		String timeleft = "";
         final int minutes = (int) (seconds / 60L);
         if (minutes > 0) {
-            timeleft = String.valueOf(timeleft) + minutes + "m ";
+            timeleft += minutes + "m ";
         }
         seconds -= minutes * 60;
-        timeleft = String.valueOf(timeleft) + seconds + "s";
-        return "&7" + timeleft;
+        return "&7" + timeleft + seconds + "s";
 	}
-
 }

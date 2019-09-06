@@ -34,7 +34,7 @@ public class ReactorAccessPort extends SlimefunItem {
 	public ReactorAccessPort(Category category, ItemStack item, String name, RecipeType recipeType, ItemStack[] recipe) {
 		super(category, item, name, recipeType, recipe);
 
-		new BlockMenuPreset(name, getInventoryTitle()) {
+		new BlockMenuPreset(name, "&2Puerto de acceso al reactor") {
 
 			@Override
 			public void init() {
@@ -144,10 +144,6 @@ public class ReactorAccessPort extends SlimefunItem {
 		preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "&7Ranura de combustible", "", "&rEsta ranura acepta combustible radioactivo como el::", "&2Uranium &ro &aNeptunium"), (p, slot, item, action) -> false);
 		preset.addItem(22, new CustomItem(SlimefunItems.PLUTONIUM, "&7Ranura de subproducto", "", "&rEsta ranura contiene el subproducto del reactor", "&rtales como el &aNeptunium &ro &7Plutonium"), (p, slot, item, action) -> false);
 		preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "&bRanura de refrigerante", "", "&rEsta ranura acepta celdas de refrigerante", "&4Si no hay refrigerante, su reactor", "&4podría explotar"), (p, slot, item, action) -> false);
-	}
-	
-	public String getInventoryTitle() {
-		return "&2Puerto de acceso al reactor";
 	}
 
 	public int[] getInputSlots() {

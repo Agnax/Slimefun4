@@ -21,6 +21,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Dispenser;
@@ -67,7 +68,6 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import me.mrCookieSlime.Slimefun.holograms.AndroidHologram;
 
 public abstract class ProgrammableAndroid extends SlimefunItem implements InventoryBlock {
 
@@ -92,12 +92,8 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		blockblacklist.add(Material.STRUCTURE_BLOCK);
 	}
 
-	private Set<MachineFuel> recipes = new HashSet<>();
-	private Random random = new Random();
-
-	public String getInventoryTitle() {
-		return "Programmable Android";
-	}
+	private final Set<MachineFuel> recipes = new HashSet<>();
+	private final Random random = new Random();
 	
 	@Override
 	public int[] getInputSlots() {
@@ -117,26 +113,23 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		super(category, item, name, recipeType, recipe);
 
 		if (getTier() == 1) {
-			registerFuel(new MachineFuel(80, new ItemStack(Material.COAL)));
-			registerFuel(new MachineFuel(80, new ItemStack(Material.CHARCOAL)));
 			registerFuel(new MachineFuel(800, new ItemStack(Material.COAL_BLOCK)));
 			registerFuel(new MachineFuel(45, new ItemStack(Material.BLAZE_ROD)));
 
+			// Coals
+			for (Material mat: Tag.ITEMS_COALS.getValues()) {
+				registerFuel(new MachineFuel(8, new ItemStack(mat)));
+			}
+			
 			// Logs
-			registerFuel(new MachineFuel(4, new ItemStack(Material.OAK_LOG)));
-			registerFuel(new MachineFuel(4, new ItemStack(Material.BIRCH_LOG)));
-			registerFuel(new MachineFuel(4, new ItemStack(Material.SPRUCE_LOG)));
-			registerFuel(new MachineFuel(4, new ItemStack(Material.JUNGLE_LOG)));
-			registerFuel(new MachineFuel(4, new ItemStack(Material.DARK_OAK_LOG)));
-			registerFuel(new MachineFuel(4, new ItemStack(Material.ACACIA_LOG)));
+			for (Material mat: Tag.LOGS.getValues()) {
+				registerFuel(new MachineFuel(2, new ItemStack(mat)));
+			}
 
 			// Wooden Planks
-			registerFuel(new MachineFuel(1, new ItemStack(Material.OAK_PLANKS)));
-			registerFuel(new MachineFuel(1, new ItemStack(Material.BIRCH_PLANKS)));
-			registerFuel(new MachineFuel(1, new ItemStack(Material.SPRUCE_PLANKS)));
-			registerFuel(new MachineFuel(1, new ItemStack(Material.JUNGLE_PLANKS)));
-			registerFuel(new MachineFuel(1, new ItemStack(Material.DARK_OAK_PLANKS)));
-			registerFuel(new MachineFuel(1, new ItemStack(Material.ACACIA_PLANKS)));
+			for (Material mat: Tag.PLANKS.getValues()) {
+				registerFuel(new MachineFuel(1, new ItemStack(mat)));
+			}
 		}
 		else if (getTier() == 2){
 			registerFuel(new MachineFuel(100, new ItemStack(Material.LAVA_BUCKET)));
@@ -149,7 +142,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 			registerFuel(new MachineFuel(3000, SlimefunItems.BOOSTED_URANIUM));
 		}
 
-		new BlockMenuPreset(name, getInventoryTitle()) {
+		new BlockMenuPreset(name, " Android Programable") {
 
 			@Override
 			public void init() {
@@ -239,7 +232,6 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 							}
 						}
 					}
-					AndroidHologram.remove(b);
 				}
 
 				return allow;
@@ -448,9 +440,9 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 	}
 	
 	private void killEntities(Block b, double damage, Predicate<Entity> predicate) {
-		for (Entity n: AndroidHologram.getNearbyEntities(b, 4D + getTier())) {
-			if (n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && predicate.test(n)) {
-				boolean attack = false;
+		double radius = 4.0 + getTier();
+		for (Entity n: b.getWorld().getNearbyEntities(b.getLocation(), radius, radius, radius, n -> n instanceof LivingEntity && !(n instanceof ArmorStand) && !(n instanceof Player) && n.isValid() && predicate.test(n))) {
+			boolean attack = false;
 				
 				switch (BlockFace.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "rotation"))) {
 				case NORTH:
@@ -478,7 +470,6 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 				}
 			}
 		}
-	}
 
 	private void move(Block b, BlockFace face, Block block) {
 		if (block.getY() > 0 && block.getY() < block.getWorld().getMaxHeight() && (block.getType() == Material.AIR || block.getType() == Material.CAVE_AIR)) {
@@ -813,7 +804,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 				Messages.local.sendTranslation(pl, "android.scripts.enter-name", true);
 	
 				MenuHelper.awaitChatInput(pl, (player, message) -> {
-					Config script = new Config("plugins/Slimefun/scripts/" + getAndroidType().toString() + "/" + p.getName() + " " + id + ".sfs");
+					Config script = new Config("plugins/Slimefun/scripts/" + getAndroidType().toString() + '/' + p.getName() + ' ' + id + ".sfs");
 	
 					script.setValue("author", player.getUniqueId().toString());
 					script.setValue("author_name", player.getName());

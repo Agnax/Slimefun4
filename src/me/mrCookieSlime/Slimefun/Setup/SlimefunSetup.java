@@ -99,6 +99,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.PickaxeOfTheSeeker;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.PickaxeOfVeinMining;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SeismicAxe;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SmeltersPickaxe;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SoulboundRune;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.StormStaff;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.SwordOfBeheading;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.TelepositionScroll;
@@ -110,7 +111,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.HologramProjector
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.InfusedHopper;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.ReactorAccessPort;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.TrashCan;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.XPCollector;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AnimalGrowthAccelerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AutoAnvil;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AutoBreeder;
@@ -140,6 +140,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.NetherDr
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.OilPump;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.Refinery;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.WitherAssembler;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.XPCollector;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generators.CoalGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generators.CombustionGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generators.LavaGenerator;
@@ -1470,26 +1471,22 @@ public final class SlimefunSetup {
 
 		new SlimefunItem(Categories.MAGIC, SlimefunItems.REPAIRED_SPAWNER, "REINFORCED_SPAWNER", RecipeType.ANCIENT_ALTAR,
 		new ItemStack[] {SlimefunItems.RUNE_ENDER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco de conocimiento"), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco de conocimiento"), SlimefunItems.BROKEN_SPAWNER, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco de conocimiento"), SlimefunItems.ESSENCE_OF_AFTERLIFE, new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco de conocimiento"), SlimefunItems.RUNE_ENDER})
-		.register(true, new BlockPlaceHandler() {
-
-			@Override
-			public boolean onBlockPlace(BlockPlaceEvent e, ItemStack item) {
-				if (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
-					EntityType type = null;
-					for (String line: item.getItemMeta().getLore()) {
-						if (ChatColor.stripColor(line).startsWith("Tipo: ") && !line.contains("<Tipo>"))
-							type = EntityType.valueOf(ChatColor.stripColor(line).replace("Tipo: ", "").replace(" ", "_").toUpperCase());
-						
-					}
-					if (type != null) {
-						CreatureSpawner spawner = (CreatureSpawner) e.getBlock().getState();
-						spawner.setSpawnedType(type);
-						spawner.update(true, false);
-					}
-					return true;
+		.register(true, (BlockPlaceHandler) (e, item) -> {
+			if (SlimefunManager.isItemSimiliar(item, SlimefunItems.REPAIRED_SPAWNER, false)) {
+				EntityType type = null;
+				for (String line: item.getItemMeta().getLore()) {
+					if (ChatColor.stripColor(line).startsWith("Tipo: ") && !line.contains("<Tipo>"))
+						type = EntityType.valueOf(ChatColor.stripColor(line).replace("Tipo: ", "")
+						.replace(' ', '_').toUpperCase());
 				}
-				else return false;
+				if (type != null) {
+					CreatureSpawner spawner = (CreatureSpawner) e.getBlock().getState();
+					spawner.setSpawnedType(type);
+					spawner.update(true, false);
+				}
+				return true;
 			}
+			else return false;
 		});
 
 		new EnhancedFurnace(1, 1, 1, SlimefunItems.ENHANCED_FURNACE, "ENHANCED_FURNACE",
@@ -2787,6 +2784,10 @@ public final class SlimefunSetup {
 		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.RUNE_RAINBOW, "ANCIENT_RUNE_RAINBOW", RecipeType.ANCIENT_ALTAR,
 		new ItemStack[] {new ItemStack(Material.RED_DYE), SlimefunItems.MAGIC_LUMP_3, new ItemStack(Material.CYAN_DYE), new ItemStack(Material.WHITE_WOOL), SlimefunItems.RUNE_ENDER, new ItemStack(Material.WHITE_WOOL), new ItemStack(Material.YELLOW_DYE), SlimefunItems.ENDER_LUMP_3, new ItemStack(Material.MAGENTA_DYE)})
 		.register(true);
+
+        new SoulboundRune(Categories.LUMPS_AND_MAGIC, SlimefunItems.RUNE_SOULBOUND, "ANCIENT_RUNE_SOULBOUND", RecipeType.ANCIENT_ALTAR,
+        new ItemStack[] {SlimefunItems.MAGIC_LUMP_3, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.ENDER_LUMP_3, SlimefunItems.RUNE_ENDER, SlimefunItems.ENDER_LUMP_3, SlimefunItems.MAGIC_LUMP_3, SlimefunItems.ESSENCE_OF_AFTERLIFE, SlimefunItems.MAGIC_LUMP_3})
+        .register(true);
 
 		new InfernalBonemeal(Categories.MAGIC, SlimefunItems.INFERNAL_BONEMEAL, "INFERNAL_BONEMEAL", RecipeType.ANCIENT_ALTAR,
 		new ItemStack[] {new ItemStack(Material.NETHER_WART), SlimefunItems.RUNE_EARTH, new ItemStack(Material.NETHER_WART), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.BONE_MEAL), SlimefunItems.MAGIC_LUMP_2, new ItemStack(Material.NETHER_WART), new ItemStack(Material.BLAZE_POWDER), new ItemStack(Material.NETHER_WART)}, new CustomItem(SlimefunItems.INFERNAL_BONEMEAL, 8))
