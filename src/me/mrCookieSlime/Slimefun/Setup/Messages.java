@@ -11,22 +11,22 @@ public final class Messages {
 	public static void setup() {
 		local.setPrefix("&aSlimefun &7> ");
 
-		local.setDefault("commands.help", "Displays this Help Screen");
-		local.setDefault("commands.cheat", "Allows you to cheat Items");
-		local.setDefault("commands.give", "Give somebody some Slimefun Items");
-		local.setDefault("commands.research.desc", "Unlock a Research for a Player");
-		local.setDefault("commands.guide", "Gives yourself a Slimefun Guide");
-		local.setDefault("commands.timings", "Lag-Info about your Server");
-		local.setDefault("commands.teleporter", "See other Player's Waypoints");
-		local.setDefault("commands.versions", "Lists all installed Addons");
-		local.setDefault("commands.open_guide", "Opens Slimefun's guide without using the book");
-		local.setDefault("commands.stats", "Shows some Stats about a Player");
-		local.setDefault("commands.research.reset", "&cYou have reset %player%'s Knowledge");
-		local.setDefault("commands.research.reset-target", "&cYour Knowledge has been reset");
+		local.setDefault("commands.help", "Muestra esta pantalla de ayuda");
+		local.setDefault("commands.cheat", "Te permite hacer trampas");
+		local.setDefault("commands.give", "Darle a alguien algunos artículos Slimefun");
+		local.setDefault("commands.research.desc", "Desbloquear una investigación para un jugador");
+		local.setDefault("commands.guide", "Te das una guía Slimefun");
+		local.setDefault("commands.timings", "Lag-Info sobre su servidor");
+		local.setDefault("commands.teleporter", "Ver puntos de referencia de otros jugadores");
+		local.setDefault("commands.versions", "Enumera todos los complementos instalados");
+		local.setDefault("commands.open_guide", "Abre la guía de Slimefun sin usar el libro");
+		local.setDefault("commands.stats", "Muestra algunas estadísticas sobre un jugador");
+		local.setDefault("commands.research.reset", "&cHas restablecido el conocimiento de %player%");
+		local.setDefault("commands.research.reset-target", "&cTu conocimiento ha sido restablecido");
 
-		local.setDefault("messages.not-researched", "&4You do not have enough Knowledge to understand this");
-		local.setDefault("messages.not-enough-xp", "&4You do not have enough XP to unlock this");
-		local.setDefault("messages.unlocked", "&bYou have unlocked &7\"%research%\"");
+		local.setDefault("messages.not-researched", "&4No tienes suficiente conocimiento para entender esto");
+		local.setDefault("messages.not-enough-xp", "&4No tienes suficiente XP para desbloquear esto.");
+		local.setDefault("messages.unlocked", "&bHas desbloqueado &7\"%research%\"");
 		local.setDefault("messages.fortune-cookie", "&7Help me, I am trapped in a Fortune Cookie Factory!", "&7You will die tomorrow...     by a Creeper", "&7At some Point in your Life something bad will happen!!!", "&7Next week you will notice that this is not the real World, you are in a kind of \"Matrix\" or lets call it Computer game. Yes you are in a Computer Game", "&7This Cookie will taste good in a few seconds", "&7You will die soon and the last word you will hear is gonna be \"EXTERMINATE!!!\"", "&7Whatever you do, do not hug a Creeper... I tried it. It feels good, but it's not worth it.");
 		local.setDefault("messages.only-players", "&4This Command is only for Players");
 		local.setDefault("messages.no-permission", "&4You do not have the required Permission to do this");
@@ -41,7 +41,7 @@ public final class Messages {
 		local.setDefault("messages.battery.add", "&2+ &7%charge% J &8(%machine%)");
 		local.setDefault("messages.battery.remove", "&4- &7%charge% J &8(%machine%)");
 		local.setDefault("messages.hungry", "&cYou are too hungry to do that!");
-		local.setDefault("messages.mode-change", "&b%device% Mode changed to: &9%mode%");
+		local.setDefault("messages.mode-change", "&bSe ha cambiado el modo del %device%: &9%mode%");
 		local.setDefault("messages.disabled-in-world", "&4&lThis Item has been disabled in this World");
 		local.setDefault("messages.talisman.anvil", "&a&oYour Talisman saved your Tool from breaking");
 		local.setDefault("messages.talisman.miner", "&a&oYour Talisman just doubled your Drops");
