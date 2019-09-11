@@ -196,7 +196,7 @@ public class SlimefunItem {
 			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".allow-enchanting", this.enchantable);
 			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".allow-disenchanting", this.disenchantable);
 			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".required-permission", this.permission);
-			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".no-permission-tooltip", new String[] {"&4&lLOCKED", "", "&rYou do not have Permission", "&rto access this Item"});
+			SlimefunPlugin.getItemCfg().setDefaultValue(this.id + ".no-permission-tooltip", new String[] {"&4&lBLOQUEADO", "", "&r¡No tienes permiso para", "&racceder a este objeto!"});
 
 			if (this.keys != null && this.values != null) {
 				for (int i = 0; i < this.keys.length; i++) {
