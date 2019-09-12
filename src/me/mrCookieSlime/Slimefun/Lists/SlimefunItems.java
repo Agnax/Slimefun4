@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.StormStaff;
 import org.bukkit.ChatColor;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
@@ -458,12 +459,14 @@ public class SlimefunItems {
 	public static final ItemStack TALISMAN_WIZARD = new CustomItem(Material.EMERALD, "&aTalismán del Hechicero", "", "&rMientras tenga este Talismán", "&ren tu inventario permitirá", "&robtener Fortuna de nivel 4/5 sin embargo", "&rTambién tiene la posibilidad de bajar el", "&rnivel de algunos encantamientos en tu item.");
 	
 	/*		Staves		*/
-	public static final ItemStack STAFF_ELEMENTAL = new CustomItem(Material.STICK, "&6Cetro Elemental");
-	public static final ItemStack STAFF_WIND = new CustomItem(Material.STICK, "&6Cetro Elemental &7- &b&oViento", "", "&7Elemento: &b&oViento", "", "&7&eClick Derecho&7 para lanzarse hacia adelante");
-	public static final ItemStack STAFF_FIRE = new CustomItem(Material.STICK, "&6Cetro Elemental &7- &c&oFuego", "", "&7Elemento: &c&oFuego");
-	public static final ItemStack STAFF_WATER = new CustomItem(Material.STICK, "&6Cetro Elemental &7- &1&oAgua", "", "&7Elemento: &1&oAgua", "", "&7&eClick Derecho&7 para extinguirte");
-	public static final ItemStack STAFF_STORM = new CustomItem(Material.STICK, "&6Cetro Elemental &7- &8&oTormenta", "", "&7Elemento: &8&oTormenta", "", "&eClick Derecho&7 para invocar un rayo", "&eX Usos &7restantes");
-
+public static final ItemStack STAFF_ELEMENTAL = new CustomItem(Material.STICK, "&6Cetro Elemental");
+public static final ItemStack STAFF_WIND = new CustomItem(Material.STICK, "&6Cetro Elemental &7- &b&oViento", "", "&7Elemento: &b&oViento", "", "&7&eClick Derecho&7 para lanzarse hacia adelante");
+public static final ItemStack STAFF_FIRE = new CustomItem(Material.STICK, "&6Cetro Elemental &7- &c&oFuego", "", "&7Elemento: &c&oFuego");
+public static final ItemStack STAFF_WATER = new CustomItem(Material.STICK, "&6Cetro Elemental &7- &1&oAgua", "", "&7Elemento: &1&oAgua", "", "&7&eClick Derecho&7 para extinguirte");
+	public static final ItemStack STAFF_STORM = new CustomItem(Material.STICK, "&6Cetro Elemental &7- &8&oTormenta", "",
+		"&7Elemento: &8&oTormenta", "", "&eClick Derecho&7 para invocar un rayo",
+		"&e" + StormStaff.MAX_USES + " Usos &7restantes");
+	
 	static {
 		STAFF_WIND.addUnsafeEnchantment(Enchantment.LUCK, 1);
 		STAFF_FIRE.addUnsafeEnchantment(Enchantment.FIRE_ASPECT, 5);
