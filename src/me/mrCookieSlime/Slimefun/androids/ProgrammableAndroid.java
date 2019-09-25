@@ -60,7 +60,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.MachineFuel;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.interfaces.InventoryBlock;
 import me.mrCookieSlime.Slimefun.Objects.handlers.BlockTicker;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.androids.comparators.ScriptReputationSorter;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -801,7 +800,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 				final int id = num;
 	
 				pl.closeInventory();
-				Messages.local.sendTranslation(pl, "android.scripts.enter-name", true);
+				Messages.local.sendTranslations(pl, "android.scripts.enter-name");
 	
 				MenuHelper.awaitChatInput(pl, (player, message) -> {
 					Config script = new Config("plugins/Slimefun/scripts/" + getAndroidType().toString() + '/' + p.getName() + ' ' + id + ".sfs");
@@ -816,7 +815,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 					script.setValue("rating.negative", new ArrayList<String>());
 					script.save();
 	
-					Messages.local.sendTranslation(player, "android.uploaded", true);
+					Messages.local.sendTranslations(player, "android.uploaded");
 					openScriptDownloader(player, b, page);
 	
 					return false;

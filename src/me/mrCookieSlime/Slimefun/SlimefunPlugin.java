@@ -23,6 +23,7 @@ import me.mrCookieSlime.CSCoreLibPlugin.general.Reflection.ReflectionUtils;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
 import me.mrCookieSlime.Slimefun.GEO.resources.NetherIceResource;
 import me.mrCookieSlime.Slimefun.GEO.resources.OilResource;
+import me.mrCookieSlime.Slimefun.GEO.resources.UraniumResource;
 import me.mrCookieSlime.Slimefun.GPS.GPSNetwork;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunArmorPiece;
@@ -31,9 +32,9 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.abstractItems.AContainer;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.OreWasher;
 import me.mrCookieSlime.Slimefun.Setup.CSCoreLibLoader;
 import me.mrCookieSlime.Slimefun.Setup.Files;
-import me.mrCookieSlime.Slimefun.Setup.Messages;
 import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
 import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunLocalization;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunSetup;
 import me.mrCookieSlime.Slimefun.ancient_altar.AncientAltarListener;
@@ -78,14 +79,15 @@ public final class SlimefunPlugin extends JavaPlugin {
 	public static SlimefunPlugin instance;
 
 	private TickerTask ticker;
+	private SlimefunLocalization local;
 	private Config researches;
 	private Config items;
 	private Config whitelist;
 	private Config config;
 	
-	private final GPSNetwork gps = new GPSNetwork();
+	private GPSNetwork gps;
 	private ProtectionManager protections;
-	private Utilities utilities = new Utilities();
+	private Utilities utilities;
 	private Settings settings;
 	private SlimefunHooks hooks;
 	
@@ -94,8 +96,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		CSCoreLibLoader loader = new CSCoreLibLoader(this);
-		if (loader.load()) {
+		if (new CSCoreLibLoader(this).load(getLogger())) {
 
 			String currentVersion = ReflectionUtils.getVersion();
 
@@ -153,9 +154,11 @@ public final class SlimefunPlugin extends JavaPlugin {
 			whitelist = new Config(files.whitelist);
 
 			// Setup messages.yml
-			utils.setupLocalization();
-			Messages.local = utils.getLocalization();
-			Messages.setup();
+			local = new SlimefunLocalization(this);
+			
+			// Setting up other stuff
+			utilities = new Utilities();
+			gps = new GPSNetwork();
 			
 			// Setting up bStats
 			new Metrics(this);
@@ -204,6 +207,7 @@ public final class SlimefunPlugin extends JavaPlugin {
 			// Generating Oil as an OreGenResource (its a cool API)
 			OreGenSystem.registerResource(new OilResource());
 			OreGenSystem.registerResource(new NetherIceResource());
+			OreGenSystem.registerResource(new UraniumResource());
 
 			// Setting up GitHub Connectors...
 
@@ -321,6 +325,13 @@ public final class SlimefunPlugin extends JavaPlugin {
 			// Do not show /sf elevator command in our Log, it could get quite spammy
 			CSCoreLib.getLib().filterLog("([A-Za-z0-9_]{3,16}) issued server command: /sf elevator (.{0,})");
 		}
+		else {
+			getCommand("slimefun").setExecutor((sender, cmd, label, args) -> {
+				sender.sendMessage("You have forgotten to install CS-CoreLib! Slimefun is disabled.");
+				sender.sendMessage("https://dev.bukkit.org/projects/cs-corelib");
+				return true;
+			});
+		}
 	}
 
 	@Override
@@ -359,7 +370,6 @@ public final class SlimefunPlugin extends JavaPlugin {
 		SlimefunBackup.start();
 
 		// Prevent Memory Leaks
-		Messages.local = null;
 		AContainer.processing = null;
 		AContainer.progress = null;
 		OreWasher.items = null;
@@ -430,6 +440,10 @@ public final class SlimefunPlugin extends JavaPlugin {
 
 	public static ProtectionManager getProtectionManager() {
 		return instance.protections;
+	}
+
+	public static SlimefunLocalization getLocal() {
+		return instance.local;
 	}
 
 }
