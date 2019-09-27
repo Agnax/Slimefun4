@@ -1,5 +1,8 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -32,8 +35,18 @@ public class Compressor extends MultiBlockMachine {
 						new CustomItem(SlimefunItems.STONE_CHUNK, 4), new ItemStack(Material.COBBLESTONE), 
 						new CustomItem(SlimefunItems.REINFORCED_ALLOY_INGOT, 8), SlimefunItems.REINFORCED_PLATE
 				},
-				Material.NETHER_BRICK_FENCE
+				BlockFace.SELF
 		);
+	}
+	
+	@Override
+	public List<ItemStack> getDisplayRecipes() {
+		return recipes.stream().map(items -> items[0]).collect(Collectors.toList());
+	}
+	
+	@Override
+	public void install() {
+		// Do nothing to prevent double-registration of recipes
 	}
 	
 	@Override

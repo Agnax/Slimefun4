@@ -1,5 +1,8 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.bukkit.Effect;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -32,8 +35,18 @@ public class Juicer extends MultiBlockMachine {
 						new ItemStack(Material.PUMPKIN), SlimefunItems.PUMPKIN_JUICE,
 						new ItemStack(Material.GOLDEN_APPLE), SlimefunItems.GOLDEN_APPLE_JUICE
 				},
-				Material.NETHER_BRICK_FENCE
+				BlockFace.SELF
 		);
+	}
+	
+	@Override
+	public List<ItemStack> getDisplayRecipes() {
+		return recipes.stream().map(items -> items[0]).collect(Collectors.toList());
+	}
+	
+	@Override
+	public void install() {
+		// Do nothing to prevent double-registration of recipes
 	}
 	
 	@Override

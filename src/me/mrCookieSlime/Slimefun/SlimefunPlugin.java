@@ -3,7 +3,6 @@ package me.mrCookieSlime.Slimefun;
 import java.io.File;
 import java.util.logging.Level;
 
-import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
@@ -36,6 +35,7 @@ import me.mrCookieSlime.Slimefun.Setup.MiscSetup;
 import me.mrCookieSlime.Slimefun.Setup.ResearchSetup;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunLocalization;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunManager;
+import me.mrCookieSlime.Slimefun.Setup.SlimefunMetrics;
 import me.mrCookieSlime.Slimefun.Setup.SlimefunSetup;
 import me.mrCookieSlime.Slimefun.ancient_altar.AncientAltarListener;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
@@ -161,18 +161,22 @@ public final class SlimefunPlugin extends JavaPlugin {
 			gps = new GPSNetwork();
 			
 			// Setting up bStats
-			new Metrics(this);
+			new SlimefunMetrics(this);
 
 			// Setting up the Auto-Updater
 			Updater updater;
 
-			if (!getDescription().getVersion().startsWith("DEV - ")) {
-				// We are using an official build, use the BukkitDev Updater
-				updater = new BukkitUpdater(this, getFile(), 53485);
-			}
-			else {
+			if (getDescription().getVersion().startsWith("DEV - ")) {
 				// If we are using a development build, we want to switch to our custom 
 				updater = new GitHubBuildsUpdater(this, getFile(), "TheBusyBiscuit/Slimefun4/master");
+			}
+			else if (getDescription().getVersion().startsWith("RC - ")) {
+				// If we are using a development build, we want to switch to our custom 
+				updater = new GitHubBuildsUpdater(this, getFile(), "TheBusyBiscuit/Slimefun4/stable");
+			}
+			else {
+				// We are using an official build, use the BukkitDev Updater
+				updater = new BukkitUpdater(this, getFile(), 53485);
 			}
 
 			if (config.getBoolean("options.auto-update")) updater.start();

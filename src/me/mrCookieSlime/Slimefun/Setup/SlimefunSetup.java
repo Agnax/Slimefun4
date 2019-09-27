@@ -132,11 +132,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.FluidPum
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.FoodComposter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.FoodFabricator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.Freezer;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.GEOScannerBlock;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.GPSTransmitter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.HeatedPressureChamber;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.NetherDrill;
-import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.OilPump;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.Refinery;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.WitherAssembler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.XPCollector;
@@ -144,6 +140,11 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generato
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generators.CoalGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generators.CombustionGenerator;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.generators.LavaGenerator;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo.GEOMiner;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo.GEOScannerBlock;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo.NetherDrill;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo.OilPump;
+import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.gps.GPSTransmitter;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.ArmorForge;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.AutomatedPanningMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.multiblocks.Compressor;
@@ -241,7 +242,7 @@ public final class SlimefunSetup {
 		new Compressor().register();
 
 		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.MAGIC_LUMP_1, "MAGIC_LUMP_1", RecipeType.GRIND_STONE,
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.NETHER_WART), null, null, null, null}, new CustomItem(SlimefunItems.MAGIC_LUMP_1, 2))
+		new ItemStack[] {new ItemStack(Material.NETHER_WART), null, null, null, null, null, null, null, null}, new CustomItem(SlimefunItems.MAGIC_LUMP_1, 2))
 		.register(true);
 
 		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.MAGIC_LUMP_2, "MAGIC_LUMP_2", RecipeType.ENHANCED_CRAFTING_TABLE,
@@ -537,7 +538,7 @@ public final class SlimefunSetup {
 		.register(true);
 
 		new SlimefunItem(Categories.MISC, SlimefunItems.WHEAT_FLOUR, "WHEAT_FLOUR", RecipeType.GRIND_STONE,
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.WHEAT), null, null, null, null})
+		new ItemStack[] {new ItemStack(Material.WHEAT), null, null, null, null, null, null, null, null})
 		.register(true);
 
 		new SlimefunItem(Categories.MISC, SlimefunItems.STEEL_PLATE, "STEEL_PLATE", RecipeType.COMPRESSOR,
@@ -1060,7 +1061,7 @@ public final class SlimefunSetup {
 		*/
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.SAW_MILL, "SAW_MILL",
 		new ItemStack[] {null, null, null, new ItemStack(Material.IRON_BARS), new ItemStack(Material.OAK_LOG), new ItemStack(Material.IRON_BARS), new ItemStack(Material.OAK_LOG), new ItemStack(Material.CRAFTING_TABLE), new ItemStack(Material.OAK_LOG)},
-		new ItemStack[] {}, Material.CRAFTING_TABLE)
+		new ItemStack[] {}, BlockFace.UP)
 		.register(true, new MultiBlockInteractionHandler() {
 
 			@Override
@@ -1097,7 +1098,7 @@ public final class SlimefunSetup {
 
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.DIGITAL_MINER, "DIGITAL_MINER",
 		new ItemStack[] {SlimefunItems.SOLAR_PANEL, new ItemStack(Material.CHEST), SlimefunItems.SOLAR_PANEL, new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.DISPENSER), new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.IRON_BLOCK), new ItemStack(Material.HOPPER), new ItemStack(Material.IRON_BLOCK)},
-		new ItemStack[0], Material.DISPENSER)
+		new ItemStack[0], BlockFace.SELF)
 		.register(true, new MultiBlockInteractionHandler() {
 
 			@Override
@@ -1155,7 +1156,7 @@ public final class SlimefunSetup {
 
 		new SlimefunMachine(Categories.MACHINES_1, SlimefunItems.ADVANCED_DIGITAL_MINER, "ADVANCED_DIGITAL_MINER",
 		new ItemStack[] {SlimefunItems.SOLAR_PANEL, new ItemStack(Material.CHEST), SlimefunItems.SOLAR_PANEL, SlimefunItems.GOLD_24K_BLOCK, new ItemStack(Material.DISPENSER), SlimefunItems.GOLD_24K_BLOCK, SlimefunItems.GOLD_24K_BLOCK, new ItemStack(Material.HOPPER), SlimefunItems.GOLD_24K_BLOCK},
-		new ItemStack[0], Material.DISPENSER)
+		new ItemStack[0], BlockFace.SELF)
 		.register(true, new MultiBlockInteractionHandler() {
 
 			@Override
@@ -1445,23 +1446,23 @@ public final class SlimefunSetup {
 		new Juicer().register();
 
 		new Juice(Categories.FOOD, SlimefunItems.APPLE_JUICE, "APPLE_JUICE", RecipeType.JUICER,
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.APPLE), null, null, null, null})
+		new ItemStack[] {new ItemStack(Material.APPLE), null, null, null, null, null, null, null, null})
 		.register(true);
 
 		new Juice(Categories.FOOD, SlimefunItems.CARROT_JUICE, "CARROT_JUICE", RecipeType.JUICER,
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.CARROT), null, null, null, null})
+		new ItemStack[] {new ItemStack(Material.CARROT), null, null, null, null, null, null, null, null})
 		.register(true);
 
 		new Juice(Categories.FOOD, SlimefunItems.MELON_JUICE, "MELON_JUICE", RecipeType.JUICER,
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.MELON), null, null, null, null})
+		new ItemStack[] {new ItemStack(Material.MELON), null, null, null, null, null, null, null, null})
 		.register(true);
 
 		new Juice(Categories.FOOD, SlimefunItems.PUMPKIN_JUICE, "PUMPKIN_JUICE", RecipeType.JUICER,
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.PUMPKIN), null, null, null, null})
+		new ItemStack[] {new ItemStack(Material.PUMPKIN), null, null, null, null, null, null, null, null})
 		.register(true);
 
 		new Juice(Categories.FOOD, SlimefunItems.GOLDEN_APPLE_JUICE, "GOLDEN_APPLE_JUICE", RecipeType.JUICER,
-		new ItemStack[] {null, null, null, null, new ItemStack(Material.GOLDEN_APPLE), null, null, null, null})
+		new ItemStack[] {new ItemStack(Material.GOLDEN_APPLE), null, null, null, null, null, null, null, null})
 		.register(true);
 
 		new SlimefunItem(Categories.LUMPS_AND_MAGIC, SlimefunItems.BROKEN_SPAWNER, "BROKEN_SPAWNER", new RecipeType(SlimefunItems.PICKAXE_OF_CONTAINMENT),
@@ -2731,10 +2732,25 @@ public final class SlimefunSetup {
 			}
 
 		}.registerChargeableBlock(true, 200);
+		
+		new GEOMiner(Categories.GPS, SlimefunItems.GEO_MINER, "GEO_MINER", RecipeType.ENHANCED_CRAFTING_TABLE,
+		new ItemStack[] {new ItemStack(Material.DIAMOND_PICKAXE), SlimefunItems.MEDIUM_CAPACITOR, new ItemStack(Material.DIAMOND_PICKAXE), SlimefunItems.REINFORCED_ALLOY_INGOT, SlimefunItems.OIL_PUMP, SlimefunItems.REINFORCED_ALLOY_INGOT, null, SlimefunItems.ELECTRIC_MOTOR, null}) {
+			
+			@Override
+			public int getSpeed() {
+				return 1;
+			}
+			
+			@Override
+			public int getEnergyConsumption() {
+				return 24;
+			}
+			
+		}.registerChargeableBlock(true, 512);
 
 		new NetherDrill(Categories.GPS, SlimefunItems.NETHER_DRILL, "NETHER_DRILL", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[]{SlimefunItems.LEAD_INGOT, SlimefunItems.POWER_CRYSTAL, SlimefunItems.LEAD_INGOT, SlimefunItems.REINFORCED_PLATE, SlimefunItems.OIL_PUMP, SlimefunItems.REINFORCED_PLATE, SlimefunItems.LEAD_INGOT, SlimefunItems.BIG_CAPACITOR, SlimefunItems.LEAD_INGOT}){
-		
+		new ItemStack[] {null, null, null, null, new CustomItem(Material.BARRIER, "&4DEPRECATED", "", "&cEste objeto se removerá pronto.", "&cUsa mejor el GEO Minero."), null, null, null, null}){
+			
 			@Override
 			public int getSpeed() {
 				return 1;
@@ -2744,7 +2760,7 @@ public final class SlimefunSetup {
 			public int getEnergyConsumption() {
 				return 51;
 			}
-
+			
 		}.registerChargeableBlock(true, 1024);
 
 		new SlimefunItem(Categories.RESOURCES, SlimefunItems.BUCKET_OF_OIL, "BUCKET_OF_OIL", new RecipeType(SlimefunItems.OIL_PUMP),
