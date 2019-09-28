@@ -487,7 +487,6 @@ public static final ItemStack STAFF_WATER = new CustomItem(Material.STICK, "&6Ce
 	public static final ItemStack MAGIC_WORKBENCH = new CustomItem(Material.CRAFTING_TABLE, "&6Mesa de trabajo mágica", "Infunde artículos con energía mágica.");
 	public static final ItemStack ORE_WASHER = new CustomItem(Material.CAULDRON, "&6Lavadora de minerales", "", "&a&oLava el mineral tamizado para filtrar los minerales", "&a&oy te da pequeños trozos de piedra");
 	public static final ItemStack TABLE_SAW = new CustomItem(Material.STONECUTTER, "&6Tabla de Aserradero", "", "&a&oLe permite obtener 8 tablones de 1 tronco de madera.", "&a&o(Works with all log types)");
-	public static final ItemStack SAW_MILL = new CustomItem(Material.IRON_BARS, "&6Aserradero", "", "&a&oObsoleto! ¡Mejor usa la tabla de aserradero!");
 	public static final ItemStack COMPOSTER = new CustomItem(Material.CAULDRON, "&aCompostador", "", "&a&oPuede convertir varios materiales a lo largo del tiempo ...");
 	public static final ItemStack ENHANCED_CRAFTING_TABLE = new CustomItem(Material.CRAFTING_TABLE, "&eMesa de crafteo mejorada", "", "&a&oUna mesa de crafteo regular no puede", "&a&omantener esta cantidad de poder...");
 	public static final ItemStack CRUCIBLE = new CustomItem(Material.CAULDRON, "&cCrisol", "", "&a&oSe utiliza para fundir artículos en líquidos.");
