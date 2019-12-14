@@ -90,7 +90,7 @@ public class GPSNetwork {
 			);
 
 			int complexity = getNetworkComplexity(p.getUniqueId());
-			menu.addItem(4, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRjZmJhNThmYWYxZjY0ODQ3ODg0MTExODIyYjY0YWZhMjFkN2ZjNjJkNDQ4MWYxNGYzZjNiY2I2MzMwIn19fQ=="), "&7Información de red", "", "&8\u21E8 &7Estado: " + (complexity > 0 ? "&2&lEn linea": "&4&lDESCONECTADO"), "&8\u21E8 &7Complejidad: &r" + complexity));
+			menu.addItem(4, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZGRjZmJhNThmYWYxZjY0ODQ3ODg0MTExODIyYjY0YWZhMjFkN2ZjNjJkNDQ4MWYxNGYzZjNiY2I2MzMwIn19fQ=="), "&7Información de red", "", "&8\u21E8 &7Estado: " + (complexity > 0 ? "&2&lEn linea": "&4&lDESCONECTADO"), "&8\u21E8 &7Complejidad: &r" + complexity));
 			menu.addMenuClickHandler(4,
 				(pl, slot, item, action) -> false
 			);

@@ -137,13 +137,13 @@ public class CargoInputNode extends SlimefunItem {
 					int channel = ((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency"))));
 
 					if (channel == 16) {
-						menu.replaceExistingItem(42, new CustomItem(SlimefunItems.CHEST_TERMINAL, "&bChannel ID: &3" + (channel + 1)));
+						menu.replaceExistingItem(42, new CustomItem(SlimefunItems.CHEST_TERMINAL, "&b&bID del canal: &3" + (channel + 1)));
 						menu.addMenuClickHandler(42,
 							(p, slot, item, action) -> false
 						);
 					}
 					else {
-						menu.replaceExistingItem(42, new CustomItem(new ItemStack(MaterialCollections.getAllWools()[channel]), "&bChannel ID: &3" + (channel + 1)));
+						menu.replaceExistingItem(42, new CustomItem(new ItemStack(MaterialCollections.getAllWoolColors().get(channel)), "&bID del canal: &3" + (channel + 1)));
 						menu.addMenuClickHandler(42,
 							(p, slot, item, action) -> false
 						);

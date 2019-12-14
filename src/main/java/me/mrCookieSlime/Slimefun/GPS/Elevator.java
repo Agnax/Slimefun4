@@ -36,10 +36,10 @@ public final class Elevator {
 			ChatInput.waitForPlayer(SlimefunPlugin.instance, pl, message -> {
 				BlockStorage.addBlockInfo(b, "floor", message.replace(ChatColor.COLOR_CHAR, '&'));
 				
-				player.sendMessage("");
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &ePiso renombrado con éxito:"));
-				player.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &r" + ChatColor.translateAlternateColorCodes('&', message)));
-				player.sendMessage("");
+				pl.sendMessage("");
+				pl.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &ePiso renombrado con éxito:"));
+				pl.sendMessage(ChatColor.translateAlternateColorCodes('&', "&4&l>> &r" + ChatColor.translateAlternateColorCodes('&', message)));
+				pl.sendMessage("");
 				
 				openEditor(pl, b);
 			});

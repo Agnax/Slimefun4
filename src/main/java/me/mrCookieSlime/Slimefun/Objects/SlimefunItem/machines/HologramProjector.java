@@ -1,4 +1,4 @@
-00package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
+package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines;
 
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
