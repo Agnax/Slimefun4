@@ -1,9 +1,9 @@
 # Slimefun 4
-Slimefun is a plugin which aims to basically turn your Bukkit Server into a modpack like FTB without installing a single mod. It offers everything you could possibly imagine. From Backpacks to Jetpacks...
+Slimefun is a plugin which aims to basically turn your Bukkit Server into a modpack like FTB without installing a single mod. It offers everything you could possibly imagine. From Backpacks to Jetpacks!
 It also adds an API allowing you guys to easily install/code Addons for this.
-You own a Server which is not only minigame-based and your Players got bored of playing Survival?
+You own a Server which is not only minigame based and your players got bored of playing Survival?
 Then you will absolutely love this Plugin! 
-It adds a whole new Layer of Survival to your Server by adding more than 400+ new Items!
+It adds a whole new layer of survival to your server by adding more than 400+ new Items!
 
 <p align="center">
   <a href="https://bstats.org/plugin/bukkit/Slimefun">
@@ -15,8 +15,9 @@ Slimefun 4 is licensed under
 [GNU GPLv3](https://github.com/TheBusyBiscuit/Slimefun4/blob/master/LICENSE)
 
 ## Download Slimefun 4
-Use the stable builds, if your Server is heavily reliant on Slimefun.
-But please also consider using development build. If plenty of people use the development builds, then we can quickly work together on solutions for issues that arise.
+Use the stable builds, if your Server is heavily reliant on Slimefun not breaking.
+But please also consider using development builds. If plenty of people use the development builds, then we can quickly work together on solutions for issues that arise.
+**We will NOT accept bug reports from "stable" versions, as they are basically just old development builds**
 
 [Stable Builds](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/)<br>
 [Development Builds](https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/master/)
@@ -32,7 +33,7 @@ https://thebusybiscuit.github.io/builds/
 
 ## Discord
 You can find Slimefun's community on Discord!
-Click the badge to join it for Suggestions/Questions or other discussions about this plugin.
+Click the badge down below to join the server for suggestions/questions or other discussions about this plugin.
 <p align="center">
   <a href="https://discord.gg/fsD4Bkh">
     <img src="https://img.shields.io/discord/565557184348422174?color=7289DA&label=Discord&style=for-the-badge" alt="Discord Invite"/>
