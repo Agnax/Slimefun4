@@ -56,7 +56,7 @@ public abstract class Network {
 	public abstract void locationClassificationChange(Location l, NetworkComponent from, NetworkComponent to);
 
 	protected Location regulator;
-	private Queue<Location> nodeQueue = new ArrayDeque<Location>();
+	private Queue<Location> nodeQueue = new ArrayDeque<>();
 
 	protected Set<Location> connectedLocations = new HashSet<>();
 	protected Set<Location> regulatorNodes = new HashSet<>();

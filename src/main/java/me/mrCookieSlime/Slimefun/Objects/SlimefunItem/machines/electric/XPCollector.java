@@ -47,7 +47,7 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				BlockMenu inv = BlockStorage.getInventory(b);
 				if (inv != null) {
-					for (int slot: getOutputSlots()) {
+					for (int slot : getOutputSlots()) {
 						if (inv.getItemInSlot(slot) != null) {
 							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
 							inv.replaceExistingItem(slot, null);
@@ -70,10 +70,8 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 	}
 	
 	protected void constructMenu(BlockMenuPreset preset) {
-		for (int i : border) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.PURPLE_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-			);
+		for (int slot : border) {
+			preset.addItem(slot, new CustomItem(new ItemStack(Material.PURPLE_STAINED_GLASS_PANE), " "), (p, s, item, action) -> false);
 		}
 	}
 	
@@ -86,7 +84,7 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 				try {
 					XPCollector.this.tick(b);
 				} catch (Exception x) {
-					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while ticking an Exp Collector for Slimefun " + Slimefun.getVersion(), x);
+					Slimefun.getLogger().log(Level.SEVERE, "Se produjo un error al hacer clic en un recopilador de Exp para Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 
@@ -112,6 +110,7 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 			
 			int withdrawn = 0;
 			BlockMenu menu = BlockStorage.getInventory(b);
+			
 			for (int level = 0; level < getEXP(b); level = level + 10) {
 				if (menu.fits(new CustomItem(Material.EXPERIENCE_BOTTLE, "&aFrasco de conocimiento"), getOutputSlots())) {
 					withdrawn = withdrawn + 10;
@@ -124,7 +123,9 @@ public class XPCollector extends SlimefunItem implements InventoryBlock {
 
 	private int getEXP(Block b) {
 		Config cfg = BlockStorage.getLocationInfo(b.getLocation());
-		if (cfg.contains("stored-exp")) return Integer.parseInt(cfg.getString("stored-exp"));
+		if (cfg.contains("stored-exp")) {
+			return Integer.parseInt(cfg.getString("stored-exp"));
+		}
 		else {
 			BlockStorage.addBlockInfo(b, "stored-exp", "0");
 			return 0;

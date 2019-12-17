@@ -21,7 +21,7 @@ public class DietCookie extends SimpleSlimefunItem<ItemConsumptionHandler> {
 	public ItemConsumptionHandler getItemHandler() {
 		return (e, p, item) -> {
 			if (isItem(item)) {
-				p.sendMessage(ChatColor.YELLOW + "Te sientes ligero...");
+				p.sendMessage(ChatColor.YELLOW + "You feel so light...");
 				p.playSound(p.getLocation(), Sound.ENTITY_GENERIC_EAT, 1, 1);
 
 				if (p.hasPotionEffect(PotionEffectType.LEVITATION)) p.removePotionEffect(PotionEffectType.LEVITATION);

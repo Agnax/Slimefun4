@@ -671,7 +671,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		ChestMenu menu = new ChestMenu("&eScript Editor");
 		
 		try {
-			menu.addItem(1, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDliZjZkYjRhZWRhOWQ4ODIyYjlmNzM2NTM4ZThjMThiOWE0ODQ0Zjg0ZWI0NTUwNGFkZmJmZWU4N2ViIn19fQ=="), "&2> Edit Script", "", "&aEdita tu Script actual"));
+			menu.addItem(1, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZDliZjZkYjRhZWRhOWQ4ODIyYjlmNzM2NTM4ZThjMThiOWE0ODQ0Zjg0ZWI0NTUwNGFkZmJmZWU4N2ViIn19fQ=="), "&2> Editar Script", "", "&aEdita tu Script actual"));
 			menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
 				openScript(pl, b, BlockStorage.getLocationInfo(b.getLocation(), "script"));
 				return false;
@@ -703,7 +703,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 	}
 
 	public void openScript(final Player p, final Block b, final String script) {
-		ChestMenu menu = new ChestMenu("&eEditor de Script");
+		ChestMenu menu = new ChestMenu("&editor de Script");
 		final String[] commands = script.split("-");
 
 		menu.addItem(0, new CustomItem(ScriptPart.START.toItemStack(), ScriptPart.START.toItemStack().getItemMeta().getDisplayName(), "", "&eClick izquierdo &7para volver a la interfaz de Android"));
@@ -739,7 +739,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 			}
 			else {
 				ItemStack stack = ScriptPart.valueOf(commands[i]).toItemStack();
-				menu.addItem(i, new CustomItem(stack, stack.getItemMeta().getDisplayName(), "", "&7\u21E8 &eClick Derecho &7para borrar", "&7\u21E8 &eShift + Click derecho &7para duplicar"));
+				menu.addItem(i, new CustomItem(stack, stack.getItemMeta().getDisplayName(), "", "&7\u21E8 &eClick izquierdo &7para editar", "&7\u21E8 &eClick Derecho &7para borrar", "&7\u21E8 &eShift + Click derecho &7para duplicar"));
 				menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 					if (action.isRightClicked() && action.isShiftClicked()) {
 						if (commands.length == 54) return false;
@@ -785,7 +785,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 	}
 
 	private void openScriptDownloader(final Player p, final Block b, final int page) {
-		final ChestMenu menu = new ChestMenu("Android Scripts");
+		final ChestMenu menu = new ChestMenu("Scripts de Androides");
 
 		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 0.7F, 0.7F));
 
@@ -799,7 +799,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 			menu.addMenuClickHandler(i, (pl, slot, item, action) -> false);
 		}
 
-		menu.addItem(46, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&r\u21E6 Pagina anterior", "", "&7(" + page + " / " + pages + ")"));
+		menu.addItem(46, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), "&r\u21E6 Página anterior", "", "&7(" + page + " / " + pages + ")"));
 		menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
 			int next = page - 1;
 			if (next < 1) next = pages;
@@ -810,7 +810,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 		});
 		
 		try {
-			menu.addItem(48, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTA1YTJjYWI4YjY4ZWE1N2UzYWY5OTJhMzZlNDdjOGZmOWFhODdjYzg3NzYyODE5NjZmOGMzY2YzMWEzOCJ9fX0="), "&eUpload a Script", "", "&eSubir un Script", "", "&6Click &7para subir tu Script de androides", "&7a la base de datos."));
+			menu.addItem(48, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvMTA1YTJjYWI4YjY4ZWE1N2UzYWY5OTJhMzZlNDdjOGZmOWFhODdjYzg3NzYyODE5NjZmOGMzY2YzMWEzOCJ9fX0="), "&eSubir un Script", "", "&6Subir un Script", "", "&6Click &7para subir tu Script de androides", "&7a la base de datos."));
 			menu.addMenuClickHandler(48, (pl, slot, item, action) -> {
 				final String code = BlockStorage.getLocationInfo(b.getLocation(), "script");
 				int num = 1;
@@ -864,7 +864,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 			});
 		}
 		catch (Exception x) {
-			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while creating the Script Download Menu for Slimefun " + Slimefun.getVersion(), x);
+			Slimefun.getLogger().log(Level.SEVERE, "Ha ocurrido un error mientras se creaba el menú de descarga para SlimeFun " + Slimefun.getVersion(), x);
 		}
 
 		int categoryIndex = 45 * (page - 1);
@@ -882,7 +882,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 					menu.addItem(index, new CustomItem(this.getItem(), "&b" + script.getString("name"), "&7by &r" + author, "", "&7Descargas: &r" + script.getInt("downloads"), "&7Valoración: " + getScriptRatingPercentage(script), "&a" + getScriptRating(script, true) + " \u263A &7- &4\u2639 " + getScriptRating(script, false), "", "&eClick Izquierdo &rpara descargar este Script", "&4(Esto sobreescribirá su Script actual)"));
 				}
 				else {
-					menu.addItem(index, new CustomItem(this.getItem(), "&b" + script.getString("name"), "&7by &r" + author, "", "&7Descargas: &r" + script.getInt("downloads"), "&7Valoración: " + getScriptRatingPercentage(script), "&a" + getScriptRating(script, true) + " \u263A &7- &4\u2639 " + getScriptRating(script, false), "", "&eClick Izquierdo &rpara descargar este Script", "&4(Esto sobrescribirá tu script actual)", "&eShift + Click Izquierdo &rdejar una calificación positiva", "&eShift + Click Derecho &rdejar una calificación negativa"));
+					menu.addItem(index, new CustomItem(this.getItem(), "&b" + script.getString("name"), "&7by &r" + author, "", "&7Descargas: &r" + script.getInt("downloads"), "&7Valoración: " + getScriptRatingPercentage(script), "&a" + getScriptRating(script, true) + " \u263A &7- &4\u2639 " + getScriptRating(script, false), "", "&eClick Izquierdo &rpara descargar este Script", "&4(Esto sobreescribirá su Script actual)", "&eShift + Click Izquierdo &rdejar una calificación positiva", "&eShift + Click Derecho &rdejar una calificación negativa"));
 				}
 
 				menu.addMenuClickHandler(index, (pl, slot, item, action) -> {
@@ -988,7 +988,7 @@ public abstract class ProgrammableAndroid extends SlimefunItem implements Invent
 			});
 		}
 		catch (Exception x) {
-			Slimefun.getLogger().log(Level.SEVERE, "Se produjo un error al crear el Editor de secuencias de comandos para Slimefun " + Slimefun.getVersion(), x);
+			Slimefun.getLogger().log(Level.SEVERE, "Ha ocurrido un error mientras se creaba el editor de Script de Slimefun " + Slimefun.getVersion(), x);
 		}
 
 		int i = 10;

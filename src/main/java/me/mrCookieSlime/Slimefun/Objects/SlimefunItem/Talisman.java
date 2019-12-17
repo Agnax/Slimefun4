@@ -80,7 +80,7 @@ public class Talisman extends SlimefunItem {
 
     public SlimefunItemStack upgrade() {
         List<String> lore = new ArrayList<>();
-        lore.add("&a&oInfusión");
+        lore.add("&7&oEnder infundido");
         lore.add("");
         
         for (String line : getItem().getItemMeta().getLore()) {
