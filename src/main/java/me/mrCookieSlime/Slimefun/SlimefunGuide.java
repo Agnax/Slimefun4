@@ -44,7 +44,7 @@ public final class SlimefunGuide {
 		ItemStack item = new ItemStack(Material.ENCHANTED_BOOK);
 		ItemMeta meta = item.getItemMeta();
 		List<String> lore = new LinkedList<>();
-		lore.addAll(Arrays.asList("", ChatColors.color("&eRight Click &8\u21E8 &7Browse Items"), ChatColors.color("&eShift + Right Click &8\u21E8 &7Open Settings / Credits")));
+		lore.addAll(Arrays.asList("", ChatColors.color("&eClick Derecho &8\u21E8 &7Browse Items"), ChatColors.color("&eShift + Right Click &8\u21E8 &7Open Settings / Credits")));
 		
 		switch (design) {
 		case BOOK:

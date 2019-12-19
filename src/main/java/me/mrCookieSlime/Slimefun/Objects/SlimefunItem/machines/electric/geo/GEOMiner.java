@@ -79,7 +79,7 @@ public abstract class GEOMiner extends AContainer implements InventoryBlock, Rec
 	
 	@Override
 	public String getInventoryTitle() {
-		return "&6GEO-Miner";
+		return "&6GEO-Minero";
 	}
 	
 	@Override

@@ -1093,7 +1093,7 @@ public final class SlimefunSetup {
 		new ItemStack[] {SlimefunItems.SOLAR_PANEL, new ItemStack(Material.CHEST), SlimefunItems.SOLAR_PANEL, SlimefunItems.GOLD_24K_BLOCK, new ItemStack(Material.DISPENSER), SlimefunItems.GOLD_24K_BLOCK, SlimefunItems.GOLD_24K_BLOCK, new ItemStack(Material.HOPPER), SlimefunItems.GOLD_24K_BLOCK},
 		new ItemStack[0], BlockFace.SELF)
 		.register(true, new MultiBlockInteractionHandler() {
-			// Determines the drops an Advanced Digital Miner will get
+			// Determines the drops an Advanced Digital Minero will get
 			private final ItemStack EFFECTIVE_PICKAXE = new ItemStack(Material.DIAMOND_PICKAXE);
 			@Override
 			public boolean onInteract(final Player p, MultiBlock mb, final Block b) {
@@ -2684,7 +2684,7 @@ public final class SlimefunSetup {
 		}.registerChargeableBlock(true, 512);
 
 		new NetherDrill(Categories.GPS, SlimefunItems.NETHER_DRILL, "NETHER_DRILL", RecipeType.ENHANCED_CRAFTING_TABLE,
-		new ItemStack[] {null, null, null, null, new CustomItem(Material.BARRIER, "&4DEPRECATED", "", "&cThis Item will soon be removed.", "&cUse the GEO Miner instead."), null, null, null, null}){
+		new ItemStack[] {null, null, null, null, new CustomItem(Material.BARRIER, "&4DEPRECATED", "", "&cThis Item will soon be removed.", "&cUse the GEO Minero instead."), null, null, null, null}){
 			
 			@Override
 			public int getSpeed() {

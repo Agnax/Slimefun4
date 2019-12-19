@@ -91,7 +91,7 @@ public abstract class CropGrowthAccelerator extends SlimefunItem implements Inve
 				try {
 					CropGrowthAccelerator.this.tick(b);
 				} catch (Exception x) {
-					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while ticking a Crop Growth Accelerator for Slimefun " + Slimefun.getVersion(), x);
+					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while ticking a Acelerador de crecimiento de cultivos for Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 
