@@ -463,9 +463,9 @@ public class CargoNet extends Network {
 								ItemMeta im = stack.getItemMeta();
 								List<String> lore = new ArrayList<>();
 								lore.add("");
-								lore.add(ChatColor.translateAlternateColorCodes('&', "&7Stored Items: &r" + DoubleHandler.getFancyDouble(item.getAmount())));
-								if (stack.getMaxStackSize() > 1) lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1 | Right Click: Request " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">"));
-								else lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Left Click: Request 1>"));
+								lore.add(ChatColor.translateAlternateColorCodes('&', "&7Items almacenados: &r" + DoubleHandler.getFancyDouble(item.getAmount())));
+								if (stack.getMaxStackSize() > 1) lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Click izquierdo: Solicitar 1 | Click Derecho: Solicitar " + (item.getAmount() > stack.getMaxStackSize() ? stack.getMaxStackSize(): item.getAmount()) + ">"));
+								else lore.add(ChatColor.translateAlternateColorCodes('&', "&7<Click izquierdo: Solicitar 1>"));
 
 								lore.add("");
 								if (im.hasLore()) {
@@ -506,7 +506,7 @@ public class CargoNet extends Network {
 			String str = BlockStorage.getLocationInfo(l).getString("frequency");
 			if (str != null) freq = Integer.parseInt(str);
 		} catch (Exception x) {
-			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while parsing a Cargo Node Frequency", x);
+			Slimefun.getLogger().log(Level.SEVERE, "Se produjo un error al analizar una frecuencia de nodo de carga", x);
 		}
 		return freq;
 	}

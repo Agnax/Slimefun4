@@ -22,7 +22,7 @@ public final class NumberUtils {
 			// We have to create this instance here because it is not thread-safe and should not exist on a static level.
 			return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(date.replace('T', ' ').replace("Z", ""));
 		} catch (ParseException x) {
-			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while parsing a GitHub-Date for Slimefun " + Slimefun.getVersion(), x);
+			Slimefun.getLogger().log(Level.SEVERE, "Se produjo un error al analizar un GitHub-Date para Slimefun " + Slimefun.getVersion(), x);
 			return null;
 		}
 	}

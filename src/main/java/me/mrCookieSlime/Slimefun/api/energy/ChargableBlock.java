@@ -110,7 +110,7 @@ public final class ChargableBlock {
 					else CustomSkull.setSkull(b, "eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvN2EyNTY5NDE1YzE0ZTMxYzk4ZWM5OTNhMmY5OWU2ZDY0ODQ2ZGIzNjdhMTNiMTk5OTY1YWQ5OWM0MzhjODZjIn19fQ==");
 				}
 			} catch (Exception x) {
-				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while updating a Capacitor Texture for Slimefun " + Slimefun.getVersion(), x);
+				Slimefun.getLogger().log(Level.SEVERE, "Se produjo un error al actualizar una textura de condensador para Slimefun " + Slimefun.getVersion(), x);
 			}
 		});
 	}

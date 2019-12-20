@@ -97,7 +97,7 @@ public class RitualAnimation implements Runnable {
 				l.getWorld().spawnParticle(Particle.CRIT_MAGIC,l2,8, 0.3F, 0.2F, 0.3F);
 			}
 		} catch (Exception x) {
-			Slimefun.getLogger().log(Level.SEVERE, "An Error occured while playing Ritual Animation for Slimefun " + Slimefun.getVersion(), x);
+			Slimefun.getLogger().log(Level.SEVERE, "Se produjo un error al reproducir la animación ritual para Slimefun " + Slimefun.getVersion(), x);
 		}
 	}
 
@@ -116,7 +116,7 @@ public class RitualAnimation implements Runnable {
 				l.getWorld().spawnParticle(Particle.ENCHANTMENT_TABLE,pedestal.getLocation().add(0.5, 1.5, 0.5),16, 0.3F, 0.2F, 0.3F);
 				l.getWorld().spawnParticle(Particle.CRIT_MAGIC,pedestal.getLocation().add(0.5, 1.5, 0.5), 8,0.3F, 0.2F, 0.3F);
 			} catch (Exception x) {
-				Slimefun.getLogger().log(Level.SEVERE, "An Error occured while playing Pedestal Animation for Slimefun " + Slimefun.getVersion(), x);
+				Slimefun.getLogger().log(Level.SEVERE, "Se produjo un error al reproducir la animación de pedestal para Slimefun " + Slimefun.getVersion(), x);
 			}
 			
 			itemLock.remove(item);

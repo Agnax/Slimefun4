@@ -15,7 +15,7 @@ public class NetherIceResource implements OreGenResource {
 
 	@Override
 	public String getName() {
-		return "Nether Ice";
+		return "Hielo abisal";
 	}
 
 	@Override

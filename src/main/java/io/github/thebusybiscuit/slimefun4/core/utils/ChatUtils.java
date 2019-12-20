@@ -11,7 +11,7 @@ public final class ChatUtils {
 	
 	public static void sendURL(Player p, String url) {
 		p.sendMessage("");
-		p.sendMessage(ChatColors.color("&eClick here:"));
+		p.sendMessage(ChatColors.color("&eClick aquí:"));
 		p.sendMessage(ChatColors.color("&7&o" + url));
 		p.sendMessage("");
 	}

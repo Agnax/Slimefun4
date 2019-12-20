@@ -100,7 +100,7 @@ public final class SlimefunGuide {
 		
 		if (SlimefunManager.isItemSimiliar(guide, getItem(SlimefunGuideLayout.CHEST), true)) {
 			if (p.hasPermission("slimefun.cheat.items")) {
-				menu.addItem(19, new CustomItem(new ItemStack(Material.CHEST), "&7Guide Layout: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "&7Cheat Sheet", "", "&e Click &8\u21E8 &7Change Layout"));
+				menu.addItem(19, new CustomItem(new ItemStack(Material.CHEST), "&7Diseño de la guía: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "&7Cheat Sheet", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
 				menu.addMenuClickHandler(19, (pl, slot, item, action) -> {
 					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.BOOK));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
@@ -108,7 +108,7 @@ public final class SlimefunGuide {
 				});
 			}
 			else {
-				menu.addItem(19, new CustomItem(new ItemStack(Material.CHEST), "&7Guide Layout: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "", "&e Click &8\u21E8 &7Change Layout"));
+				menu.addItem(19, new CustomItem(new ItemStack(Material.CHEST), "&7Diseño de la guía: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
 				menu.addMenuClickHandler(19, (pl, slot, item, action) -> {
 					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.BOOK));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
@@ -118,7 +118,7 @@ public final class SlimefunGuide {
 		}
 		else if (SlimefunManager.isItemSimiliar(guide, getItem(SlimefunGuideLayout.BOOK), true)) {
 			if (p.hasPermission("slimefun.cheat.items")) {
-				menu.addItem(19, new CustomItem(new ItemStack(Material.CHEST), "&7Guide Layout: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "&7Cheat Sheet", "", "&e Click &8\u21E8 &7Change Layout"));
+				menu.addItem(19, new CustomItem(new ItemStack(Material.CHEST), "&7Diseño de la guía: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "&7Cheat Sheet", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
 				menu.addMenuClickHandler(19, (pl, slot, item, action) -> {
 					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEAT_SHEET));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
@@ -126,7 +126,7 @@ public final class SlimefunGuide {
 				});
 			}
 			else {
-				menu.addItem(19, new CustomItem(new ItemStack(Material.CHEST), "&7Guide Layout: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "", "&e Click &8\u21E8 &7Change Layout"));
+				menu.addItem(19, new CustomItem(new ItemStack(Material.CHEST), "&7Diseño de la guía: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
 				menu.addMenuClickHandler(19, (pl, slot, item, action) -> {
 					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEST));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
@@ -135,7 +135,7 @@ public final class SlimefunGuide {
 			}
 		}
 		else if (SlimefunManager.isItemSimiliar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
-			menu.addItem(19, new CustomItem(new ItemStack(Material.CHEST), "&7Guide Layout: &eCheat Sheet", "", "&7Chest GUI", "&7Book GUI", "&aCheat Sheet", "", "&e Click &8\u21E8 &7Change Layout"));
+			menu.addItem(19, new CustomItem(new ItemStack(Material.CHEST), "&7Diseño de la guía: &eCheat Sheet", "", "&7Chest GUI", "&7Book GUI", "&aCheat Sheet", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
 			menu.addMenuClickHandler(19, (pl, slot, item, action) -> {
 				pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEST));
 				openSettings(pl, pl.getInventory().getItemInMainHand());
@@ -477,7 +477,7 @@ public final class SlimefunGuide {
 							parents.add(parent.getItem().getItemMeta().getDisplayName());
 						}
 						
-						menu.addItem(index, new CustomItem(Material.BARRIER, "&4LOCKED &7- &r" + category.getItem().getItemMeta().getDisplayName(), parents.toArray(new String[parents.size()])));
+						menu.addItem(index, new CustomItem(Material.BARRIER, "&4BLOQUEADO &7- &r" + category.getItem().getItemMeta().getDisplayName(), parents.toArray(new String[parents.size()])));
 						menu.addMenuClickHandler(index, (pl, slot, item, action) -> false);
 						index++;
 					}
@@ -829,7 +829,7 @@ public final class SlimefunGuide {
 		LinkedList<Object> history = getHistory().get(p.getUniqueId());
 		
 		if (history != null && history.size() > 1) {
-			menu.addItem(0, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&7\u21E6 Back", "", "&rLeft Click: &7Go back to previous Page", "&rShift + left Click: &7Go back to Main Menu"));
+			menu.addItem(0, new CustomItem(new ItemStack(Material.ENCHANTED_BOOK), "&7\u21E6 Back", "", "&rClick izquierdo: &7Regresar a la página anterior", "&rShift + click izquierdo: &7Regresar al menú principal"));
 			menu.addMenuClickHandler(0, (pl, slot, itemstack, action) -> {
 				if (action.isShiftClicked()) openMainMenu(p, true, book, 1);
 				else {
@@ -903,19 +903,19 @@ public final class SlimefunGuide {
 		menu.addItem(10, recipeType);
 		menu.addMenuClickHandler(10, (pl, slot, itemstack, action) -> false);
 		
-		menu.addItem(12, Slimefun.hasUnlocked(p, recipe[3], false) ? recipe[3]: new CustomItem(Material.BARRIER, StringUtils.formatItemName(recipe[3], false), "&4&lBLOQUEADO", "", Slimefun.hasPermission(p, SlimefunItem.getByItem(recipe[3]), false) ? "&rNeeds to be unlocked elsewhere" : "&rNo Permission"));
+		menu.addItem(12, Slimefun.hasUnlocked(p, recipe[3], false) ? recipe[3]: new CustomItem(Material.BARRIER, StringUtils.formatItemName(recipe[3], false), "&4&lBLOQUEADO", "", Slimefun.hasPermission(p, SlimefunItem.getByItem(recipe[3]), false) ? "&rNecesita ser desbloqueado en otro lugar" : "&rNo Permission"));
 		menu.addMenuClickHandler(12, (pl, slot, itemstack, action) -> {
 			displayItem(pl, itemstack, true, book, 0);
 			return false;
 		});
 		
-		menu.addItem(13, Slimefun.hasUnlocked(p, recipe[4], false) ? recipe[4]: new CustomItem(Material.BARRIER, StringUtils.formatItemName(recipe[4], false), "&4&lBLOQUEADO", "", Slimefun.hasPermission(p, SlimefunItem.getByItem(recipe[4]), false) ? "&rNeeds to be unlocked elsewhere" : "&rNo Permission"));
+		menu.addItem(13, Slimefun.hasUnlocked(p, recipe[4], false) ? recipe[4]: new CustomItem(Material.BARRIER, StringUtils.formatItemName(recipe[4], false), "&4&lBLOQUEADO", "", Slimefun.hasPermission(p, SlimefunItem.getByItem(recipe[4]), false) ? "&rNecesita ser desbloqueado en otro lugar" : "&rNo Permission"));
 		menu.addMenuClickHandler(13, (pl, slot, itemstack, action) -> {
 			displayItem(pl, itemstack, true, book, 0);
 			return false;
 		});
 		
-		menu.addItem(14, Slimefun.hasUnlocked(p, recipe[5], false) ? recipe[5]: new CustomItem(Material.BARRIER, StringUtils.formatItemName(recipe[5], false), "&4&lBLOQUEADO", "", Slimefun.hasPermission(p, SlimefunItem.getByItem(recipe[5]), false) ? "&rNeeds to be unlocked elsewhere" : "&rNo Permission"));
+		menu.addItem(14, Slimefun.hasUnlocked(p, recipe[5], false) ? recipe[5]: new CustomItem(Material.BARRIER, StringUtils.formatItemName(recipe[5], false), "&4&lBLOQUEADO", "", Slimefun.hasPermission(p, SlimefunItem.getByItem(recipe[5]), false) ? "&rNecesita ser desbloqueado en otro lugar" : "&rNo Permission"));
 		menu.addMenuClickHandler(14, (pl, slot, itemstack, action) -> {
 			displayItem(pl, itemstack, true, book, 0);
 			return false;
@@ -924,19 +924,19 @@ public final class SlimefunGuide {
 		menu.addItem(16, recipeOutput);
 		menu.addMenuClickHandler(16, (pl, slot, itemstack, action) -> false);
 		
-		menu.addItem(21, Slimefun.hasUnlocked(p, recipe[6], false) ? recipe[6]: new CustomItem(Material.BARRIER, StringUtils.formatItemName(recipe[6], false), "&4&lBLOQUEADO", "", Slimefun.hasPermission(p, SlimefunItem.getByItem(recipe[6]), false) ? "&rNeeds to be unlocked elsewhere" : "&rNo Permission"));
+		menu.addItem(21, Slimefun.hasUnlocked(p, recipe[6], false) ? recipe[6]: new CustomItem(Material.BARRIER, StringUtils.formatItemName(recipe[6], false), "&4&lBLOQUEADO", "", Slimefun.hasPermission(p, SlimefunItem.getByItem(recipe[6]), false) ? "&rNecesita ser desbloqueado en otro lugar" : "&rNo Permission"));
 		menu.addMenuClickHandler(21, (pl, slot, itemstack, action) -> {
 			displayItem(pl, itemstack, true, book, 0);
 			return false;
 		});
 		
-		menu.addItem(22, Slimefun.hasUnlocked(p, recipe[7], false) ? recipe[7]: new CustomItem(Material.BARRIER, StringUtils.formatItemName(recipe[7], false), "&4&lBLOQUEADO", "", Slimefun.hasPermission(p, SlimefunItem.getByItem(recipe[7]), false) ? "&rNeeds to be unlocked elsewhere" : "&rNo Permission"));
+		menu.addItem(22, Slimefun.hasUnlocked(p, recipe[7], false) ? recipe[7]: new CustomItem(Material.BARRIER, StringUtils.formatItemName(recipe[7], false), "&4&lBLOQUEADO", "", Slimefun.hasPermission(p, SlimefunItem.getByItem(recipe[7]), false) ? "&rNecesita ser desbloqueado en otro lugar" : "&rNo Permission"));
 		menu.addMenuClickHandler(22, (pl, slot, itemstack, action) -> {
 			displayItem(pl, itemstack, true, book, 0);
 			return false;
 		});
 		
-		menu.addItem(23, Slimefun.hasUnlocked(p, recipe[8], false) ? recipe[8]: new CustomItem(Material.BARRIER, StringUtils.formatItemName(recipe[8], false), "&4&lBLOQUEADO", "", Slimefun.hasPermission(p, SlimefunItem.getByItem(recipe[8]), false) ? "&rNeeds to be unlocked elsewhere" : "&rNo Permission"));
+		menu.addItem(23, Slimefun.hasUnlocked(p, recipe[8], false) ? recipe[8]: new CustomItem(Material.BARRIER, StringUtils.formatItemName(recipe[8], false), "&4&lBLOQUEADO", "", Slimefun.hasPermission(p, SlimefunItem.getByItem(recipe[8]), false) ? "&rNecesita ser desbloqueado en otro lugar" : "&rNo Permission"));
 		menu.addMenuClickHandler(23, (pl, slot, itemstack, action) -> {
 			displayItem(pl, itemstack, true, book, 0);
 			return false;
@@ -962,7 +962,7 @@ public final class SlimefunGuide {
 				}
 			}
 			else {
-				menu.replaceExistingItem(28, new CustomItem(Material.LIME_STAINED_GLASS_PANE, "&a\u21E6 Previous Page"));
+				menu.replaceExistingItem(28, new CustomItem(Material.LIME_STAINED_GLASS_PANE, "&a\u21E6 Página anterior"));
 				menu.addMenuClickHandler(28, (pl, slot, itemstack, action) -> {
 					displayRecipes(menu, sfItem, page - 1);
 					pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1);
@@ -971,7 +971,7 @@ public final class SlimefunGuide {
 			}
 			
 			if (recipes.size() > (18 * (page + 1))) {
-				menu.replaceExistingItem(34, new CustomItem(Material.LIME_STAINED_GLASS_PANE, "&aNext Page \u21E8"));
+				menu.replaceExistingItem(34, new CustomItem(Material.LIME_STAINED_GLASS_PANE, "&aPágina siguiente \u21E8"));
 				menu.addMenuClickHandler(34, (pl, slot, itemstack, action) -> {
 					displayRecipes(menu, sfItem, page + 1);
 					pl.playSound(pl.getLocation(), Sound.ITEM_BOOK_PAGE_TURN, 1, 1);

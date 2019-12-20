@@ -54,7 +54,7 @@ public class SlimefunWorld {
 	
 	public boolean isBlock(Block b, String id) {
 		if (id == null) {
-			throw new IllegalArgumentException("Cannot check blocks for id: null");
+			throw new IllegalArgumentException("No se pueden verificar los bloques para id: null");
 		}
 		
 		Optional<SlimefunBlock> block = getBlock(b);

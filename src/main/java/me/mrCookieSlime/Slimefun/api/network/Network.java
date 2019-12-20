@@ -162,7 +162,7 @@ public abstract class Network {
 				try {
 					ParticleEffect.REDSTONE.display(l.clone().add(0.5, 0.5, 0.5), 0, 0, 0, 1, 1);
 				} catch(Exception x) {
-					Slimefun.getLogger().log(Level.SEVERE, "An Error occured while playing Network Animation for Slimefun " + Slimefun.getVersion(), x);
+					Slimefun.getLogger().log(Level.SEVERE, "Se produjo un error al reproducir Network Animation para Slimefun " + Slimefun.getVersion(), x);
 				}
 			}
 		});
