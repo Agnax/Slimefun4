@@ -1,7 +1,5 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric;
 
-import java.util.logging.Level;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -52,36 +50,32 @@ public class WitherAssembler extends SlimefunItem {
 
 			@Override
 			public void newInstance(final BlockMenu menu, final Block b) {
-				try {
-					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "enabled") == null || BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) {
-						menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.GUNPOWDER), "&7Activado: &4\u2718", "", "&e> Click para activar esta maquina"));
-						menu.addMenuClickHandler(22, (p, slot, item, action) -> {
-							BlockStorage.addBlockInfo(b, "enabled", "true");
-							newInstance(menu, b);
-							return false;
-						});
-					}
-					else {
-						menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.REDSTONE), "&7Activado: &2\u2714", "", "&e> Click para desactivar esta maquina"));
-						menu.addMenuClickHandler(22, (p, slot, item, action) -> {
-							BlockStorage.addBlockInfo(b, "enabled", "false");
-							newInstance(menu, b);
-							return false;
-						});
-					}
-					
-					double offset = (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "offset") == null) ? 3.0F: Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
-					
-					menu.replaceExistingItem(31, new CustomItem(new ItemStack(Material.PISTON), "&7Altura: &3" + offset + " Bloque(s)", "", "&rClick izquierdo: &7+0.1", "&rClick Derecho: &7-0.1"));
-					menu.addMenuClickHandler(31, (p, slot, item, action) -> {
-						double offsetv = DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset")) + (action.isRightClicked() ? -0.1F : 0.1F));
-						BlockStorage.addBlockInfo(b, "offset", String.valueOf(offsetv));
+				if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "enabled") == null || BlockStorage.getLocationInfo(b.getLocation(), "enabled").equals("false")) {
+					menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.GUNPOWDER), "&7Habilitado: &4\u2718", "", "&e> Haga clic para habilitar esta máquina"));
+					menu.addMenuClickHandler(22, (p, slot, item, action) -> {
+						BlockStorage.addBlockInfo(b, "enabled", "true");
 						newInstance(menu, b);
 						return false;
 					});
-				} catch(Exception x) {
-					Slimefun.getLogger().log(Level.SEVERE, "Se produjo un error al crear un ensamblador Wither para Slimefun " + Slimefun.getVersion(), x);
 				}
+				else {
+					menu.replaceExistingItem(22, new CustomItem(new ItemStack(Material.REDSTONE), "&7Habilitado: &2\u2714", "", "&e> Haga clic para deshabilitar esta máquina"));
+					menu.addMenuClickHandler(22, (p, slot, item, action) -> {
+						BlockStorage.addBlockInfo(b, "enabled", "false");
+						newInstance(menu, b);
+						return false;
+					});
+				}
+				
+				double offset = (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "offset") == null) ? 3.0F: Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset"));
+				
+				menu.replaceExistingItem(31, new CustomItem(new ItemStack(Material.PISTON), "&7Altura: &3" + offset + " bloque(s)", "", "&rClick izquierdo: &7+0.1", "&rClick Derecho: &7-0.1"));
+				menu.addMenuClickHandler(31, (p, slot, item, action) -> {
+					double offsetv = DoubleHandler.fixDouble(Double.valueOf(BlockStorage.getLocationInfo(b.getLocation(), "offset")) + (action.isRightClicked() ? -0.1F : 0.1F));
+					BlockStorage.addBlockInfo(b, "offset", String.valueOf(offsetv));
+					newInstance(menu, b);
+					return false;
+				});
 			}
 
 			@Override
