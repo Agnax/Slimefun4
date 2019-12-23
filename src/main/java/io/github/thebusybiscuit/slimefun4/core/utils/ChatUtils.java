@@ -1,7 +1,7 @@
 package io.github.thebusybiscuit.slimefun4.core.utils;
 
 import org.bukkit.ChatColor;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
 
