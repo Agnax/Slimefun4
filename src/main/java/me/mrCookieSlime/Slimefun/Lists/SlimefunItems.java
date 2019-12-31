@@ -144,6 +144,8 @@ public final class SlimefunItems {
 	public static final ItemStack MUTTON_JERKY = new SlimefunItemStack("MUTTON_JERKY", Material.COOKED_MUTTON, "&6Carne seca de cordero", "", "&r¡Extra saturante!");
 	public static final ItemStack RABBIT_JERKY = new SlimefunItemStack("RABBIT_JERKY", Material.COOKED_RABBIT, "&6Carne seca de conejo", "", "&r¡Extra saturante!");
 	public static final ItemStack FISH_JERKY = new SlimefunItemStack("FISH_JERKY", Material.COOKED_COD, "&6Carne seca de Pescado", "", "&r¡Extra saturante!");
+
+	public static final ItemStack KELP_COOKIE = new SlimefunItemStack("KELP_COOKIE", Material.COOKIE, "&2Galleta de Alga");
 	
 	/*		Christmas		*/
 	public static final ItemStack CHRISTMAS_MILK = new CustomPotion("&6Vaso de leche", Color.WHITE, new PotionEffect(PotionEffectType.SATURATION, 5, 0), "", "&7&oRestaura &b&o" + "2.5" + " &7&ode hambre");

@@ -27,7 +27,7 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunMachine;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.AutomatedCraftingChamber;
 import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.SlimefunRecipes;
-import me.mrCookieSlime.Slimefun.utils.Settings;
+import me.mrCookieSlime.Slimefun.utils.ConfigCache;
 
 public final class MiscSetup {
 	
@@ -48,7 +48,7 @@ public final class MiscSetup {
 		SlimefunItem.setRadioactive(SlimefunItems.ENRICHED_NETHER_ICE);
 	}
 	
-	public static void loadItems(Settings settings) {
+	public static void loadItems(ConfigCache settings) {
 		Iterator<SlimefunItem> iterator = SlimefunItem.list().iterator();
 		while (iterator.hasNext()) {
 			SlimefunItem item = iterator.next();
@@ -72,13 +72,13 @@ public final class MiscSetup {
 			else post.add(item);
 		}
 		
-		for (SlimefunItem item: pre) {
+		for (SlimefunItem item : pre) {
 			item.load();
 		}
-		for (SlimefunItem item: init) {
+		for (SlimefunItem item : init) {
 			item.load();
 		}
-		for (SlimefunItem item: post) {
+		for (SlimefunItem item : post) {
 			item.load();
 		}
 
@@ -107,10 +107,10 @@ public final class MiscSetup {
 			
 			SlimefunMachine machine = (SlimefunMachine) SlimefunItem.getByID("ENHANCED_CRAFTING_TABLE");
 			
-			for (ItemStack[] inputs: RecipeType.getRecipeInputList(machine)) {
+			for (ItemStack[] inputs : RecipeType.getRecipeInputList(machine)) {
 				StringBuilder builder = new StringBuilder();
 				int i = 0;
-				for (ItemStack item: inputs) {
+				for (ItemStack item : inputs) {
 					if (i > 0) {
 						builder.append(" </slot> ");
 					}

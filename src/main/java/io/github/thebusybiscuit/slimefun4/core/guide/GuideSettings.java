@@ -7,18 +7,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.SkullMeta;
 
 import io.github.thebusybiscuit.cscorelib2.chat.ChatColors;
+import io.github.thebusybiscuit.cscorelib2.data.PersistentDataAPI;
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.core.services.github.Contributor;
 import io.github.thebusybiscuit.slimefun4.core.utils.ChatUtils;
+import io.github.thebusybiscuit.slimefun4.core.utils.ChestMenuUtils;
 import io.github.thebusybiscuit.slimefun4.core.utils.NumberUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.CSCoreLib;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -29,130 +33,195 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 
 public final class GuideSettings {
 	
-	private static final int[] SLOTS = new int[] {0, 2, 4, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
+	public static final NamespacedKey FIREWORKS_KEY = new NamespacedKey(SlimefunPlugin.instance, "research_fireworks");
+	
+	private static final int[] BACKGROUND_SLOTS = {1, 3, 5, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
 
 	private GuideSettings() {}
 	
 	public static void openSettings(Player p, final ItemStack guide) {
-		final ChestMenu menu = new ChestMenu("Configuración / Info");
+		ChestMenu menu = new ChestMenu("Configuración / Info");
 
 		menu.setEmptySlotsClickable(false);
 		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
 
-		menu.addItem(1, new CustomItem(getItem(SlimefunGuideLayout.CHEST), "&e\u21E6 Regresar", "", "&7Regrese a su Guía de Slimefun"));
-		menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
+		for (int slot : BACKGROUND_SLOTS) {
+			menu.addItem(slot, ChestMenuUtils.getBackground());
+			menu.addMenuClickHandler(slot, ChestMenuUtils.getEmptyClickHandler());
+		}
+		
+		addMenubar(p, menu, guide);
+		addConfigurableOptions(p, menu, guide);
+
+		menu.open(p);
+	}
+
+	private static void addMenubar(Player p, ChestMenu menu, ItemStack guide) {
+		menu.addItem(0, new CustomItem(getItem(SlimefunGuideLayout.CHEST), "&e\u21E6 Regresar", "", "&7Regrese a su Guía de Slimefun"),
+		(pl, slot, item, action) -> {
 			SlimefunGuide.openGuide(pl, guide);
 			return false;
 		});
-		
-		for (int i: SLOTS) {
-			menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
-			menu.addMenuClickHandler(i, (pl, slot, item, action) -> false);
-		}
 
+		menu.addItem(2, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZTk1MmQyYjNmMzUxYTZiMDQ4N2NjNTlkYjMxYmY1ZjI2NDExMzNlNWJhMDAwNmIxODU3NmU5OTZhMDI5M2U1MiJ9fX0="),
+				"&cCredits",
+				"",
+				"&7Contributors: &e" + SlimefunPlugin.getGitHubService().getContributors().size(),
+				"",
+				"&7Slimefun is an open-source project",
+				"&7and maintained by a large community.",
+				"&7Here you can find them all", 
+				"", 
+				"&7\u21E8 Click to see all of them"
+		),
+		(pl, slot, action, item) -> {
+			openCredits(pl, 0);
+			return false;
+		});
+
+		menu.addItem(4, new CustomItem(new ItemStack(Material.WRITABLE_BOOK),
+				"&aSlimefun Version",
+				"&7&oThis is very important when reporting bugs!",
+				"",
+				"&7Minecraft Version: &a" + Bukkit.getBukkitVersion(),
+				"&7Slimefun Version: &a" + Slimefun.getVersion(),
+				"&7CS-CoreLib Version: &a" + CSCoreLib.getLib().getDescription().getVersion(),
+				"&7Installed Addons: &b" + Slimefun.getInstalledAddons().size()
+		),  ChestMenuUtils.getEmptyClickHandler());
+
+		menu.addItem(6, new CustomItem(new ItemStack(Material.COMPARATOR), 
+				"&eSource Code", 
+				"", 
+				"&7Bytes of Code: &6" + NumberUtils.formatBigNumber(SlimefunPlugin.getGitHubService().getCodeSize()), 
+				"&7Last Activity: &a" + NumberUtils.timeDelta(SlimefunPlugin.getGitHubService().getLastUpdate()) + " ago", 
+				"&7Forks: &e" + SlimefunPlugin.getGitHubService().getForks(), 
+				"&7Stars: &e" + SlimefunPlugin.getGitHubService().getStars(), 
+				"", 
+				"&7&oSlimefun 4 is a community project,", 
+				"&7&othe source code is available on GitHub", 
+				"&7&oand if you want to keep this Plugin alive,", 
+				"&7&othen please consider contributing to it", 
+				"", 
+				"&7\u21E8 Click to go to GitHub"
+		),
+		(pl, slot, item, action) -> {
+			pl.closeInventory();
+			ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4");
+			return false;
+		});
+
+		menu.addItem(8, new CustomItem(new ItemStack(Material.KNOWLEDGE_BOOK), 
+				"&3Slimefun Wiki", 
+				"", 
+				"&7Do you need help with an Item or machine?", 
+				"&7You cannot figure out what to do?", 
+				"&7Check out our community-maintained Wiki", 
+				"&7and become one of our Editors!", 
+				"", 
+				"&7\u21E8 Click to go to the official Slimefun Wiki"
+		),
+		(pl, slot, item, action) -> {
+			pl.closeInventory();
+			ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4/wiki");
+			return false;
+		});
+	}
+
+	private static void addConfigurableOptions(Player p, ChestMenu menu, ItemStack guide) {
+		int i = 19;
+		
 		if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEST), true)) {
 			if (p.hasPermission("slimefun.cheat.items")) {
-				menu.addItem(19, new CustomItem(new ItemStack(Material.CHEST), "&7Diseño de la guía: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "&7Cheat Sheet", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
-				menu.addMenuClickHandler(19, (pl, slot, item, action) -> {
+				menu.addItem(i, new CustomItem(new ItemStack(Material.CHEST), "&7Diseño de la guía: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "&7Cheat Sheet", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
+				menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.BOOK));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
 					return false;
 				});
 			}
 			else {
-				menu.addItem(19, new CustomItem(new ItemStack(Material.CHEST), "&7Diseño de la guía: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
-				menu.addMenuClickHandler(19, (pl, slot, item, action) -> {
+				menu.addItem(i, new CustomItem(new ItemStack(Material.CHEST), "&7Diseño de la guía: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
+				menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.BOOK));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
 					return false;
 				});
 			}
+			
+			i++;
 		}
 		else if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.BOOK), true)) {
 			if (p.hasPermission("slimefun.cheat.items")) {
-				menu.addItem(19, new CustomItem(new ItemStack(Material.BOOK), "&7Diseño de la guía: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "&7Cheat Sheet", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
-				menu.addMenuClickHandler(19, (pl, slot, item, action) -> {
+				menu.addItem(i, new CustomItem(new ItemStack(Material.BOOK), "&7Diseño de la guía: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "&7Cheat Sheet", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
+				menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEAT_SHEET));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
 					return false;
 				});
 			}
 			else {
-				menu.addItem(19, new CustomItem(new ItemStack(Material.BOOK), "&7Diseño de la guía: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
-				menu.addMenuClickHandler(19, (pl, slot, item, action) -> {
+				menu.addItem(i, new CustomItem(new ItemStack(Material.BOOK), "&7Diseño de la guía: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
+				menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEST));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
 					return false;
 				});
 			}
+			
+			i++;
 		}
 		else if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
-			menu.addItem(19, new CustomItem(new ItemStack(Material.COMMAND_BLOCK), "&7Diseño de la guía: &eCheat Sheet", "", "&7Chest GUI", "&7Book GUI", "&aCheat Sheet", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
-			menu.addMenuClickHandler(19, (pl, slot, item, action) -> {
+			menu.addItem(i, new CustomItem(new ItemStack(Material.COMMAND_BLOCK), "&7Diseño de la guía: &eCheat Sheet", "", "&7Chest GUI", "&7Book GUI", "&aCheat Sheet", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
+			menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 				pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEST));
 				openSettings(pl, pl.getInventory().getItemInMainHand());
 				return false;
 			});
+			
+			i++;
 		}
 
-		menu.addItem(3, new CustomItem(new ItemStack(Material.WRITABLE_BOOK),
-				"&aCréditos",
-				"",
-				"&7Versión Slimefun: &a" + Slimefun.getVersion(),
-				"&7Versión CS-CoreLib: &a" + CSCoreLib.getLib().getDescription().getVersion(),
-				"&7Complementos instalados: &b" + Slimefun.getInstalledAddons().size(),
-				"&7Contribuyentes: &e" + SlimefunPlugin.getGitHubService().getContributors().size(),
-				"",
-				"&7\u21E8 Haga clic para ver a las personas detrás de este complemento"
-		));
-		menu.addMenuClickHandler(3, (pl, slot, item, action) -> {
-			openCredits(pl, 0);
-			return false;
-		});
-
-		try {
-			menu.addItem(5, new CustomItem(new ItemStack(Material.COMPARATOR), "&eCódigo fuente", "", "&7Bytes de código: &6" + NumberUtils.formatBigNumber(SlimefunPlugin.getGitHubService().getCodeSize()), "&7Última actividad: &a" + NumberUtils.timeDelta(SlimefunPlugin.getGitHubService().getLastUpdate()) + " ago", "&7Forks: &e" + SlimefunPlugin.getGitHubService().getForks(), "&7Estrellas: &e" + SlimefunPlugin.getGitHubService().getStars(), "", "&7&oSlimefun 4 es un proyecto comunitario,", "&7&oel código fuente está disponible en GitHub", "&7&oy si quieres mantener vivo este complemento,", "&7&oentonces por favor considera contribuir", "", "&7\u21E8 Haga clic para ir a GitHub"));
-			menu.addMenuClickHandler(5, (pl, slot, item, action) -> {
-				pl.closeInventory();
-				ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4");
-				return false;
-			});
-		} catch (Exception x) {
-			Slimefun.getLogger().log(Level.SEVERE, "Se produjo un error al crear el panel de información para Slimefun " + Slimefun.getVersion(), x);
+		if (SlimefunPlugin.getSettings().researchFireworksEnabled) {
+			if (!PersistentDataAPI.hasByte(p, FIREWORKS_KEY) || PersistentDataAPI.getByte(p, FIREWORKS_KEY) == (byte) 1) {
+				menu.addItem(i, new CustomItem(new ItemStack(Material.FIREWORK_ROCKET), "&bFuegos artificiales: &aSí", "", "&7Al investigar artículos, podrás", "&7ser presentado con un gran fuego artificial.", "", "&7\u21E8 Haga clic para alternar sus fuegos artificiales"),
+				(pl, slot, item, action) -> {
+					PersistentDataAPI.setByte(pl, FIREWORKS_KEY, (byte) 0);
+					openSettings(pl, guide);
+					return false;
+				});
+			}
+			else {
+				menu.addItem(i, new CustomItem(new ItemStack(Material.FIREWORK_ROCKET), "&bFuegos artificiales: &aNo", "", "&7Al investigar artículos, podrás", "&7ser presentado con un gran fuego artificial.", "", "&7\u21E8 Haga clic para alternar sus fuegos artificiales"),
+				(pl, slot, item, action) -> {
+					PersistentDataAPI.setByte(pl, FIREWORKS_KEY, (byte) 1);
+					openSettings(pl, guide);
+					return false;
+				});
+			}
+			
+			i++;
 		}
 
-		menu.addItem(7, new CustomItem(new ItemStack(Material.KNOWLEDGE_BOOK), "&3Slimefun Wiki", "", "&7¿Necesita ayuda con un item o máquina?", "&7¿No sabes qué hacer?", "&7Mira nuestra Wiki mantenida por la comunidad", "&7y conviértete en uno de nuestros editores!", "", "&7\u21E8 Haga clic para ir a la Wiki oficial de Slimefun"));
-		menu.addMenuClickHandler(7, (pl, slot, item, action) -> {
-			pl.closeInventory();
-			ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4/wiki");
-			return false;
-		});
-
-		menu.addItem(20, new CustomItem(new ItemStack(Material.REDSTONE), "&4Reportar un error", "", "&7Problemas abiertos: &a" + SlimefunPlugin.getGitHubService().getIssues(), "&7Pull Requests pendientes: &a" + SlimefunPlugin.getGitHubService().getPullRequests(), "", "&7\u21E8 Haga clic para ir al Slimefun Bug Tracker"));
-		menu.addMenuClickHandler(20, (pl, slot, item, action) -> {
+		menu.addItem(i, new CustomItem(new ItemStack(Material.REDSTONE), "&4Reportar un error", "", "&7Problemas abiertos: &a" + SlimefunPlugin.getGitHubService().getIssues(), "&7Pull Requests pendientes: &a" + SlimefunPlugin.getGitHubService().getPullRequests(), "", "&7\u21E8 Haga clic para ir al Slimefun Bug Tracker"),
+		(pl, slot, item, action) -> {
 			pl.closeInventory();
 			ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4/issues");
 			return false;
 		});
-		
-		// TODO: Resourcepack Install Button
-
-		menu.open(p);
 	}
 
 	private static void openCredits(Player p, int page) {
-		final ChestMenu menu = new ChestMenu("Créditos");
+		ChestMenu menu = new ChestMenu("Créditos");
 
 		menu.setEmptySlotsClickable(false);
 		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
 
 		for (int i = 0; i < 9; i++) {
 			if (i != 1) {
-				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
-				menu.addMenuClickHandler(i, (pl, slot, item, action) -> false);
+				menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
 			}
 			else {
-				menu.addItem(1, new CustomItem(getItem(SlimefunGuideLayout.CHEST), "&e\u21E6 Regresar", "", "&7Regrese al Panel de configuración"));
+				menu.addItem(1, new CustomItem(ChestMenuUtils.getBackButton(), "&e\u21E6 Regresar", "", "&7Regrese al Panel de configuración"));
 				menu.addMenuClickHandler(1, (pl, slot, item, action) -> {
 					openSettings(pl, p.getInventory().getItemInMainHand());
 					return false;
@@ -162,20 +231,17 @@ public final class GuideSettings {
 		
 		for (int i = 45; i < 54; i++) {
 			if (i != 46 && i != 52) {
-				menu.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "));
-				menu.addMenuClickHandler(i, (pl, slot, item, action) -> false);
+				menu.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
 			}
 		}
 		
 		List<Contributor> contributors = new ArrayList<>(SlimefunPlugin.getGitHubService().getContributors().values());
 		contributors.sort(Comparator.comparingInt(Contributor::index));
 		
-		boolean hasPrevious = page > 0;
-		boolean hasNext = false;
+		int pages = (contributors.size() - 1) / 36 + 1;
 		
 		for (int i = page * 36; i < contributors.size(); i++) {
 			if (i >= (page + 1) * 36) {
-				hasNext = true;
 				break;
 			}
 			
@@ -219,29 +285,17 @@ public final class GuideSettings {
 			});
 		}
 
-		if (hasPrevious) {
-			menu.addItem(46, new CustomItem(Material.LIME_STAINED_GLASS_PANE, "&e\u21E6 Página anterior"));
-			menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
-				openCredits(pl, page - 1);
-				return false;
-			});
-		}
-		else {
-			menu.addItem(46, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
-			menu.addMenuClickHandler(46, (pl, slot, item, action) -> false);
-		}
+		menu.addItem(46, ChestMenuUtils.getPreviousButton(page + 1, pages));
+		menu.addMenuClickHandler(46, (pl, slot, item, action) -> {
+			if (page > 0) openCredits(pl, page - 1);
+			return false;
+		});
 
-		if (hasNext) {
-			menu.addItem(52, new CustomItem(Material.LIME_STAINED_GLASS_PANE, "&ePágina siguiente \u21E8"));
-			menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
-				openCredits(pl, page + 1);
-				return false;
-			});
-		}
-		else {
-			menu.addItem(52, new CustomItem(Material.BLACK_STAINED_GLASS_PANE, " "));
-			menu.addMenuClickHandler(52, (pl, slot, item, action) -> false);
-		}
+		menu.addItem(52, ChestMenuUtils.getNextButton(page + 1, pages));
+		menu.addMenuClickHandler(52, (pl, slot, item, action) -> {
+			if (page + 1 < pages) openCredits(pl, page + 1);
+			return false;
+		});
 
 		menu.open(p);
 	}
