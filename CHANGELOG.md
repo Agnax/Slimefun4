@@ -2,7 +2,7 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **List of Releases**
 
-- [Release Candidate 4 (TBD)](#release-candidate-4-tbd)
+- [Release Candidate 4 (06 Jan 2020)](#release-candidate-4-06-jan-2020)
   - [Additions](#additions)
   - [Changes](#changes)
   - [Fixes](#fixes)
@@ -18,7 +18,7 @@
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Release Candidate 4 (TBD)
+## Release Candidate 4 (06 Jan 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
 
 ### Additions
@@ -40,6 +40,9 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
 * Added player option to toggle research fireworks in the guide settings
 * Added Kelp Cookies
 * Added support for multiple recipes on vanilla items
+* Added a "Craft last" button to the Automated Crafting Chamber
+* Added more ore-doubling Recipes to the Ore Crusher
+* Added Addons to the guide settings
 
 ### Changes
 * Revamped Guide Settings menu
@@ -53,6 +56,8 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
 * Improved Cargo performance
 * Removed Nether Drill
 * Tweaked Enhanced Furnace Recipes
+* Changed tooltips for Radiation
+* Oil Pump now shows its "Bucket -> Oil" recipe
 
 ### Fixes
 * Fixed Research Titles
@@ -81,6 +86,13 @@ https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
 * Fixed #1295
 * Fixed MultiBlocks not accepting different fence types
 * Fixed #1337
+* Fixed Applie Pie ID mismatch
+* Fixed #1344
+* Fixed #1349
+* Fixed #1332
+* Fixed #1356 and maybe other concurrency issues
+* Fixed Ore Crusher's missing recipes
+* Fixed #1354
 
 ## Release Candidate 3 (21 Nov 2019)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#3

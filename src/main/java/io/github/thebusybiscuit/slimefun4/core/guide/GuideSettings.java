@@ -5,7 +5,6 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -35,11 +34,11 @@ public final class GuideSettings {
 	
 	public static final NamespacedKey FIREWORKS_KEY = new NamespacedKey(SlimefunPlugin.instance, "research_fireworks");
 	
-	private static final int[] BACKGROUND_SLOTS = {1, 3, 5, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35};
+	private static final int[] BACKGROUND_SLOTS = {1, 3, 5, 7, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 26, 27, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 48, 50, 52, 53};
 
 	private GuideSettings() {}
 	
-	public static void openSettings(Player p, final ItemStack guide) {
+	public static void openSettings(Player p, ItemStack guide) {
 		ChestMenu menu = new ChestMenu("Configuración / Info");
 
 		menu.setEmptySlotsClickable(false);
@@ -72,24 +71,23 @@ public final class GuideSettings {
 				"&7and maintained by a large community.",
 				"&7Here you can find them all", 
 				"", 
-				"&7\u21E8 Click to see all of them"
+				"&7\u21E8 &eClick to see all of them"
 		),
 		(pl, slot, action, item) -> {
 			openCredits(pl, 0);
 			return false;
 		});
-
-		menu.addItem(4, new CustomItem(new ItemStack(Material.WRITABLE_BOOK),
+		
+		menu.addItem(4, new CustomItem(Material.WRITABLE_BOOK,
 				"&aSlimefun Version",
 				"&7&oThis is very important when reporting bugs!",
 				"",
 				"&7Minecraft Version: &a" + Bukkit.getBukkitVersion(),
 				"&7Slimefun Version: &a" + Slimefun.getVersion(),
-				"&7CS-CoreLib Version: &a" + CSCoreLib.getLib().getDescription().getVersion(),
-				"&7Installed Addons: &b" + Slimefun.getInstalledAddons().size()
+				"&7CS-CoreLib Version: &a" + CSCoreLib.getLib().getDescription().getVersion()
 		),  ChestMenuUtils.getEmptyClickHandler());
 
-		menu.addItem(6, new CustomItem(new ItemStack(Material.COMPARATOR), 
+		menu.addItem(6, new CustomItem(Material.COMPARATOR, 
 				"&eSource Code", 
 				"", 
 				"&7Bytes of Code: &6" + NumberUtils.formatBigNumber(SlimefunPlugin.getGitHubService().getCodeSize()), 
@@ -102,7 +100,7 @@ public final class GuideSettings {
 				"&7&oand if you want to keep this Plugin alive,", 
 				"&7&othen please consider contributing to it", 
 				"", 
-				"&7\u21E8 Click to go to GitHub"
+				"&7\u21E8 &eClick to go to GitHub"
 		),
 		(pl, slot, item, action) -> {
 			pl.closeInventory();
@@ -110,7 +108,7 @@ public final class GuideSettings {
 			return false;
 		});
 
-		menu.addItem(8, new CustomItem(new ItemStack(Material.KNOWLEDGE_BOOK), 
+		menu.addItem(8, new CustomItem(Material.KNOWLEDGE_BOOK, 
 				"&3Slimefun Wiki", 
 				"", 
 				"&7Do you need help with an Item or machine?", 
@@ -118,11 +116,51 @@ public final class GuideSettings {
 				"&7Check out our community-maintained Wiki", 
 				"&7and become one of our Editors!", 
 				"", 
-				"&7\u21E8 Click to go to the official Slimefun Wiki"
+				"&7\u21E8 &eClick to go to the official Slimefun Wiki"
 		),
 		(pl, slot, item, action) -> {
 			pl.closeInventory();
 			ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4/wiki");
+			return false;
+		});
+		
+		menu.addItem(47, new CustomItem(Material.BOOKSHELF, 
+				"&3Slimefun Addons", 
+				"",
+				"&7Slimefun is huge. But its addons are what makes",
+				"&7this plugin truly shine. Go check them out, some",
+				"&7of them may be exactly what you were missing out on!",
+				"", 
+				"&7Installed on this Server: &b" + Slimefun.getInstalledAddons().size(), 
+				"", 
+				"&7\u21E8 &eClick to see all available Addons for Slimefun4"
+		),
+		(pl, slot, item, action) -> {
+			pl.closeInventory();
+			ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4/wiki/Addons");
+			return false;
+		});
+		
+		menu.addItem(49, new CustomItem(Material.REDSTONE_TORCH, 
+				"&4Report a bug", 
+				"", 
+				"&7Open Issues: &a" + SlimefunPlugin.getGitHubService().getIssues(), 
+				"&7Pending Pull Requests: &a" + SlimefunPlugin.getGitHubService().getPullRequests(), 
+				"", 
+				"&7\u21E8 &eClick to go to the Slimefun4 Bug Tracker"
+		),
+		(pl, slot, item, action) -> {
+			pl.closeInventory();
+			ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4/issues");
+			return false;
+		});
+		
+		menu.addItem(51, new CustomItem(Material.TOTEM_OF_UNDYING, 
+				"&cSoon", 
+				"",
+				"&7Something will be added here later..."
+		),
+		(pl, slot, item, action) -> {
 			return false;
 		});
 	}
@@ -132,7 +170,7 @@ public final class GuideSettings {
 		
 		if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEST), true)) {
 			if (p.hasPermission("slimefun.cheat.items")) {
-				menu.addItem(i, new CustomItem(new ItemStack(Material.CHEST), "&7Diseño de la guía: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "&7Cheat Sheet", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
+				menu.addItem(i, new CustomItem(Material.CHEST, "&7Diseño de la guía: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "&7Cheat Sheet", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
 				menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.BOOK));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
@@ -140,7 +178,7 @@ public final class GuideSettings {
 				});
 			}
 			else {
-				menu.addItem(i, new CustomItem(new ItemStack(Material.CHEST), "&7Diseño de la guía: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
+				menu.addItem(i, new CustomItem(Material.CHEST, "&7Diseño de la guía: &eChest GUI", "", "&aChest GUI", "&7Book GUI", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
 				menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.BOOK));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
@@ -152,7 +190,7 @@ public final class GuideSettings {
 		}
 		else if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.BOOK), true)) {
 			if (p.hasPermission("slimefun.cheat.items")) {
-				menu.addItem(i, new CustomItem(new ItemStack(Material.BOOK), "&7Diseño de la guía: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "&7Cheat Sheet", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
+				menu.addItem(i, new CustomItem(Material.BOOK, "&7Diseño de la guía: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "&7Cheat Sheet", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
 				menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEAT_SHEET));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
@@ -160,7 +198,7 @@ public final class GuideSettings {
 				});
 			}
 			else {
-				menu.addItem(i, new CustomItem(new ItemStack(Material.BOOK), "&7Diseño de la guía: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
+				menu.addItem(i, new CustomItem(Material.BOOK, "&7Diseño de la guía: &eBook GUI", "", "&7Chest GUI", "&aBook GUI", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
 				menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 					pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEST));
 					openSettings(pl, pl.getInventory().getItemInMainHand());
@@ -171,7 +209,7 @@ public final class GuideSettings {
 			i++;
 		}
 		else if (SlimefunManager.isItemSimilar(guide, getItem(SlimefunGuideLayout.CHEAT_SHEET), true)) {
-			menu.addItem(i, new CustomItem(new ItemStack(Material.COMMAND_BLOCK), "&7Diseño de la guía: &eCheat Sheet", "", "&7Chest GUI", "&7Book GUI", "&aCheat Sheet", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
+			menu.addItem(i, new CustomItem(Material.COMMAND_BLOCK, "&7Diseño de la guía: &eCheat Sheet", "", "&7Chest GUI", "&7Book GUI", "&aCheat Sheet", "", "&e Click para &8\u21E8 &7Cambiar Diseño"));
 			menu.addMenuClickHandler(i, (pl, slot, item, action) -> {
 				pl.getInventory().setItemInMainHand(getItem(SlimefunGuideLayout.CHEST));
 				openSettings(pl, pl.getInventory().getItemInMainHand());
@@ -183,7 +221,7 @@ public final class GuideSettings {
 
 		if (SlimefunPlugin.getSettings().researchFireworksEnabled) {
 			if (!PersistentDataAPI.hasByte(p, FIREWORKS_KEY) || PersistentDataAPI.getByte(p, FIREWORKS_KEY) == (byte) 1) {
-				menu.addItem(i, new CustomItem(new ItemStack(Material.FIREWORK_ROCKET), "&bFuegos artificiales: &aSí", "", "&7Al investigar artículos, podrás", "&7ser presentado con un gran fuego artificial.", "", "&7\u21E8 Haga clic para alternar sus fuegos artificiales"),
+				menu.addItem(i, new CustomItem(Material.FIREWORK_ROCKET, "&bFuegos artificiales: &aSí", "", "&7Al investigar artículos, podrás", "&7ser presentado con un gran fuego artificial.", "", "&7\u21E8 Haga clic para alternar sus fuegos artificiales"),
 				(pl, slot, item, action) -> {
 					PersistentDataAPI.setByte(pl, FIREWORKS_KEY, (byte) 0);
 					openSettings(pl, guide);
@@ -191,7 +229,7 @@ public final class GuideSettings {
 				});
 			}
 			else {
-				menu.addItem(i, new CustomItem(new ItemStack(Material.FIREWORK_ROCKET), "&bFuegos artificiales: &aNo", "", "&7Al investigar artículos, podrás", "&7ser presentado con un gran fuego artificial.", "", "&7\u21E8 Haga clic para alternar sus fuegos artificiales"),
+				menu.addItem(i, new CustomItem(Material.FIREWORK_ROCKET, "&bFuegos artificiales: &aNo", "", "&7Al investigar artículos, podrás", "&7ser presentado con un gran fuego artificial.", "", "&7\u21E8 Haga clic para alternar sus fuegos artificiales"),
 				(pl, slot, item, action) -> {
 					PersistentDataAPI.setByte(pl, FIREWORKS_KEY, (byte) 1);
 					openSettings(pl, guide);
@@ -201,17 +239,10 @@ public final class GuideSettings {
 			
 			i++;
 		}
-
-		menu.addItem(i, new CustomItem(new ItemStack(Material.REDSTONE), "&4Reportar un error", "", "&7Problemas abiertos: &a" + SlimefunPlugin.getGitHubService().getIssues(), "&7Pull Requests pendientes: &a" + SlimefunPlugin.getGitHubService().getPullRequests(), "", "&7\u21E8 Haga clic para ir al Slimefun Bug Tracker"),
-		(pl, slot, item, action) -> {
-			pl.closeInventory();
-			ChatUtils.sendURL(pl, "https://github.com/TheBusyBiscuit/Slimefun4/issues");
-			return false;
-		});
 	}
 
 	private static void openCredits(Player p, int page) {
-		ChestMenu menu = new ChestMenu("Créditos");
+		ChestMenu menu = new ChestMenu("Colaboradores de Slimefun4");
 
 		menu.setEmptySlotsClickable(false);
 		menu.addMenuOpeningHandler(pl -> pl.playSound(pl.getLocation(), Sound.BLOCK_NOTE_BLOCK_HARP, 0.7F, 0.7F));
@@ -246,13 +277,7 @@ public final class GuideSettings {
 			}
 			
 			Contributor contributor = contributors.get(i);
-			ItemStack skull = new ItemStack(Material.PLAYER_HEAD);
-			
-			try {
-				skull = SkullItem.fromBase64(contributor.getTexture());
-			} catch (Exception e) {
-				Slimefun.getLogger().log(Level.SEVERE, "Se produjo un error al insertar una cabeza de contribuidor.", e);
-			}
+			ItemStack skull = SkullItem.fromBase64(contributor.getTexture());
 
 			SkullMeta meta = (SkullMeta) skull.getItemMeta();
 			meta.setDisplayName(ChatColor.GRAY + contributor.getName()
@@ -262,7 +287,7 @@ public final class GuideSettings {
 			List<String> lore = new LinkedList<>();
 			lore.add("");
 			
-			for (Map.Entry<String, Integer> entry : contributor.getContributions().entrySet()) {
+			for (Map.Entry<String, Integer> entry : contributor.getContributions()) {
 				String info = entry.getKey();
 				
 				if (entry.getValue() > 0) {
@@ -272,15 +297,20 @@ public final class GuideSettings {
 				lore.add(ChatColors.color(info));
 			}
 			
-			lore.add("");
-			lore.add(ChatColors.color("&7\u21E8 Haga clic para visitar el perfil de " + contributor.getName()));
+			if (contributor.getProfile() != null) {
+				lore.add("");
+				lore.add(ChatColors.color("&7\u21E8 Click para visitar el perfil de " + contributor.getName()));
+			}
+			
 			meta.setLore(lore);
 			skull.setItemMeta(meta);
 
 			menu.addItem(i - page * 36 + 9, skull);
 			menu.addMenuClickHandler(i - page * 36 + 9, (pl, slot, item, action) -> {
-				pl.closeInventory();
-				ChatUtils.sendURL(pl, contributor.getProfile());
+				if (contributor.getProfile() != null) {
+					pl.closeInventory();
+					ChatUtils.sendURL(pl, contributor.getProfile());
+				}
 				return false;
 			});
 		}

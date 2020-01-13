@@ -14,12 +14,12 @@ import org.bukkit.inventory.meta.FireworkMeta;
 
 public final class FireworkUtils {
 	
-	private static final Color[] colors = {Color.AQUA, Color.BLACK, Color.BLUE, Color.FUCHSIA, Color.GRAY, Color.GREEN, Color.LIME, Color.MAROON, Color.NAVY, Color.OLIVE, Color.ORANGE, Color.PURPLE, Color.RED, Color.SILVER, Color.TEAL, Color.WHITE, Color.YELLOW};
+	private static final Color[] COLORS = {Color.AQUA, Color.BLACK, Color.BLUE, Color.FUCHSIA, Color.GRAY, Color.GREEN, Color.LIME, Color.MAROON, Color.NAVY, Color.OLIVE, Color.ORANGE, Color.PURPLE, Color.RED, Color.SILVER, Color.TEAL, Color.WHITE, Color.YELLOW};
 	
 	private FireworkUtils() {}
 	
 	public static void launchFirework(Location l, Color color) {
-		Firework fw = (Firework)l.getWorld().spawnEntity(l, EntityType.FIREWORK);
+		Firework fw = (Firework) l.getWorld().spawnEntity(l, EntityType.FIREWORK);
 		
 		FireworkMeta meta = fw.getFireworkMeta();
 	    FireworkEffect effect = getRandomEffect(ThreadLocalRandom.current(), color);
@@ -29,12 +29,14 @@ public final class FireworkUtils {
 	}
 	
 	public static Firework createFirework(Location l, Color color) {
-		Firework fw = (Firework)l.getWorld().spawnEntity(l, EntityType.FIREWORK);
+		Firework fw = (Firework) l.getWorld().spawnEntity(l, EntityType.FIREWORK);
+		
 		FireworkMeta meta = fw.getFireworkMeta();
 	    FireworkEffect effect = FireworkEffect.builder().flicker(ThreadLocalRandom.current().nextBoolean()).withColor(color).with(ThreadLocalRandom.current().nextInt(3) + 1 == 1 ? Type.BALL: Type.BALL_LARGE).trail(ThreadLocalRandom.current().nextBoolean()).build();
 	    meta.addEffect(effect);
 	    meta.setPower(ThreadLocalRandom.current().nextInt(2) + 1);
 	    fw.setFireworkMeta(meta);
+	    
 	    return fw;
 	}
 	
@@ -60,6 +62,6 @@ public final class FireworkUtils {
 	}
 	
 	private static Color getRandomColor() {
-		return colors[ThreadLocalRandom.current().nextInt(colors.length)];
+		return COLORS[ThreadLocalRandom.current().nextInt(COLORS.length)];
 	}
 }

@@ -261,9 +261,9 @@ public class GPSNetwork {
 			
 			menu.addItem(slot, new CustomItem(globe, entry.getKey(), "&8\u21E8 &7Mundo: &r" + l.getWorld().getName(), "&8\u21E8 &7X: &r" + l.getX(), "&8\u21E8 &7Y: &r" + l.getY(), "&8\u21E8 &7Z: &r" + l.getZ(), "&8\u21E8 &7Tiempo estimado de teletransportación: &r" + (50 / TeleportationSequence.getSpeed(Slimefun.getGPSNetwork().getNetworkComplexity(uuid), source, l)) + "s", "", "&8\u21E8 &cClic para seleccionar"));
 			menu.addMenuClickHandler(slot, (pl, slotn, item, action) -> {
-					pl.closeInventory();
-					TeleportationSequence.start(pl.getUniqueId(), complexity, source, l, false);
-					return false;
+				pl.closeInventory();
+				TeleportationSequence.start(pl.getUniqueId(), complexity, source, l, false);
+				return false;
 			});
 			
 			index++;

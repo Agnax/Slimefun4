@@ -1,7 +1,5 @@
 package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.cargo;
 
-import java.util.logging.Level;
-
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -9,10 +7,11 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.materials.MaterialCollections;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
-import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.Item.CustomItem;
-import me.mrCookieSlime.CSCoreLibPlugin.general.World.CustomSkull;
+import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
+import io.github.thebusybiscuit.slimefun4.core.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -21,7 +20,6 @@ import me.mrCookieSlime.Slimefun.Objects.SlimefunBlockHandler;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.SlimefunItem;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.UnregisterReason;
 import me.mrCookieSlime.Slimefun.api.BlockStorage;
-import me.mrCookieSlime.Slimefun.api.Slimefun;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.CargoNet;
@@ -42,114 +40,100 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 			}
 
 			@Override
-			public void newInstance(final BlockMenu menu, final Block b) {
-				try {
-					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-type") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-type").equals("whitelist")) {
-						menu.replaceExistingItem(15, new CustomItem(new ItemStack(Material.WHITE_WOOL), "&7Modo: &rWhitelist", "", "&e> Click para cambiar al modo Blacklist"));
-						menu.addMenuClickHandler(15, (p, slot, item, action) -> {
-							BlockStorage.addBlockInfo(b, "filter-type", "blacklist");
-							newInstance(menu, b);
-							return false;
-						});
-					}
-					else {
-						menu.replaceExistingItem(15, new CustomItem(new ItemStack(Material.BLACK_WOOL), "&7Modo: &8Blacklist", "", "&e> Click para cambiar al modo Whitelist"));
-						menu.addMenuClickHandler(15, (p, slot, item, action) -> {
-							BlockStorage.addBlockInfo(b, "filter-type", "whitelist");
-							newInstance(menu, b);
-							return false;
-						});
-					}
-					
-					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability").equals("false")) {
-						ItemStack is = new ItemStack(Material.STONE_SWORD);
-						Damageable dmg = (Damageable) is.getItemMeta();
-						dmg.setDamage(20);
-						is.setItemMeta((ItemMeta) dmg);
-
-						menu.replaceExistingItem(16, new CustomItem(is, "&7Incluir SubIds/Durabilidad: &4\u2718", "", "&e> Haga clic para alternar si la durabilidad tiene que coincidir"));
-						menu.addMenuClickHandler(16, (p, slot, item, action) -> {
-							BlockStorage.addBlockInfo(b, "filter-durability", "true");
-							newInstance(menu, b);
-							return false;
-						});
-					}
-					else {
-						ItemStack is = new ItemStack(Material.GOLDEN_SWORD);
-						Damageable dmg = (Damageable) is.getItemMeta();
-						dmg.setDamage(20);
-						is.setItemMeta((ItemMeta) dmg);
-						menu.replaceExistingItem(16, new CustomItem(is, "&7Incluir SubIds/Durabilidad: &2\u2714", "", "&e> Haga clic para alternar si la durabilidad tiene que coincidir"));
-						menu.addMenuClickHandler(16, (p, slot, item, action) -> {
-							BlockStorage.addBlockInfo(b, "filter-durability", "false");
-							newInstance(menu, b);
-							return false;
-						});
-					}
-					
-					if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore").equals("true")) {
-						menu.replaceExistingItem(25, new CustomItem(new ItemStack(Material.MAP), "&7Incluir Lore: &2\u2714", "", "&e> Haga clic para alternar si el lore tiene que coincidir"));
-						menu.addMenuClickHandler(25, (p, slot, item, action) -> {
-							BlockStorage.addBlockInfo(b, "filter-lore", "false");
-							newInstance(menu, b);
-							return false;
-						});
-					}
-					else {
-						menu.replaceExistingItem(25, new CustomItem(new ItemStack(Material.MAP), "&7Incluir Lore: &4\u2718", "", "&e> Haga clic para alternar si el lore tiene que coincidir"));
-						menu.addMenuClickHandler(25, (p, slot, item, action) -> {
-							BlockStorage.addBlockInfo(b, "filter-lore", "true");
-							newInstance(menu, b);
-							return false;
-						});
-					}
-
-					menu.replaceExistingItem(41, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjI1OTliZDk4NjY1OWI4Y2UyYzQ5ODg1MjVjOTRlMTlkZGQzOWZhZDA4YTM4Mjg0YTE5N2YxYjcwNjc1YWNjIn19fQ=="), "&bCanal", "", "&e> Click paara decrementar la ID del canal en 1"));
-					menu.addMenuClickHandler(41, (p, slot, item, action) -> {
-						int channel = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) - 1;
-						if (channel < 0) {
-							if (CargoNet.extraChannels) channel = 16;
-							else channel = 15;
-						}
-						BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
+			public void newInstance(BlockMenu menu, Block b) {
+				if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-type") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-type").equals("whitelist")) {
+					menu.replaceExistingItem(15, new CustomItem(Material.WHITE_WOOL, "&7Modo: &rWhitelist", "", "&e> Click para cambiar al modo Blacklist"));
+					menu.addMenuClickHandler(15, (p, slot, item, action) -> {
+						BlockStorage.addBlockInfo(b, "filter-type", "blacklist");
 						newInstance(menu, b);
 						return false;
 					});
-
-					int channel = ((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency"))));
-
-					if (channel == 16) {
-						menu.replaceExistingItem(42, new CustomItem(SlimefunItems.CHEST_TERMINAL, "&bID del canal: &3" + (channel + 1)));
-						menu.addMenuClickHandler(42,
-							(p, slot, item, action) -> false
-						);
-					}
-					else {
-						menu.replaceExistingItem(42, new CustomItem(new ItemStack(MaterialCollections.getAllWoolColors().get(channel)), "&bID del canal: &3" + (channel + 1)));
-						menu.addMenuClickHandler(42,
-							(p, slot, item, action) -> false
-						);
-					}
-
-					menu.replaceExistingItem(43, new CustomItem(CustomSkull.getItem("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJmOTEwYzQ3ZGEwNDJlNGFhMjhhZjZjYzgxY2Y0OGFjNmNhZjM3ZGFiMzVmODhkYjk5M2FjY2I5ZGZlNTE2In19fQ=="), "&bCanal", "", "&e> Click paara incrementar la ID del canal en 1"));
-					menu.addMenuClickHandler(43, (p, slot, item, action) -> {
-						int channeln = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) + 1;
-
-						if (CargoNet.extraChannels) {
-							if (channeln > 16) channeln = 0;
-						}
-						else {
-							if (channeln > 15) channeln = 0;
-						}
-
-						BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channeln));
-						newInstance(menu, b);
-						return false;
-					});
-					
-				} catch (Exception x) {
-					Slimefun.getLogger().log(Level.SEVERE, "Se produjo un error al crear el inventario de un nodo de salida de carga avanzada para Slimefun " + Slimefun.getVersion(), x);
 				}
+				else {
+					menu.replaceExistingItem(15, new CustomItem(Material.BLACK_WOOL, "&7Modo: &8Blacklist", "", "&e> Click para cambiar al modo Whitelist"));
+					menu.addMenuClickHandler(15, (p, slot, item, action) -> {
+						BlockStorage.addBlockInfo(b, "filter-type", "whitelist");
+						newInstance(menu, b);
+						return false;
+					});
+				}
+				
+				if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-durability").equals("false")) {
+					menu.replaceExistingItem(16, new CustomItem(Material.STONE_SWORD, "&7Incluir SubIds/Durabilidad: &4\u2718", "", "&e> Haga clic para alternar si la durabilidad tiene que coincidir"));
+					menu.addMenuClickHandler(16, (p, slot, item, action) -> {
+						BlockStorage.addBlockInfo(b, "filter-durability", "true");
+						newInstance(menu, b);
+						return false;
+					});
+				}
+				else {
+					ItemStack is = new ItemStack(Material.GOLDEN_SWORD);
+					Damageable dmg = (Damageable) is.getItemMeta();
+					dmg.setDamage(20);
+					is.setItemMeta((ItemMeta) dmg);
+					menu.replaceExistingItem(16, new CustomItem(is, "&7Incluir SubIds/Durabilidad: &2\u2714", "", "&e> Haga clic para alternar si la durabilidad tiene que coincidir"));
+					menu.addMenuClickHandler(16, (p, slot, item, action) -> {
+						BlockStorage.addBlockInfo(b, "filter-durability", "false");
+						newInstance(menu, b);
+						return false;
+					});
+				}
+				
+				if (!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore") == null || BlockStorage.getLocationInfo(b.getLocation(), "filter-lore").equals("true")) {
+					menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7Incluir Lore: &2\u2714", "", "&e> Haga clic para alternar si el lore tiene que coincidir"));
+					menu.addMenuClickHandler(25, (p, slot, item, action) -> {
+						BlockStorage.addBlockInfo(b, "filter-lore", "false");
+						newInstance(menu, b);
+						return false;
+					});
+				}
+				else {
+					menu.replaceExistingItem(25, new CustomItem(Material.MAP, "&7Incluir Lore: &2\u2718", "", "&e> Haga clic para alternar si el lore tiene que coincidir"));
+					menu.addMenuClickHandler(25, (p, slot, item, action) -> {
+						BlockStorage.addBlockInfo(b, "filter-lore", "true");
+						newInstance(menu, b);
+						return false;
+					});
+				}
+
+				menu.replaceExistingItem(41, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvZjI1OTliZDk4NjY1OWI4Y2UyYzQ5ODg1MjVjOTRlMTlkZGQzOWZhZDA4YTM4Mjg0YTE5N2YxYjcwNjc1YWNjIn19fQ=="), "&bChannel", "", "&e> Click to decrease the Channel ID by 1"));
+				menu.addMenuClickHandler(41, (p, slot, item, action) -> {
+					int channel = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) - 1;
+					if (channel < 0) {
+						if (CargoNet.extraChannels) channel = 16;
+						else channel = 15;
+					}
+					BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channel));
+					newInstance(menu, b);
+					return false;
+				});
+
+				int channel = ((!BlockStorage.hasBlockInfo(b) || BlockStorage.getLocationInfo(b.getLocation(), "frequency") == null) ? 0: (Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency"))));
+
+				if (channel == 16) {
+					menu.replaceExistingItem(42, new CustomItem(SlimefunItems.CHEST_TERMINAL, "&bCanal ID: &3" + (channel + 1)));
+					menu.addMenuClickHandler(42, ChestMenuUtils.getEmptyClickHandler());
+				}
+				else {
+					menu.replaceExistingItem(42, new CustomItem(MaterialCollections.getAllWoolColors().get(channel), "&bCanal ID: &3" + (channel + 1)));
+					menu.addMenuClickHandler(42, ChestMenuUtils.getEmptyClickHandler());
+				}
+
+				menu.replaceExistingItem(43, new CustomItem(SkullItem.fromBase64("eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvYzJmOTEwYzQ3ZGEwNDJlNGFhMjhhZjZjYzgxY2Y0OGFjNmNhZjM3ZGFiMzVmODhkYjk5M2FjY2I5ZGZlNTE2In19fQ=="), "&bCanal", "", "&e> Haga clic para aumentar la ID del canal en 1"));
+				menu.addMenuClickHandler(43, (p, slot, item, action) -> {
+					int channeln = Integer.parseInt(BlockStorage.getLocationInfo(b.getLocation(), "frequency")) + 1;
+
+					if (CargoNet.extraChannels) {
+						if (channeln > 16) channeln = 0;
+					}
+					else {
+						if (channeln > 15) channeln = 0;
+					}
+
+					BlockStorage.addBlockInfo(b, "frequency", String.valueOf(channeln));
+					newInstance(menu, b);
+					return false;
+				});
 			}
 
 			@Override
@@ -178,8 +162,9 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 			@Override
 			public boolean onBreak(Player p, Block b, SlimefunItem item, UnregisterReason reason) {
 				BlockMenu inv = BlockStorage.getInventory(b);
+				
 				if (inv != null) {
-					for (int slot: getInputSlots()) {
+					for (int slot : getInputSlots()) {
 						if (inv.getItemInSlot(slot) != null) {
 							b.getWorld().dropItemNaturally(b.getLocation(), inv.getItemInSlot(slot));
 							inv.replaceExistingItem(slot, null);
@@ -193,14 +178,10 @@ public class AdvancedCargoOutputNode extends SlimefunItem {
 	
 	protected void constructMenu(BlockMenuPreset preset) {
 		for (int i : border) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "),
-				(p, slot, item, action) -> false
-			);
+			preset.addItem(i, new CustomItem(Material.CYAN_STAINED_GLASS_PANE, " "), ChestMenuUtils.getEmptyClickHandler());
 		}
 
-		preset.addItem(2, new CustomItem(new ItemStack(Material.PAPER), "&3Items", "", "&bIngresa los items que quieras filtrar en modo", "&bblacklist/whitelist"),
-			(p, slot, item, action) -> false
-		);
+		preset.addItem(2, new CustomItem(Material.PAPER, "&3Items", "", "&bIngresa los items que quieras filtrar en modo", "&bblacklist/whitelist"), ChestMenuUtils.getEmptyClickHandler());
 	}
 	
 	public int[] getInputSlots() {
