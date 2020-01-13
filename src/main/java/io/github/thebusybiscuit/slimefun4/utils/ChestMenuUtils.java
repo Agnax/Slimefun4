@@ -1,4 +1,4 @@
-package io.github.thebusybiscuit.slimefun4.core.utils;
+package io.github.thebusybiscuit.slimefun4.utils;
 
 import java.util.Arrays;
 
@@ -6,10 +6,13 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.Damageable;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu.MenuClickHandler;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
+import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 
 public final class ChestMenuUtils {
 	
@@ -66,6 +69,66 @@ public final class ChestMenuUtils {
 		}
 
 		return new CustomItem(NEXT_BUTTON_ACTIVE, meta -> meta.setLore(Arrays.asList("", ChatColor.GRAY + "(" + page + " / " + pages + ")")));
+	}
+	
+	public static void updateProgressbar(BlockMenu menu, int slot, int timeleft, int time, ItemStack indicator) {
+		ItemStack item = indicator.clone();
+		ItemMeta im = item.getItemMeta();
+		im.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+		
+		if (im instanceof Damageable) {
+			((Damageable) im).setDamage(getDurability(item, timeleft, time));
+		}
+		
+		im.setDisplayName(" ");
+		im.setLore(Arrays.asList(getProgressBar(timeleft, time), "", getTimeLeft(timeleft / 2)));
+		item.setItemMeta(im);
+		
+		menu.replaceExistingItem(slot, item);
+	}
+
+	public static String getProgressBar(int time, int total) {
+		StringBuilder progress = new StringBuilder();
+		float percentage = Math.round(((((total - time) * 100.0F) / total) * 100.0F) / 100.0F);
+		
+		if (percentage < 16.0F) progress.append("&4");
+		else if (percentage < 32.0F) progress.append("&c");
+		else if (percentage < 48.0F) progress.append("&6");
+		else if (percentage < 64.0F) progress.append("&e");
+		else if (percentage < 80.0F) progress.append("&2");
+		else progress = progress.append("&a");
+		
+		int rest = 20;
+		for (int i = (int) percentage; i >= 5; i = i - 5) {
+			progress.append(":");
+			rest--;
+		}
+		
+		progress.append("&7");
+		
+		for (int i = 0; i < rest; i++) {
+			progress.append(":");
+		}
+		
+		progress.append(" - " + percentage + "%");
+		return ChatColor.translateAlternateColorCodes('&', progress.toString());
+	}
+	
+	private static String getTimeLeft(int seconds) {
+		String timeleft = "";
+		
+        int minutes = (int) (seconds / 60L);
+        if (minutes > 0) {
+            timeleft = String.valueOf(timeleft) + minutes + "m ";
+        }
+        
+        seconds -= minutes * 60;
+        timeleft = String.valueOf(timeleft) + seconds + "s";
+        return ChatColor.translateAlternateColorCodes('&', "&7" + timeleft + " left");
+	}
+
+	private static short getDurability(ItemStack item, int timeleft, int max) {
+		return (short) ((item.getType().getMaxDurability() / max) * timeleft);
 	}
 	
 }

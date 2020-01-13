@@ -26,7 +26,7 @@ import me.mrCookieSlime.Slimefun.api.Slimefun;
 public final class SlimefunGuide {
 
 	private SlimefunGuide() {}
-	
+
 	static {
 		Map<SlimefunGuideLayout, ISlimefunGuide> layouts = SlimefunPlugin.getUtilities().guideLayouts;
 		ISlimefunGuide chestGuide = new ChestSlimefunGuide();
@@ -34,18 +34,18 @@ public final class SlimefunGuide {
 		layouts.put(SlimefunGuideLayout.CHEAT_SHEET, chestGuide);
 		layouts.put(SlimefunGuideLayout.BOOK, new BookSlimefunGuide());
 	}
-	
+
 	@Deprecated
 	public static ItemStack getItem() {
 		return getItem(SlimefunGuideLayout.CHEST);
 	}
-	
+
 	public static ItemStack getItem(SlimefunGuideLayout design) {
 		ItemStack item = new ItemStack(Material.ENCHANTED_BOOK);
 		ItemMeta meta = item.getItemMeta();
 		List<String> lore = new LinkedList<>();
-		lore.addAll(Arrays.asList("", ChatColors.color("&eClick Derecho &8\u21E8 &7Browse Items"), ChatColors.color("&eShift + Right Click &8\u21E8 &7Open Settings / Credits")));
-		
+		lore.addAll(Arrays.asList("", ChatColors.color("&eClick Derecho &8\u21E8 &7Browse Items"), ChatColors.color("&eShift + Click Derecho &8\u21E8 &7Abrir configuraciones / Créditos")));
+
 		switch (design) {
 		case BOOK:
 			meta.setDisplayName(ChatColors.color("&aSlimefun Guide &7(Book GUI)"));
@@ -61,7 +61,7 @@ public final class SlimefunGuide {
 		default:
 			return null;
 		}
-		
+
 		meta.setLore(lore);
 		SlimefunPlugin.getItemTextureService().setTexture(meta, "SLIMEFUN_GUIDE");
 		item.setItemMeta(meta);
@@ -105,7 +105,7 @@ public final class SlimefunGuide {
 
 		ISlimefunGuide guide = SlimefunPlugin.getUtilities().guideLayouts.get(layout);
 		Object last = null;
-		
+
 		Optional<PlayerProfile> profile = PlayerProfile.find(p);
 		if (profile.isPresent()) {
 			last = guide.getLastEntry(profile.get(), false);
@@ -130,7 +130,7 @@ public final class SlimefunGuide {
 		SlimefunPlugin.getUtilities().guideLayouts.get(layout).openCategory(profile, category, survival, selectedPage);
 	}
 
-	public static void openSearch(final PlayerProfile profile, String input, boolean survival, boolean addToHistory) {
+	public static void openSearch(PlayerProfile profile, String input, boolean survival, boolean addToHistory) {
 		SlimefunPlugin.getUtilities().guideLayouts.get(SlimefunGuideLayout.CHEST).openSearch(profile, input, survival, addToHistory);
 	}
 

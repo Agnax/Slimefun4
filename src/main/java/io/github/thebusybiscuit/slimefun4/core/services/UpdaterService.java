@@ -10,19 +10,20 @@ import io.github.thebusybiscuit.cscorelib2.updater.GitHubBuildsUpdater;
 import io.github.thebusybiscuit.cscorelib2.updater.Updater;
 
 public class UpdaterService {
-	
+
 	private final Updater updater;
-	
+
 	public UpdaterService(Plugin plugin, File file) {
 		String version = plugin.getDescription().getVersion();
-		
+
 		if (version.equals("UNOFFICIAL")) {
 			// This Server is using a modified build that is not a public release.
 			plugin.getLogger().log(Level.WARNING, "It looks like you are using an unofficially modified build of Slimefun!");
 			plugin.getLogger().log(Level.WARNING, "Auto-Updates have been disabled, this build is not considered safe.");
 			plugin.getLogger().log(Level.WARNING, "Do not report bugs encountered in this Version of Slimefun.");
+			updater = null;
 		}
-		if (version.startsWith("DEV - ")) {
+		else if (version.startsWith("DEV - ")) {
 			// If we are using a development build, we want to switch to our custom 
 			updater = new GitHubBuildsUpdater(plugin, file, "TheBusyBiscuit/Slimefun4/master");
 		}
@@ -35,7 +36,7 @@ public class UpdaterService {
 			updater = new BukkitUpdater(plugin, file, 53485);
 		}
 	}
-	
+
 	public void start() {
 		if (updater != null) {
 			updater.start();

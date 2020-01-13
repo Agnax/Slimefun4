@@ -3,7 +3,6 @@ package me.mrCookieSlime.Slimefun.Objects.SlimefunItem.machines.electric.geo;
 import java.util.Arrays;
 import java.util.List;
 
-import org.bukkit.Chunk;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -11,6 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.GEO.OreGenResource;
 import me.mrCookieSlime.Slimefun.GEO.OreGenSystem;
@@ -27,7 +27,6 @@ import me.mrCookieSlime.Slimefun.api.energy.ChargableBlock;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
 public abstract class OilPump extends AContainer implements RecipeDisplayItem {
 
@@ -47,7 +46,7 @@ public abstract class OilPump extends AContainer implements RecipeDisplayItem {
 					return false;
 				}
 				
-				if (!OreGenSystem.wasResourceGenerated(OreGenSystem.getResource("Oil"), b.getChunk())) {
+				if (!OreGenSystem.wasResourceGenerated(OreGenSystem.getResource("Oil"), b.getLocation())) {
 					SlimefunPlugin.getLocal().sendMessage(p, "gps.geo.scan-required", true);
 					return false;
 				}
@@ -88,8 +87,9 @@ public abstract class OilPump extends AContainer implements RecipeDisplayItem {
 		
 		if (isProcessing(b)) {
 			int timeleft = progress.get(b);
+			
 			if (timeleft > 0) {
-				MachineHelper.updateProgressbar(inv, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
+				ChestMenuUtils.updateProgressbar(inv, 22, timeleft, processing.get(b).getTicks(), getProgressBar());
 				
 				if (ChargableBlock.getCharge(b) < getEnergyConsumption()) return;
 				ChargableBlock.addCharge(b, -getEnergyConsumption());
@@ -108,8 +108,7 @@ public abstract class OilPump extends AContainer implements RecipeDisplayItem {
 			for (int slot : getInputSlots()) {
 				if (SlimefunManager.isItemSimilar(inv.getItemInSlot(slot), new ItemStack(Material.BUCKET), true)) {
 					OreGenResource oil = OreGenSystem.getResource("Oil");
-					Chunk chunk = b.getChunk();
-					int supplies = OreGenSystem.getSupplies(oil, chunk, false);
+					int supplies = OreGenSystem.getSupplies(oil, b.getLocation(), false);
 					
 					if (supplies > 0) {
 						MachineRecipe r = new MachineRecipe(26, new ItemStack[0], new ItemStack[] {SlimefunItems.BUCKET_OF_OIL});
@@ -117,7 +116,7 @@ public abstract class OilPump extends AContainer implements RecipeDisplayItem {
 						inv.consumeItem(slot);
 						processing.put(b, r);
 						progress.put(b, r.getTicks());
-						OreGenSystem.setSupplies(oil, chunk, supplies - 1);
+						OreGenSystem.setSupplies(oil, b.getLocation(), supplies - 1);
 					}
 					else {
 						ItemStack item = inv.getItemInSlot(slot).clone();

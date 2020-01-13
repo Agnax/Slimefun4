@@ -22,8 +22,8 @@ import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineTier;
 import io.github.thebusybiscuit.slimefun4.core.attributes.MachineType;
 import io.github.thebusybiscuit.slimefun4.core.attributes.Radioactivity;
-import io.github.thebusybiscuit.slimefun4.core.utils.ChatUtils;
-import io.github.thebusybiscuit.slimefun4.core.utils.LoreBuilder;
+import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
+import io.github.thebusybiscuit.slimefun4.utils.LoreBuilder;
 import me.mrCookieSlime.Slimefun.Objects.SlimefunItem.items.StormStaff;
 import me.mrCookieSlime.Slimefun.api.SlimefunItemStack;
 
@@ -511,7 +511,6 @@ public final class SlimefunItems {
 	public static final ItemStack JUICER = new SlimefunItemStack("JUICER", Material.GLASS_BOTTLE, "&aExprimidor", "", "&aTe permite crear deliciosos jugos");
 	
 	public static final ItemStack SOLAR_PANEL = new SlimefunItemStack("SOLAR_PANEL", Material.DAYLIGHT_DETECTOR, "&bPanel Solar", "", "&a&oTransforma la luz del sol en energía");
-	public static final ItemStack SOLAR_ARRAY = new SlimefunItemStack("SOLAR_ARRAY", Material.DAYLIGHT_DETECTOR, "&bMatriz Solar", "", "&a&oTransforma la luz del sol en energía");
 	
 	@Deprecated
 	public static final ItemStack DIGITAL_MINER = new CustomItem(Material.IRON_PICKAXE, "&bMinero digital", "", "&4OBSOLETO", "&c¡Esta máquina será removida pronto!!");

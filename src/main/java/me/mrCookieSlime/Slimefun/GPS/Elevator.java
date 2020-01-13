@@ -9,7 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
-import io.github.thebusybiscuit.slimefun4.core.utils.ChatUtils;
+import io.github.thebusybiscuit.slimefun4.utils.ChatUtils;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.HoverAction;
 import me.mrCookieSlime.CSCoreLibPlugin.general.Inventory.ChestMenu;
@@ -21,7 +21,7 @@ public final class Elevator {
 
 	private Elevator() {}
 	
-	public static void openEditor(Player p, final Block b) {
+	public static void openEditor(Player p, Block b) {
 		ChestMenu menu = new ChestMenu("Configuraciones de elevador");
 		
 		menu.addItem(4, new CustomItem(Material.NAME_TAG, "&7Nombre del piso &e(Click para editar)", "", "&r" + ChatColor.translateAlternateColorCodes('&', BlockStorage.getLocationInfo(b.getLocation(), "floor"))));
@@ -73,8 +73,8 @@ public final class Elevator {
 				}
 				else {
 					tellraw.addText("&7" + index + ". &r" + floor + "\n");
-					tellraw.addHoverEvent(HoverAction.SHOW_TEXT, "\n&eHaga clic para teletransportarse a este piso.\n&r" + floor + "\n");
-					tellraw.addClickEvent(me.mrCookieSlime.CSCoreLibPlugin.general.Chat.TellRawMessage.ClickAction.RUN_COMMAND, "/sf elevator " + block.getX() + ' ' + block.getY() + ' ' + block.getZ() + " ");
+					tellraw.addHoverEvent(HoverAction.SHOW_TEXT, "\n&eHaga clic para teletransportarse a este piso\n&r" + floor + "\n");
+					tellraw.addClickEvent(TellRawMessage.ClickAction.RUN_COMMAND, "/sf elevator " + block.getX() + ' ' + block.getY() + ' ' + block.getZ() + " ");
 				}
 				
 				index++;

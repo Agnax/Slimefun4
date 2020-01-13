@@ -21,7 +21,9 @@ import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.math.DoubleHandler;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
 import io.github.thebusybiscuit.cscorelib2.skull.SkullItem;
-import io.github.thebusybiscuit.slimefun4.core.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
+import io.github.thebusybiscuit.slimefun4.utils.holograms.ReactorHologram;
+import io.github.thebusybiscuit.slimefun4.utils.holograms.SimpleHologram;
 import me.mrCookieSlime.CSCoreLibPlugin.Configuration.Config;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
@@ -39,8 +41,6 @@ import me.mrCookieSlime.Slimefun.api.energy.EnergyTicker;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenu;
 import me.mrCookieSlime.Slimefun.api.inventory.BlockMenuPreset;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
-import me.mrCookieSlime.Slimefun.holograms.ReactorHologram;
-import me.mrCookieSlime.Slimefun.holograms.SimpleHologram;
 import me.mrCookieSlime.Slimefun.utils.MachineHelper;
 
 public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem {
@@ -256,9 +256,11 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 				if (isProcessing(l)) {
 					extraTick(l);
 					int timeleft = progress.get(l);
+					
 					if (timeleft > 0) {
 						int produced = getEnergyProduction();
 						int space = ChargableBlock.getMaxCharge(l) - ChargableBlock.getCharge(l);
+						
 						if (space >= produced) {
 							ChargableBlock.addCharge(l, getEnergyProduction());
 							space -= produced;
@@ -270,7 +272,7 @@ public abstract class AReactor extends SlimefunItem implements RecipeDisplayItem
 								if (!l.getBlock().getRelative(cooling[ThreadLocalRandom.current().nextInt(cooling.length)]).isLiquid()) explode.add(l);
 							});
 
-							MachineHelper.updateProgressbar(menu, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
+							ChestMenuUtils.updateProgressbar(menu, 22, timeleft, processing.get(l).getTicks(), getProgressBar());
 
 							if (needsCooling()) {
 								boolean coolant = (processing.get(l).getTicks() - timeleft) % 25 == 0;

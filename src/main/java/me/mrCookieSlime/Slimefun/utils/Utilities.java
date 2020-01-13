@@ -65,10 +65,9 @@ public final class Utilities {
 	 */
 	public final List<Category> allCategories = new ArrayList<>();
 	public final List<Category> enabledCategories = new ArrayList<>();
-	public final CategorySorter categorySorter = new CategorySorter();
 	
 	public final Set<ItemStack> radioactiveItems = new HashSet<>();
-	public final Map<String, Set<ItemHandler>> itemHandlers = new HashMap<>();
+	public final Map<Class<? extends ItemHandler>, Set<ItemHandler>> itemHandlers = new HashMap<>();
 	public final Map<String, SlimefunBlockHandler> blockHandlers = new HashMap<>();
 	public final Set<String> tickers = new HashSet<>();
 	

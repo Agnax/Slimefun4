@@ -2,21 +2,48 @@
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **List of Releases**
 
-- [Release Candidate 4 (06 Jan 2020)](#release-candidate-4-06-jan-2020)
+- [Release Candidate 5 (TBD)](#release-candidate-5-tbd)
   - [Additions](#additions)
   - [Changes](#changes)
   - [Fixes](#fixes)
-- [Release Candidate 3 (21 Nov 2019)](#release-candidate-3-21-nov-2019)
+- [Release Candidate 4 (06 Jan 2020)](#release-candidate-4-06-jan-2020)
   - [Additions](#additions-1)
   - [Changes](#changes-1)
   - [Fixes](#fixes-1)
-- [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
+- [Release Candidate 3 (21 Nov 2019)](#release-candidate-3-21-nov-2019)
   - [Additions](#additions-2)
   - [Changes](#changes-2)
   - [Fixes](#fixes-2)
+- [Release Candidate 2 (29 Sep 2019)](#release-candidate-2-29-sep-2019)
+  - [Additions](#additions-3)
+  - [Changes](#changes-3)
+  - [Fixes](#fixes-3)
 - [Release Candidate 1 (26 Sep 2019)](#release-candidate-1-26-sep-2019)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+## Release Candidate 5 (TBD)
+
+### Additions
+* Aded preset messages.yml files
+* Added user-configurable localization
+* Added many more options to the messages.yml
+* Added custom model data support for Languages
+* Added Grind Stone Recipes for Prismarine
+* Added String to the Bio Reactor
+
+### Changes
+* Removed Solar Array
+* A lot of internal cleanup
+* Performance improvements for GEO Miner and Oil Pump
+
+### Fixes
+* Fixed #1355
+* Fixed Localization mistakes
+* Fixed #1366
+* Fixed GitHub cache
+* Fixed #1364
+* Fixed Bio Reactor not accepting melons
 
 ## Release Candidate 4 (06 Jan 2020)
 https://thebusybiscuit.github.io/builds/TheBusyBiscuit/Slimefun4/stable/#4
