@@ -132,11 +132,11 @@ public final class SlimefunItems {
 	public static final ItemStack DIET_COOKIE = new SlimefunItemStack("DIET_COOKIE", Material.COOKIE, "&6Galleta Dietetica", "", "&aUna muy &oligera &r&agalleta.");
 	public static final ItemStack MAGIC_SUGAR = new SlimefunItemStack("MAGIC_SUGAR", Material.SUGAR, "&6Azúcar Mágica", "", "&a&oSiente el poder de Hermes!");
 	public static final ItemStack MONSTER_JERKY = new SlimefunItemStack("MONSTER_JERKY", Material.ROTTEN_FLESH, "&6Carne Monstruosa", "", "&a&oYa no más hambre");
-	public static final ItemStack APPLE_JUICE = new SlimefunItemStack("APPLE_JUICE", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 6, 0),"&cJugo de Manzana", "", "&7&oRestaura &b&o" + "3.0" + " &7&ode hambre"));
-	public static final ItemStack MELON_JUICE = new SlimefunItemStack("MELON_JUICE", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 6, 0),"&cJugo de Sandía", "", "&7&oRestaura &b&o" + "3.0" + " &7&ode hambre"));
-	public static final ItemStack CARROT_JUICE = new SlimefunItemStack("CARROT_JUICE", Color.ORANGE, new PotionEffect(PotionEffectType.SATURATION, 6, 0),"&6Jugo de Zanahoria", "", "&7&oRestaura &b&o" + "3.0" + " &7&ode hambre"));
-	public static final ItemStack PUMPKIN_JUICE = new SlimefunItemStack("PUMPKIN_JUICE", Color.ORANGE, new PotionEffect(PotionEffectType.SATURATION, 6, 0),"&6Juego de Calabaza", "", "&7&oRestaura &b&o" + "3.0" + " &7&ode hambre"));
-	public static final ItemStack SWEET_BERRY_JUICE = new SlimefunItemStack("SWEET_BERRY_JUICE", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 6, 0),"&cJugo de bayas dulces", "", "&7&oRestaura &b&o" + "3.0" + " &7&ode hambre"));
+	public static final ItemStack APPLE_JUICE = new SlimefunItemStack("APPLE_JUICE", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 6, 0),"&cJugo de Manzana", "", "&7&oRestaura &b&o" + "3.0" + " &7&ode hambre");
+	public static final ItemStack MELON_JUICE = new SlimefunItemStack("MELON_JUICE", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 6, 0),"&cJugo de Sandía", "", "&7&oRestaura &b&o" + "3.0" + " &7&ode hambre");
+	public static final ItemStack CARROT_JUICE = new SlimefunItemStack("CARROT_JUICE", Color.ORANGE, new PotionEffect(PotionEffectType.SATURATION, 6, 0),"&6Jugo de Zanahoria", "", "&7&oRestaura &b&o" + "3.0" + " &7&ode hambre");
+	public static final ItemStack PUMPKIN_JUICE = new SlimefunItemStack("PUMPKIN_JUICE", Color.ORANGE, new PotionEffect(PotionEffectType.SATURATION, 6, 0),"&6Juego de Calabaza", "", "&7&oRestaura &b&o" + "3.0" + " &7&ode hambre");
+	public static final ItemStack SWEET_BERRY_JUICE = new SlimefunItemStack("SWEET_BERRY_JUICE", Color.RED, new PotionEffect(PotionEffectType.SATURATION, 6, 0),"&cJugo de bayas dulces", "", "&7&oRestaura &b&o" + "3.0" + " &7&ode hambre");
 	public static final ItemStack GOLDEN_APPLE_JUICE = new SlimefunItemStack("GOLDEN_APPLE_JUICE", Color.YELLOW, new PotionEffect(PotionEffectType.ABSORPTION, 20 * 20, 0),"&bJugo de manzana dorada");
 	
 	public static final ItemStack BEEF_JERKY = new SlimefunItemStack("BEEF_JERKY", Material.COOKED_BEEF, "&6Carne seca", "", "&r¡Extra saturante!");
@@ -369,10 +369,10 @@ public final class SlimefunItems {
 	public static final ItemStack RAINBOW_CLAY = new SlimefunItemStack("RAINBOW_CLAY", Material.WHITE_TERRACOTTA, "&5Arcilla del arco iris", "", "&d¡Recorre todos los colores del arcoiris!");
 	public static final ItemStack RAINBOW_GLASS_PANE = new SlimefunItemStack("RAINBOW_GLASS_PANE", Material.WHITE_STAINED_GLASS_PANE, "&5Panel de vidrio arcoiris", "", "&d¡Ciclos a través de todos los colores del arco iris!");
 	
-	public static final ItemStack RAINBOW_WOOL_XMAS = new SlimefunItemStack("RAINBOW_WOOL_XMAS", Material.WHITE_WOOL, "&5Lana de arco iris &7(Navidad)", "", Christmas.color("< Christmas Edition >"));
-	public static final ItemStack RAINBOW_GLASS_XMAS = new SlimefunItemStack("RAINBOW_GLASS_XMAS", Material.WHITE_STAINED_GLASS, "&5Vidrio arcoiris &7(Navidad)", "", Christmas.color("< Christmas Edition >"));
-	public static final ItemStack RAINBOW_CLAY_XMAS = new SlimefunItemStack("RAINBOW_CLAY_XMAS", Material.WHITE_TERRACOTTA, "&5Arcilla del arco iris &7(Navidad)", "", Christmas.color("< Christmas Edition >"));
-	public static final ItemStack RAINBOW_GLASS_PANE_XMAS = new SlimefunItemStack("RAINBOW_GLASS_PANE_XMAS", Material.WHITE_STAINED_GLASS_PANE, "&5Panel de vidrio arcoiris &7(Navidad)", "", Christmas.color("< Christmas Edition >"));
+	public static final ItemStack RAINBOW_WOOL_XMAS = new SlimefunItemStack("RAINBOW_WOOL_XMAS", Material.WHITE_WOOL, "&5Lana de arco iris &7(Navidad)", "", ChatUtils.christmas("< Edición Navideña >"));
+	public static final ItemStack RAINBOW_GLASS_XMAS = new SlimefunItemStack("RAINBOW_GLASS_XMAS", Material.WHITE_STAINED_GLASS, "&5Vidrio arcoiris &7(Navidad)", "", ChatUtils.christmas("< Edición Navideña >"));
+	public static final ItemStack RAINBOW_CLAY_XMAS = new SlimefunItemStack("RAINBOW_CLAY_XMAS", Material.WHITE_TERRACOTTA, "&5Arcilla del arco iris &7(Navidad)", "", ChatUtils.christmas("< Edición Navideña >"));
+	public static final ItemStack RAINBOW_GLASS_PANE_XMAS = new SlimefunItemStack("RAINBOW_GLASS_PANE_XMAS", Material.WHITE_STAINED_GLASS_PANE, "&5Panel de vidrio arcoiris &7(Navidad)", "", ChatUtils.christmas("< Edición Navideña >"));
 	
 	public static final ItemStack RAINBOW_WOOL_VALENTINE = new SlimefunItemStack("RAINBOW_WOOL_VALENTINE", Material.PINK_WOOL, "&5Lana de arco iris &7(Día de San Valentín)", "", "&d< Día de San Valentín >");
 	public static final ItemStack RAINBOW_GLASS_VALENTINE = new SlimefunItemStack("RAINBOW_GLASS_VALENTINE", Material.PINK_STAINED_GLASS, "&5Vidrio arcoiris &7(Día de San Valentín)", "", "&d< Día de San Valentín >");
@@ -690,7 +690,7 @@ public final class SlimefunItems {
 	public static final ItemStack PROGRAMMABLE_ANDROID_3_BUTCHER = new SlimefunItemStack("PROGRAMMABLE_ANDROID_3_BUTCHER", "3b472df0ad9a3be88f2e5d5d422d02b116d64d8df1475ed32e546afc84b31", "&eAndroid programable Empoderado &7(Carnicero)", "", "&8\u21E8 &7Función: Matanza", "&8\u21E8 &7Daño: 20", "&8\u21E8 &7Eficiencia de Combustible: 8.0x");
 	
 	/*		GPS					*/
-	public static final ItemStack GPS_TRANSMITTER = new SlimefunItemStack("GPS_TRANSMITTER", "b0c9c1a022f40b73f14b4cba37c718c6a533f3a2864b6536d5f456934cc1f", "&bTransmisor GPS", "", LoreBuilder.powerBuffer(16), LoreBuilder.powerPerSecond(2)));
+	public static final ItemStack GPS_TRANSMITTER = new SlimefunItemStack("GPS_TRANSMITTER", "b0c9c1a022f40b73f14b4cba37c718c6a533f3a2864b6536d5f456934cc1f", "&bTransmisor GPS", "", LoreBuilder.powerBuffer(16), LoreBuilder.powerPerSecond(2));
 	public static final ItemStack GPS_TRANSMITTER_2 = new SlimefunItemStack("GPS_TRANSMITTER_2", "b0c9c1a022f40b73f14b4cba37c718c6a533f3a2864b6536d5f456934cc1f", "&cTransmisor GPS Advanzad", "", LoreBuilder.powerBuffer(64), LoreBuilder.powerPerSecond(6));
 	public static final ItemStack GPS_TRANSMITTER_3 = new SlimefunItemStack("GPS_TRANSMITTER_3", "b0c9c1a022f40b73f14b4cba37c718c6a533f3a2864b6536d5f456934cc1f", "&4Transmisor GPS Carbonado", "", LoreBuilder.powerBuffer(256), LoreBuilder.powerPerSecond(22));
 	public static final ItemStack GPS_TRANSMITTER_4 = new SlimefunItemStack("GPS_TRANSMITTER_4", "b0c9c1a022f40b73f14b4cba37c718c6a533f3a2864b6536d5f456934cc1f", "&eTransmisor GPS Energizado", "", LoreBuilder.powerBuffer(1024), LoreBuilder.powerPerSecond(92));
@@ -791,7 +791,7 @@ public final class SlimefunItems {
 	public static final ItemStack FOOD_COMPOSTER = new SlimefunItemStack("FOOD_COMPOSTER", Material.GREEN_TERRACOTTA, "&cCompostador de alimentos", "", "&rProduce &aFertilizante orgánico", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &7Velocidad: 1x", LoreBuilder.powerBuffer(256), LoreBuilder.powerPerSecond(16));
 	public static final ItemStack FOOD_COMPOSTER_2 = new SlimefunItemStack("FOOD_COMPOSTER_2", Material.GREEN_TERRACOTTA, "&cCompostador de alimentos &7(&eII&7)", "", "&rProduce &aFertilizante orgánico", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7Velocidad: 10x", LoreBuilder.powerBuffer(512), LoreBuilder.powerPerSecond(52));
 
-	public static final ItemStack XP_COLLECTOR = new SlimefunItemStack("XP_COLLECTOR", "1762a15b04692a2e4b3fb3663bd4b78434dce1732b8eb1c7a9f7c0fbf6f", "&aRecolector de EXP", "", "&rRecoge Exp cerca y lo almacena", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), LoreBuilder.powerBuffer(1024), LoreBuilder.powerPerSecond(20)));
+	public static final ItemStack XP_COLLECTOR = new SlimefunItemStack("XP_COLLECTOR", "1762a15b04692a2e4b3fb3663bd4b78434dce1732b8eb1c7a9f7c0fbf6f", "&aRecolector de EXP", "", "&rRecoge Exp cerca y lo almacena", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), LoreBuilder.powerBuffer(1024), LoreBuilder.powerPerSecond(20));
 	public static final ItemStack REACTOR_COOLANT_CELL = new SlimefunItemStack("REACTOR_COLLANT_CELL", "de4073be40cb3deb310a0be959b4cac68e825372728fafb6c2973e4e7c33", "&bCelda de refrigerante del reactor");
 
 	public static final ItemStack NUCLEAR_REACTOR = new SlimefunItemStack("NUCLEAR_REACTOR", "9343ce58da54c79924a2c9331cfc417fe8ccbbea9be45a7ac85860a6c730", "&2Reactor nuclear", "", "&r¡Requiere enfriamiento!", "&8\u21E8 &bDebe estar rodeado de agua", "&8\u21E8 &bDebe suministrarse con celdas de refrigerante del reactor", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.GENERATOR), LoreBuilder.powerBuffer(16384), LoreBuilder.powerPerSecond(500));
@@ -817,7 +817,7 @@ public final class SlimefunItems {
 	public static final ItemStack FLUID_PUMP = new SlimefunItemStack("FLUID_PUMP", Material.BLUE_TERRACOTTA, "&9Bomba de fluido", "", LoreBuilder.machine(MachineTier.ADVANCED, MachineType.MACHINE), "&8\u21E8 &e\u26A1 &732 J/Block");
 	public static final ItemStack CHARGING_BENCH = new SlimefunItemStack("CHARGING_BENCH", Material.CRAFTING_TABLE, "&6Banco de carga", "", "&rCarga artículos como Jetpacks", "", LoreBuilder.machine(MachineTier.BASIC, MachineType.MACHINE), LoreBuilder.powerBuffer(128), "&8\u21E8 &e\u26A1 &7Pérdida de energía: &c50%");
 
-	public static final ItemStack WITHER_ASSEMBLER = new SlimefunItemStack("WITHER_ASSEMBLER", Material.OBSIDIAN, "&5Ensamblador de Wither", "", MachineTier.END_GAME.and(MachineType.MACHINE), "&8\u21E8 &7Tiempo de espera: &b30 Segundos", LoreBuilder.powerBuffer(4096), "&8\u21E8 &e\u26A1 &74096 J/Wither");
+	public static final ItemStack WITHER_ASSEMBLER = new SlimefunItemStack("WITHER_ASSEMBLER", Material.OBSIDIAN, "&5Ensamblador de Wither", "", LoreBuilder.machine(MachineTier.END_GAME, MachineType.MACHINE), "&8\u21E8 &7Tiempo de espera: &b30 Segundos", LoreBuilder.powerBuffer(4096), "&8\u21E8 &e\u26A1 &74096 J/Wither");
 	
 	public static final ItemStack TRASH_CAN = new SlimefunItemStack("TRASH_CAN_BLOCK", "32d41042ce99147cc38cac9e46741576e7ee791283e6fac8d3292cae2935f1f", "&3Bote de basura", "", "&rDestruirá todos los artículos puestos en él");
 	
