@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemStack;
 
 import io.github.thebusybiscuit.cscorelib2.item.CustomItem;
 import io.github.thebusybiscuit.cscorelib2.protection.ProtectableAction;
+import io.github.thebusybiscuit.slimefun4.utils.ChestMenuUtils;
 import me.mrCookieSlime.Slimefun.SlimefunPlugin;
 import me.mrCookieSlime.Slimefun.Lists.RecipeType;
 import me.mrCookieSlime.Slimefun.Lists.SlimefunItems;
@@ -50,18 +51,19 @@ public class ReactorAccessPort extends SlimefunItem {
 				BlockMenu reactor = getReactorMenu(b.getLocation());
 				
 				if (reactor != null) {
-					menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.GREEN_WOOL), "&7Reactor", "", "&6Detectado", "", "&7> Click para ve el Reactor"));
+					menu.replaceExistingItem(INFO_SLOT, new CustomItem(Material.GREEN_WOOL, "&7Reactor", "", "&6Detectado", "", "&7> Click para ve el Reactor"));
 					menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
 						if (reactor != null) {
 							reactor.open(p);
 						}
+						
 						newInstance(menu, b);
 
 						return false;
 					});
 				} 
 				else {
-					menu.replaceExistingItem(INFO_SLOT, new CustomItem(new ItemStack(Material.RED_WOOL), "&7Reactor", "", "&cNo detectado", "", "&7¡El Reactor debería estar", "&7puesto 3 bloques debajo", "&7del puerto de acceso!"));
+					menu.replaceExistingItem(INFO_SLOT, new CustomItem(Material.RED_WOOL, "&7Reactor", "", "&cNo detectado", "", "&7¡El Reactor debería estar", "&7puesto 3 bloques debajo", "&7del puerto de acceso!"));
 					menu.addMenuClickHandler(INFO_SLOT, (p, slot, item, action) -> {
 						newInstance(menu, b);
 						return false;
@@ -117,24 +119,24 @@ public class ReactorAccessPort extends SlimefunItem {
 
 	private void constructMenu(BlockMenuPreset preset) {
 		for (int i : border) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.GRAY_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+			preset.addItem(i, ChestMenuUtils.getBackground(), ChestMenuUtils.getEmptyClickHandler());
 		}
 
 		for (int i : border_1) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.LIME_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 		}
 
 		for (int i : border_2) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.CYAN_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 		}
 
 		for (int i : border_3) {
-			preset.addItem(i, new CustomItem(new ItemStack(Material.GREEN_STAINED_GLASS_PANE), " "), (p, slot, item, action) -> false);
+			preset.addItem(i, new CustomItem(new ItemStack(Material.GREEN_STAINED_GLASS_PANE), " "), ChestMenuUtils.getEmptyClickHandler());
 		}
-		
-		preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "&7Ranura de combustible", "", "&rEsta ranura acepta combustible radioactivo como el:", "&2Uranium &ro &aNeptunium"), (p, slot, item, action) -> false);
-		preset.addItem(22, new CustomItem(SlimefunItems.PLUTONIUM, "&7Ranura de subproducto", "", "&rEsta ranura contiene el subproducto del reactor", "&rtales como el &aNeptunium &ro &7Plutonium"), (p, slot, item, action) -> false);
-		preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "&bRanura de refrigerante", "", "&rEsta ranura acepta celdas de refrigerante", "&4Si no hay refrigerante, su reactor", "&4podría explotar"), (p, slot, item, action) -> false);
+
+		preset.addItem(1, new CustomItem(SlimefunItems.URANIUM, "&7Ranura de combustible", "", "&rEsta ranura acepta combustible radioactivo como el:", "&2Uranium &ro &aNeptunium"), ChestMenuUtils.getEmptyClickHandler());
+		preset.addItem(22, new CustomItem(SlimefunItems.PLUTONIUM, "&7Ranura de subproducto", "", "&rEsta ranura contiene el subproducto del reactor", "&rtales como el &aNeptunium &ro &7Plutonium"), ChestMenuUtils.getEmptyClickHandler());
+		preset.addItem(7, new CustomItem(SlimefunItems.REACTOR_COOLANT_CELL, "&bRanura de refrigerante", "", "&rEsta ranura acepta celdas de refrigerante", "&4Si no hay refrigerante, su reactor", "&4podría explotar"), ChestMenuUtils.getEmptyClickHandler());
 	}
 
 	public int[] getInputSlots() {
